@@ -1,0 +1,55 @@
+I am making inventory icons for the RPG Drakensang: The Dark Eye. The attached images show the exact style: painted, slightly desaturated, warm lighting from the upper left, soft dark contact shadow, square icon. Rules for EVERY image I ask for:
+- exactly ONE object, centred, filling about 85% of a square canvas; never a sheet, grid or several icons
+- same painted style, lighting and saturation as the attached icons
+- transparent background (PNG), no text, no frame, no border
+- the glow named in the list: a thin soft glow hugging the outline only; "no glow" means just the soft shadow
+- long objects (weapons, tools) are held diagonally from lower left to upper right
+
+Here is the numbered list. Make number 1 now. Each time I write "next", make the next number. If I write "redo", make the same number again.
+
+1. a pair of thin leather gloves stained green at the fingertips - thin soft BLUE glow (magic)
+2. a ring of twisted silver vines with a tiny green leaf - thin soft BLUE glow (magic)
+3. a plain brown chicken egg painted with crude purple dragon scales - no glow
+4. a single feather of shining pure gold - thin soft BLUE glow (magic)
+5. a small omelette on a wooden plate with a sprig of herbs - no glow
+6. a gold amulet holding a golden feather, shaped like a proud little hen - thin soft VIOLET glow (rare)
+7. an old darned grey woollen sock tied on a string like an amulet - thin soft BLUE glow (magic)
+8. a gaudy gold signet ring with a fox engraved on it - thin soft BLUE glow (magic)
+9. a dented pewter beer tankard with foam spilling over the rim - thin soft BLUE glow (magic)
+10. a small silly wooden mallet with a grumpy face carved into the head, held diagonally from lower left to upper right, filling the square - thin soft BLUE glow (magic)
+11. a huge scarred yellow boar tusk, as long as a forearm - thin soft BLUE glow (magic)
+12. a big boar tusk bound in silver wire on a leather cord - thin soft BLUE glow (magic)
+13. a necklace of wolf fangs around one huge white wolf fang, on a leather thong - thin soft VIOLET glow (rare)
+14. a small round red iron seal stamped with a ring of seven swords - no glow
+15. a small worn leather ledger book with a red ribbon bookmark - no glow
+16. a scorched torn parchment page covered in glowing draconic script - no glow
+17. a curved Tulamide saber with a soot-blackened blade and glowing ember-orange edge, held diagonally from lower left to upper right, filling the square - thin soft VIOLET glow (rare)
+18. a slender elven bow of pale wood with dusky violet leaves carved along the limbs, held diagonally from lower left to upper right, filling the square - thin soft GOLD glow (legendary)
+19. a knightly bastard sword with a cracked crest on the pommel and a dark red grip, held diagonally from lower left to upper right, filling the square - thin soft GOLD glow (legendary)
+20. a battered steel kite shield with a scraped-off crest, red border - thin soft VIOLET glow (rare)
+21. an Amazon saber with a golden lion-head hilt and blood-red leather grip, held diagonally from lower left to upper right, filling the square - thin soft GOLD glow (legendary)
+22. a massive two-handed dwarven axe with a broken-chain motif on the head, held diagonally from lower left to upper right, filling the square - thin soft GOLD glow (legendary)
+23. a long slim dirk with a crimson blade and a red gem pommel, dripping with dark red light, held diagonally from lower left to upper right, filling the square - thin soft deep RED glow (mythic)
+24. a pair of thin worn fencing gloves of pale kid leather, darned at the knuckles - thin soft VIOLET glow (rare)
+25. a gold ring with a large red stone surrounded by seven tiny engraved swords - thin soft deep RED glow (mythic)
+26. a pair of round wire spectacles on a thin silver chain, lenses glinting with blue runes - thin soft VIOLET glow (rare)
+27. a gnarled wizard staff covered in scribbled formulae with a glowing crystal at the top, held diagonally from lower left to upper right, filling the square - thin soft deep RED glow (mythic)
+28. a tall crooked blue wizard hat covered in silver stars, slightly singed at the brim - thin soft GOLD glow (legendary)
+29. a carved bone totem of a hunter, a herb and a stag on a leather cord - thin soft VIOLET glow (rare)
+30. a fine furrier skinning knife of polished steel with an antler handle, held diagonally from lower left to upper right, filling the square - thin soft VIOLET glow (rare)
+31. a golden druid sickle with mistletoe tied to the handle, held diagonally from lower left to upper right, filling the square - thin soft VIOLET glow (rare)
+32. a dwarven-steel skinning knife with a tatzelwurm fang handle, held diagonally from lower left to upper right, filling the square - thin soft GOLD glow (legendary)
+33. a blessed golden sickle with a tiny living ember set in the handle, held diagonally from lower left to upper right, filling the square - thin soft GOLD glow (legendary)
+34. a crumpled grey-blue wizard hat with a mouldy brim - thin soft VIOLET glow (rare)
+35. a pair of light running boots with tiny wings at the heels - thin soft BLUE glow (magic)
+36. a tiny silver beard comb hanging from a ring - thin soft BLUE glow (magic)
+37. a single elven arrow with green fletching and a tiny charm tied to the shaft, held diagonally from lower left to upper right, filling the square - thin soft BLUE glow (magic)
+38. a single huge grey-tipped bear claw with a faint warm ember glow - thin soft BLUE glow (magic)
+39. a large milky green pearl with a slimy sheen - thin soft BLUE glow (magic)
+40. a glowing orange insect crest shaped like a small crown of embers - thin soft BLUE glow (magic)
+41. a fist-sized faceted emerald heart with dark green veins - thin soft VIOLET glow (rare)
+42. a grey bear claw capped in gold on a heavy chain - thin soft VIOLET glow (rare)
+43. a silver ring set with a large milky green pearl - thin soft VIOLET glow (rare)
+44. a gold pendant holding a glowing orange ember crest - thin soft VIOLET glow (rare)
+45. a gold amulet with a faceted emerald heart held by eight thin golden spider legs - thin soft GOLD glow (legendary)
+46. a gold amulet combining a fang, a tusk, a claw, a green pearl, an ember and an emerald heart in a circle - thin soft GOLD glow (legendary)

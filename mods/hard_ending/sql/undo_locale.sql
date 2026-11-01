@@ -1,0 +1,3 @@
+BEGIN;
+DELETE FROM _Locale WHERE LocaId IN ();
+COMMIT;

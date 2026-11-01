@@ -1,0 +1,3 @@
+arm_q_sigil.dds
+arm_q_ledger.dds
+arm_q_page.dds

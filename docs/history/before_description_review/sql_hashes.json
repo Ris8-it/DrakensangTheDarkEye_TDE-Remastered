@@ -1,0 +1,12 @@
+{
+  "clear_rhulana_tests.sql": "d7fd78553bfbb84ea386b2784180c0acc21fd7445ad0c8b68243e2652a3d75c2",
+  "game.sql": "6745cad4d90e664dc945e39a97c019916c644e87ea4000aaffbc7c94faa8119e",
+  "locale.sql": "7274807eb542c26738ed3ea5b5073ca537b0e1f7b2e8c03a2fe34aaf556c168f",
+  "static.sql": "4a159e783d41db3ed8baa080c28c1663f73bbe87ffcfc2517d528d98619c2772",
+  "undo_game.sql": "e5339a7656c252d409a76d79ba85cc6a4bdfe1908ed855aac143107eaa95b3e8",
+  "undo_locale.sql": "909ae517d984e2f4c9c8ada910c27921807b2f14e0eac1e524dc15e69d960547",
+  "undo_static.sql": "93c9d562876a8b14948b053ab2f26c0ef654eb7ccf5c67af2a6da1adeb0d848c",
+  "verify_game.sql": "cb39697560ed272376725d78a25f502ee1f74b67ebfe0d8ff38e188824475e8b",
+  "verify_locale.sql": "baad832259c82c6e516ab066476c994397f1c3d413f68fc4764e80f962fd6a2b",
+  "verify_static.sql": "fd85321620e847110c0c355b1f1c1901a7af51ef42c850ed9e82a49c12f140f4"
+}

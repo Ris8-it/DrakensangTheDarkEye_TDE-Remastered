@@ -1,0 +1,6 @@
+BEGIN;
+UPDATE _Template_profession SET AEmax=0, MR=0 WHERE Id='Dieb';
+UPDATE _Template_PC_CharWizard SET CasterType='none', IsMagicUser=0, AEmax=0, AE=0, MR=3, SpecialCategory='Mensch_E', ArchetypeID='Dieb', ZaAxxeleratus=-500, ZaBlitz=-500, ZaDuplicatus=-500, ZaFulminictus=-500, Advantages='zz_thieves;begabung_dolche;begabung_gassenwissen', SetupStorage='Money/Geld:100/false/false;Weapon/Dolch/false/false;Item/special_einfacher_verband:5/false/false;Item/trap_kraehenfuesse:5/false/false;Item/special_kleinesmesser:1/false/false;Weapon/Wurfdolch:20/false/false;Book/loc01_brief_ardo:1/false/false;' WHERE Id='archetype_MI_TA_W';
+UPDATE _Template_PC_CharWizard SET CasterType='none', IsMagicUser=0, AEmax=0, AE=0, MR=3, SpecialCategory='Mensch_E', ArchetypeID='Dieb', ZaAxxeleratus=-500, ZaBlitz=-500, ZaDuplicatus=-500, ZaFulminictus=-500, Advantages='zz_thieves;begabung_dolche;begabung_gassenwissen', SetupStorage='Money/Geld:100/false/false;Weapon/Dolch/false/false;Item/special_einfacher_verband:5/false/false;Item/trap_kraehenfuesse:5/false/false;Item/special_kleinesmesser:1/false/false;Weapon/Wurfdolch:20/false/false;Book/loc01_brief_ardo:1/false/false;' WHERE Id='archetype_MI_TA_M';
+DELETE FROM _Template_Advantages WHERE Id='z_arcanethief';
+COMMIT;

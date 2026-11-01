@@ -1,0 +1,15 @@
+# scratch copies made by tools/maint/validate.py (rebuilt on every run)
+.work/
+__pycache__/
+*.pyc
+
+# the game's own files never go in the repository: extract them from your copy (tools/extract_vanilla_icons.py)
+tools/research/out/
+assets/armory_icons_v2/ref/
+
+# private: the playtest notes and screenshots (the rules distilled from them are in docs/DESIGN_RULES.md)
+docs/reviews/
+
+# Codex run logs (noise, local paths)
+assets/armory_icons_v2/prompts/*.log
+assets/armory_icons_v2/prompts/last-*.txt

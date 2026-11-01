@@ -1,0 +1,92 @@
+# ======================= v2.2: jewelry expansion + creative daggers/weapons =======================
+# Executed inside armory_data.py (shares its namespace). Hierarchy: amazing = +1/+1 mixes (Knowall's-ring level, mid game),
+# superrare = +2 mixes, regeneration, cursed trade-offs; legendary = masterworks (king's +3 ring as benchmark). No pickpocket, no Drakensang Mountain.
+
+STATUS += [
+    ('ArmShadowstep', 'Shadowstep', 'Dodge +3, Agility +1.', 'AW +3 GE +1', 8, None, 'Seidenzunge_State', 'Damage_Torso', 'status_fx_spell_axxeleratus', 'buff;good', ''),
+    ('ArmFrailty', 'Frailty', 'Strength -3, Constitution -2, Parry -1.', 'KK -3 KO -2 PA -1', 12, None, '', '', 'status_fx_bad_minus', 'modifier;debuff;bad', ''),
+    ('ArmStarburn', 'Starburn', 'Magic resistance -2 and 1d6 magic damage every 2 seconds, three times.', 'MR -2', 0,
+     [HURT(0, 6, 1, 'magic'), WAIT(2)] * 3, 'Blitzdichfind_State', 'Skeleton_Root', 'status_fx_bad_flash', 'modifier;debuff;bad;magic', ''),
+]
+TALLON_THIEF = ('Raeuber03_loc08_haendler_dieb', 'location08')
+MUROLOSH_MIXED = ('Zwerg_Zivilist_02_loc09_gemischtwarenhaendler', 'location09')
+FERDOK_RARE = ('Haendler_1_loc02_haendler_hafen_selten_nach_loc05', 'location02_hafen')
+
+ITEMS_V22 = [
+    # ---------- fighter / light-warrior mixes (mid game, Knowall's-ring level) ----------
+    J('j_duelist', 'amazing', 'Silberring', "Duelist's Ring", 'A thin band worn on the sword hand by Horasian fencing masters.',
+      (N, *FERDOK_RARE), mods='GE +1 MU +1', tint=SHADOW, value=D(38)),
+    J('j_bulwark', 'amazing', 'Goldring', 'Bulwark Ring', 'A thick dwarven ring; the wearer seems to take up more room.',
+      (C, 'loc08_gruft_sarg_tagebuch_02', 'dungeon08_gruft_01'), mods='KO +1 KK +1', tint=EARTH),
+    J('j_quickhand', 'amazing', 'Silberring', 'Ring of the Quick Hand', 'Your blade is moving before you decide to strike.',
+      (N, *TALLON_CRAFT), mods='FF +1 AT +1', value=D(36), tint=SHADOW),
+    J('j_patient_guard', 'amazing', 'Silberring', 'Ring of the Patient Guard', 'Engraved with a closed gate. Wait; then wait some more.',
+      (C, 'skelett_tot_sitzend_loc05', 'dungeon05_burg'), mods='PA +1 KO +1', tint=HOLY),
+    J('j_marksman', 'amazing', 'Silberring', "Marksman's Signet", 'A signet with a tiny bow; it steadies the breath.',
+      (N, *TALLON_HUNTER), mods='FF +1 IN +1 TaBogen +1', tint=LEAF, value=D(36)),
+    J('j_spellblade', 'amazing', 'Goldring', 'Spellblade Ring', 'Sword and star intertwined: for those who cut and cast.',
+      (C, 'loc08_gruft_sarg_tagebuch_03', 'dungeon08_gruft_01'), mods='AEmax +10 AT +1', tint=ASTRAL),
+    J('j_serpent', 'amazing', 'Silberkette', "Serpent's Coil", 'A silver snake biting its tail. Poison slides off its wearer.',
+      (C, 'loc04_steinknopf_chest', 'location04'), mods='GE +1 FF +1', imm='poison', tint=VENOM),
+    J('j_owl', 'amazing', 'Silberkette', 'Owl-eye Amulet', 'Two amber eyes that never close.',
+      (C, 'skelett_tot_sitzend_dun08_haendler', 'dungeon08_haendler'), mods='IN +2 TaSinnenschaerfe +3', tint=ASTRAL),
+    J('j_emberheart', 'amazing', 'Goldkette', 'Emberheart Pendant', 'A coal that will not go out, set in red gold.',
+      (C, 'loc03_truhe_burg', 'location03'), mods='KK +1 LEmax +5', imm='fire', tint=EMBER),
+    # ---------- late: +2 mixes, regeneration ----------
+    J('j_fencer', 'superrare', 'Goldring', "Fencer's Band", 'Worn smooth by a lifetime of thrusts and parries.',
+      (N, *MUROLOSH_MIXED), mods='AT +1 GE +2', tint=SHADOW, value=D(55)),
+    J('j_mirror_mind', 'superrare', 'Silberring', 'Ring of the Mirror Mind', 'Spells see themselves in it and lose their way.',
+      (C, 'loc10_chest_zwergenskelett', 'location10'), mods='MR +3 AW +1 IN +1', tint=ASTRAL),
+    J('j_ironwill', 'superrare', 'Goldkette', 'Ironwill Torc', 'A torc of black iron worn by Thorwal shield-maidens.',
+      (L, 'loot_unique_Aldessia_feindlich', 'all'), mods='MU +2 KO +1', imm='overthrown', tint=HOLY),
+    J('j_trollblood', 'superrare', 'Goldring', 'Troll-blood Ring', 'A drop of troll blood under the stone. Wounds close as you watch.',
+      (C, 'loc11_chest_05', 'location11'), mods='Reg_LE +1 Reg_LE_freq -1 LEmax +5', tint=BLOOD),
+    J('j_wellspring', 'superrare', 'Silberring', 'Ring of the Wellspring', 'A moonstone that brims over with astral power.',
+      (C, 'zyklop_skelett_tot', 'location11'), mods='Reg_AE +1 AEmax +10', tint=ASTRAL),
+    J('j_marathon', 'superrare', 'Silberring', 'Marathon Band', 'A courier\'s ring from Gareth. Breath comes easy.',
+      (C, 'loc08_bestie_truhe_tatzelwurm', 'dungeon08_bestie'), mods='Reg_AU +2 AUmax +15', tint=LEAF),
+    J('j_shadowmaster', 'superrare', 'Goldring', "Shadowmaster's Band", 'The guild ring of the Arcane Thieves of Grangor, who officially do not exist.',
+      (C, 'loc10_zwergenschatz', 'location10'), mods='GE +2 FF +1 TaSchleichen +3 TaTaschendiebstahl +3 AEmax +5', tint=SHADOW),
+    J('j_elfsong', 'superrare', 'Silberkette', 'Elfsong Pendant', 'A leaf of silver that hums when a bowstring is drawn.',
+      (L, 'loot_loc09_kiste_aldessia1', 'all'), mods='IN +2 FF +1 TaBogen +2 ZaFalkenaugeMeisterschuss +2', tint=LEAF),
+    # ---------- cursed trade-offs: big upside, real downside ----------
+    J('j_red_rage', 'superrare', 'Goldring', 'Ring of the Red Rage', 'Rondra forgive whoever forged this. It will not let you defend yourself.',
+      (C, 'loc08_gruft_sarg_tagebuch_05', 'dungeon08_gruft_01'), mods='AT +3 KK +2 PA -3 MR -2', aura=('Kampf_Offensiv1', 'Head'), tint=BLOOD),
+    J('j_burning_mind', 'superrare', 'Goldkette', 'Pendant of the Burning Mind', 'Power pours in. Something else pours out.',
+      (L, 'loot_loc10_geheimraum_02', 'all'), mods='KL +2 IN +2 AEmax +15 LEmax -10', aura=('AttributoKL_State', 'Skeleton_Root'), tint=BLOOD),
+    J('j_gambler', 'superrare', 'Silberring', "Gambler's Die", 'An ivory die set in silver. Phex smiles; your courage wavers.',
+      (C, 'loc02_diebespacour_truhe_11', 'dungeon02_diebesgilde'), mods='CH +3 TaFeilschen +5 GE +1 MU -1', tint=SHADOW),
+    J('j_ardakor_eye', 'superrare', 'Goldkette', "Ardakor's Eye", 'A cultist relic: a black eye that sees too much. People avoid your gaze.',
+      (L, 'loot_loc05_truhe_drachenraum_02', 'all'), mods='MU +2 KL +2 MR +4 CH -3', aura=('Horriphobus_State', 'Head'), tint=WYRM),
+    # ---------- masterworks ----------
+    J('j_mountain_king', 'legendary', 'Goldring', 'Signet of the Mountain King', 'The seal of the first king of Murolosh. Few rings are heavier.',
+      (C, 'loc10_zwergenschatz', 'location10'), mods='KK +2 KO +2', aura=('AttributoKK_State', 'Skeleton_Root'), tint=EARTH),
+    J('j_amazon_queen', 'legendary', 'Goldring', 'Ring of the Amazon Queen', 'Passed from queen to queen in Kurkum; Rhulana will recognise it.',
+      (C, 'loc11_chest_05', 'location11'), mods='MU +2 GE +1 TaSaebel +2', aura=('AttributoMU_State', 'Skeleton_Root'), tint=HOLY),
+
+    # ---------- creative daggers and weapons ----------
+    W('d_twinfang', 'amazing', 'Langdolch', 'Twinfang', 'A dirk with a split tip. Two bites; one of them is poisoned.',
+      (N, *TALLON_THIEF), hit=[('p', 15, [('st', 'poison_weapon')]), ('p', 10, [('buff', 'ArmShadowstep')])], tint=VENOM, value=D(32)),
+    W('d_misericorde', 'amazing', 'Schwerer Dolch', 'Misericorde', 'The mercy dagger: made to end a fight with a fallen knight.',
+      (C, 'loc08_gruft_sarg_tagebuch_01', 'dungeon08_gruft_01'), hit=[('if', 'overthrown', [('dmg', 2, 1, 'physical', '')]), ('if', 'stun', [('dmg', 2, 1, 'physical', '')])],
+      WpATmod=1, tint=HOLY),
+    W('d_moonsilver', 'superrare', 'Dolch', 'Moonsilver Stiletto', 'Silver drawn by moonlight. The dead hate it.',
+      (C, 'loc04_sarkophag_chest_1', 'dungeon04_gruft'), hit=[('race', 'Untoter', [('dmg', 2, 1, 'magic', 'Kulminatio_Impact')]), ('p', 12, [('st', 'blitzDichFind')])],
+      mods='AEmax +5', WpW6plus=4, WpATmod=1, tint=FROST),
+    W('d_kris', 'superrare', 'tulamidian_dagger', "Assassin's Kris", 'A wavy Tulamide blade. It strikes the blinded and the unwary.',
+      (L, 'loot_loc09_kiste_aldessia1', 'all'), hit=[('p', 10, [('st', 'wound')]), ('if', 'blitzDichFind', [('dmg', 0, 1, 'physical', '')]), ('p', 10, [('st', 'ArmVenom')])],
+      tint=VENOM),
+    W('d_athame', 'superrare', 'Dolch', 'Starfire Athame', 'A ritual knife that burns with cold starlight.',
+      (C, 'loc10_chest_zwergenskelett', 'location10'), hit=[('p', 15, [('st', 'ArmStarburn')]), ('p', 100, [('asp', 1)])], mods='AEmax +10', WpW6plus=4, tint=ASTRAL),
+    W('d_black_widow', 'superrare', 'Schwerer Dolch', 'Black Widow', 'Her bite weakens; her second bite kills.',
+      (C, 'loc03_truhe_da_vanya', 'location03'), hit=[('p', 20, [('st', 'ArmFrailty')]), ('if', 'poison_weapon', [('dmg', 0, 1, 'poison', 'Gift_Impact')]),
+       ('p', 12, [('st', 'poison_weapon')])], WpW6plus=5, tint=VENOM),
+    W('w_stormcaller', 'superrare', 'Partisane', 'Stormcaller', 'A partisan that calls lightning down on whatever it stuns.',
+      (L, 'loot_loc10_geheimraum_03', 'all'), hit=[('p', 12, [('st', 'stun')]), ('if', 'stun', [('dmg', 0, 1, 'magic', 'Lightning')])], WpW6plus=7, tint=THUNDER),
+    W('w_hearthguard', 'superrare', 'Barbarenstreitaxt', 'Hearthguard Greataxe', 'A two-handed axe of the king\'s hearthguard. It breaks the strong.',
+      (C, 'loc10_zwergenschatz', 'location10'), hit=[('p', 15, [('st', 'ArmFrailty')]), ('p', 8, [('buff', 'ArmIronskin')])], WpW6plus=5, WpPAmod=-2, tint=EARTH),
+    W('w_moonshadow', 'amazing', 'Saebel', 'Moonshadow Saber', 'A saber that seems to slip sideways out of every parry.',
+      (C, 'loc04_truhe_01_4', 'dungeon04_gruft'), hit=[('p', 12, [('buff', 'ArmShadowstep')])], WpPAmod=1, WpW6plus=5, tint=SHADOW),
+    W('w_whisperwind', 'amazing', 'Kurzbogen', 'Whisperwind', 'A quick short bow; its arrows arrive before their sound.',
+      (L, 'loot_loc04_truhe_2', 'all'), hit=[('p', 100, [('dmg', 1, 0, 'physical', '')]), ('p', 12, [('st', 'ArmDazed')])], WpW6plus=3, tint=LEAF),
+]

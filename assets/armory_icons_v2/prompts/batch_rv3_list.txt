@@ -1,0 +1,11 @@
+rm_lq_pauldrons
+rm_mw_mantle
+rm_a_patch_mantle
+rm_r_splitting_maul
+rm_q_beast_ledger
+rm_x_wanted_poster
+rm_x_warpaint
+rm_x_moon_lily
+rm_x_jar_newt
+rm_x_love_letters
+rm_x_cyclops_monocle
