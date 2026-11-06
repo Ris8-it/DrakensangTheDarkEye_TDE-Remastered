@@ -101,7 +101,9 @@ BEASTS = [  # key, display, base template, level, anchor, offset, stat changes, 
 FIERCE = {
     'grimtusk': (dict(AT=18, PA=4, ATW6=2, ATW6plus=6, RSBr=5, Behaviour='clever_fighter', SpecialAttackChances='BoarAttack 6.0 0, MeleeAttack 5.0 0'),
                  [('Wildschwein', 3, 'Grimtusk Sow', dict(LE=50, LEmax=50, AT=14))]),
-    'ashpelt': (dict(AT=20, PA=5, ATW6=3, ATW6plus=5, RSBr=6, Behaviour='clever_fighter', AuraStatuseffect='blitzDichFind',
+    # no lightning of his own any more (review 6 Nov: "his name is fire"): the spirits bring the lightning at 50 %, the fire comes
+    # last and mild (four small forest fireflies from his smouldering pelt; fire is strong this early)
+    'ashpelt': (dict(AT=20, PA=5, ATW6=3, ATW6plus=5, RSBr=6, Behaviour='clever_fighter', AuraStatuseffect='',
                      SpecialAttackChances='BearSweepAttack 5.0 0, MeleeAttack 5.0 0'),
                 [('Baer_loc03', 2, "Ashpelt's Kin", dict(LE=75, LEmax=75))]),
     'marshqueen': (dict(AT=21, PA=4, ATW6=3, ATW6plus=4, RSBr=5, Behaviour='clever_fighter', AuraStatuseffect='rotten_stench',
@@ -299,9 +301,17 @@ _AP_CALL = ''.join(f'CreateEntity category="Monster" templateId="{t}" how="spawn
                    for k, t in (('call1', 'Baer_naturgeist'), ('call3', 'Baer_naturgeist'), ('call2', 'Baer_loc03'), ('call4', 'Baer_loc03'), ('call5', 'Baer_loc03')))
 st.task(_QA, "The Elder's Roar", 'Ashpelt the Elder is hurt, and the forest is listening.', 'Ashpelt the Elder is dead.',
         state='unlocked', open_cond=_AP_HURT('0.98'), close_cond=[f'IsDead who="{_AP}"; '], target=_AP)
+_AP_SHAKE = f'PlayShakeEffect target="{_AP}" range="60" intensity="0.6" duration="1.5" {A}'
+# three phases (review 6 Nov: "a bit too simple compared to the wolves"): 75 % his hide hardens, 50 % the forest answers, 25 % his
+# grey pelt smoulders: four forest fireflies rise from it and he goes berserk
+st.task(f'{_QA}_0', 'The Old Hide', 'He shakes himself, and dust and old ash fall from his fur.', 'His hide hardened like old bark.',
+        parent=_QA, state='unlocked', close_cond=_AP_HURT('0.75'), close_act=_AP_SHAKE + f'SetStatusEffect who="{_AP}" id="ArmIronskin" {A}')
 st.task(f'{_QA}_1', 'The Call of the Forest', 'He rears up and roars at the trees.', 'Two spirits of the forest and three bears answered his roar.',
-        parent=_QA, state='unlocked', close_cond=_AP_HURT('0.5'),
-        close_act=f'PlayShakeEffect target="{_AP}" range="60" intensity="0.6" duration="1.5" {A}' + _AP_CALL)
+        parent=_QA, state='unlocked', close_cond=_AP_HURT('0.5'), close_act=_AP_SHAKE + _AP_CALL)
+_AP_EMBERS = ''.join(f'CreateEntity category="Monster" templateId="Feuerfliege" how="spawnAtEntity" entity="{_AP_PT[k]}" number="1" executeAfter="true" {A}'
+                     for k in ('call1', 'call2', 'call3', 'call4'))
+st.task(f'{_QA}_2', 'Ash and Ember', 'Wounded, he smoulders. His grey pelt is hot to look at.', 'Embers rose from his pelt, and he went wild with pain.',
+        parent=_QA, state='unlocked', close_cond=_AP_HURT('0.25'), close_act=_AP_SHAKE + _AP_EMBERS + f'SetStatusEffect who="{_AP}" id="ArmTrance" {A}')
 MANTLE = 'LEmax +10 AUmax +10 MU +1 MR +1'   # review 2 Nov: no gathering bonus on found gear
 # audit N8: the end of the collection gives a book of lore, one entry per legend (the player reads lore; gold was dead weight)
 LORE = {'ratzinsky': "Mother Ratzinsky ruled the cellars of Ferdok for nine winters. Her iron tooth hangs over my door; no rat has come near since.",

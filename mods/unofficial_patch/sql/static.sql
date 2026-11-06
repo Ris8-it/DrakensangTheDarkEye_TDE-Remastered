@@ -1,13 +1,4 @@
 BEGIN;
--- loot table loot_wolf_groﬂ (copy of the misnamed or nearest vanilla table)
-DELETE FROM _DSA_LootTables WHERE LootTableName='loot_wolf_groﬂ';
-INSERT INTO _DSA_LootTables ("LootTableName","LootTableValue","LootTableContent") VALUES ('loot_wolf_groﬂ','1','Item/Fellfetzen/100/w2/2/;Item/generic_wolfskralle/80/w2/4/;');
--- loot table loot_smaragdspinne_groﬂ (copy of the misnamed or nearest vanilla table)
-DELETE FROM _DSA_LootTables WHERE LootTableName='loot_smaragdspinne_groﬂ';
-INSERT INTO _DSA_LootTables ("LootTableName","LootTableValue","LootTableContent") VALUES ('loot_smaragdspinne_groﬂ','1','Item/spinnenfangzaehne/100/w2/200/;Item/seidendruese/100/1/16/;');
--- loot table loot_trollkroete_groﬂ (copy of the misnamed or nearest vanilla table)
-DELETE FROM _DSA_LootTables WHERE LootTableName='loot_trollkroete_groﬂ';
-INSERT INTO _DSA_LootTables ("LootTableName","LootTableValue","LootTableContent") VALUES ('loot_trollkroete_groﬂ','0','Item/froschschenkel/100/w2/6/;');
 -- loot table loot_skelett_leicht_fern (copy of the misnamed or nearest vanilla table)
 DELETE FROM _DSA_LootTables WHERE LootTableName='loot_skelett_leicht_fern';
 INSERT INTO _DSA_LootTables ("LootTableName","LootTableValue","LootTableContent") VALUES ('loot_skelett_leicht_fern','1','Weapon/Kurzbogen/50/1/150/;Ammo/Pfeil/100/w20+20/1/;');

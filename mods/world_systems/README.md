@@ -32,7 +32,7 @@ save only the static parts work (rally/frenzy, ground slam, howling for wolves s
 | Herb patch | kraut_feuermoos | location10 | regrows every 3rd visit |
 | Herb patch | kraut_eitriger_kroeten | location10 | regrows every 3rd visit |
 | Last Stand | 10 elite fighters | everywhere but the final mountain | below 1/3 LE: AT +2 PA +2 for 30 s, once |
-| Frenzy | 41 large beasts | everywhere but the final mountain | below 1/4 LE: AT +3 PA -2 for 30 s, once |
+| Frenzy | 46 large beasts | everywhere but the final mountain | below 1/4 LE: AT +3 PA -2 for 30 s, once |
 | Wolf pack | 15 wolf kinds | everywhere | howl (calls the pack), then attack the nearest; machine monster_wolf |
 | Ground Slam | 14 ogre kinds | Tallon and later | 1 in ~8 attacks: KK+4 check or knocked down, 1d6+2 to the party within 4 m |
 

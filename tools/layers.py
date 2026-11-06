@@ -368,14 +368,22 @@ class Layers:
         return t
 
     def add_attack_chance(self, cat, tid, aid, weight, column='SpecialAttackChances', instances=True):
-        """Append 'aid weight 0' to a being's move list (the entity column overrides the machine's list; vanilla ogres work so)."""
-        old = self.m.s.execute(f'select "{column}" from "_Template_{cat}" where Id=?', (tid,)).fetchone()[0] or ''
-        base = old.strip().rstrip(',') or 'MeleeAttack 1.0 0'
-        new = f'{base}, {aid} {weight} 0'
-        self.guarded_update('static', f'_Template_{cat}', {'Id': tid}, column, new, old)
-        if instances:
-            for (g,) in self.m.g.execute(f'select Guid from "_Instance_{cat}" where Id=? and "{column}"=?', (tid, old)):
-                self.guarded_update('game', f'_Instance_{cat}', {'Guid': g}, column, new, old)
+        """Append 'aid weight 0' to a being's move list (the entity column overrides the machine's list; vanilla ogres work so).
+        Done at install time on whatever the list holds then (6 Nov: a value-guarded update skipped the Ogre Chief, whose moves the
+        pack had already changed); never twice; undo cuts exactly that piece out again."""
+        piece = f'{aid} {weight} 0'
+        assert self.m.s.execute(f'select 1 from "_Template_{cat}" where Id=?', (tid,)).fetchone(), (cat, tid)
+        placed = instances and self.m.g.execute(f'select 1 from "_Instance_{cat}" where Id=?', (tid,)).fetchone()
+        for db, tbl, key in (('static', f'_Template_{cat}', 'Id'),) + ((('game', f'_Instance_{cat}', 'Id'),) if placed else ()):
+            c = f'"{column}"'
+            do = (f"UPDATE \"{tbl}\" SET {c}=CASE WHEN trim(coalesce({c},''))='' THEN 'MeleeAttack 1.0 0, {piece}' "
+                  f"ELSE rtrim(trim({c}),',') || ', {piece}' END WHERE \"{key}\"={lit(tid)} AND coalesce({c},'') NOT LIKE '%{aid} %';")
+            undo = (f"UPDATE \"{tbl}\" SET {c}=replace(replace({c}, ', {piece}', ''), '{piece}', '') "
+                    f"WHERE \"{key}\"={lit(tid)} AND {c} LIKE '%{piece}%';")
+            (self.m.static if db == 'static' else self.m.game).append(do)
+            (self.m.undo_static if db == 'static' else self.m.undo_game).append(undo)
+            (self.checks_static if db == 'static' else self.checks_game).append(
+                (f'{tbl}.{column} of {tid} has {aid}', f"SELECT count(*)>0 FROM \"{tbl}\" WHERE \"{key}\"={lit(tid)} AND {c} LIKE '%{piece}%'", 1))
 
     def set_behaviour(self, cat, tid, machine, instances=True):
         old = self.m.s.execute(f'select Behaviour from "_Template_{cat}" where Id=?', (tid,)).fetchone()[0]

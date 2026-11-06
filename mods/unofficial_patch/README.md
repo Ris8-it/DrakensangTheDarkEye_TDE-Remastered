@@ -6,9 +6,6 @@ Every change is guarded and undone exactly by Uninstall.bat.
 
 | Fix | What | Affects |
 |---|---|---|
-| Loot | `loot_wolf_groß` (copy of `loot_wolf_großo`) | 3 templates: Wolf_loc03_alwene, Wolf_02_loc03_alwene, Wolf_03_loc03_alwene |
-| Loot | `loot_smaragdspinne_groß` (copy of `loot_smaragdspinne_groß?`) | 8 templates: Smaragdspinne, Smaragdspinne_loc00z4, Smaragdspinne_loc05, Smaragdspinne_loc02, Smaragdspinne_loc08, Smaragdspinne_loc10 ... |
-| Loot | `loot_trollkroete_groß` (copy of `loot_trollkroete_groß?`) | 6 templates: Trollkroete_loc03_hexen, Trollkroete_02_loc03_hexen, Allwiss, Trollkroete_03_loc03_hexen, loc04_trollkroete, Trollkroete_loc09 |
 | Loot | `loot_skelett_leicht_fern` (copy of `loot_skelett_leicht_fern_bogen`) | 3 templates: Skelett_leicht, dun08_gruft_skelett_fernkampf, Skelett_leicht_loc04_fern |
 | Preset | `preset_on_hurt_swap_target.xml` = alias of `preset_on_hit_swap_target.xml` | Smaragdspinne_klein_loc05_orkkampf |
 | Idle routine | `loc03_ba_berndrich_wache.xml` → `lo03_ba_berndrich_wache.xml` | template praiot_klein_loc03_fern_teich |
