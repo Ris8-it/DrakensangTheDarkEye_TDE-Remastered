@@ -1,6 +1,6 @@
 BEGIN;
 UPDATE _Template_MonsterLarge SET LEmax=1500, LE=1500, AT=18, RSKo=4, RSBr=6, RSRu=10, RSBa=8, RSLA=8, RSRA=8, RSLB=8, RSRB=8 WHERE Id='loc12_finale_Malgorra_Monster';
-UPDATE _Template_MonsterLarge SET LEmax=1500, LE=1500, AT=19, RSKo=8, RSBr=8, RSRu=8, RSBa=8, RSLA=8, RSRA=8, RSLB=8, RSRB=10, Immunity='largemonster;poison;wound' WHERE Id='Japhgur';
+UPDATE _Template_MonsterLarge SET LEmax=2250, LE=2250, AT=21, RSKo=8, RSBr=8, RSRu=8, RSBa=8, RSLA=8, RSRA=8, RSLB=8, RSRB=10, Immunity='largemonster;poison;wound' WHERE Id='Japhgur';
 UPDATE _Template_NPC SET LEmax=63, LE=63, AT=19, PA=0, MR=0 WHERE Id='Feuergeist_02_loc11_variation';
 UPDATE _Template_NPC SET LEmax=188, LE=188, AT=19, PA=0, MR=0 WHERE Id='Feuergeist_loc10';
 UPDATE _Template_NPC SET LEmax=75, LE=75, AT=20, PA=20, MR=9, RSBr=1, RSRu=1, RSBa=1, RSLA=1, RSRA=1, RSLB=1, RSRB=1 WHERE Id='Skelett_magier_loc12_bossfight_summoned_lighting';
@@ -12,8 +12,8 @@ UPDATE _Template_NPC SET LEmax=50, LE=50, AT=20, PA=18, MR=7, RSKo=3, RSBr=3, RS
 UPDATE _Template_NPC SET LEmax=250, LE=250, AT=23, PA=0, MR=0, RSKo=8, RSBr=8, RSRu=8, RSBa=8, RSLA=8, RSRA=8, RSLB=8, RSRB=8 WHERE Id='Steingolem_loc12_bossfight_summoned';
 UPDATE _Template_NPC SET LEmax=250, LE=250, AT=21, PA=6, MR=0, RSKo=8, RSBr=8, RSRu=8, RSBa=8, RSLA=8, RSRA=8, RSLB=8, RSRB=8 WHERE Id='Steingolem_loc12';
 UPDATE _Template_NPC SET LEmax=250, LE=250, AT=21, PA=6, MR=0, RSKo=8, RSBr=8, RSRu=8, RSBa=8, RSLA=8, RSRA=8, RSLB=8, RSRB=8 WHERE Id='Steingolem_loc10';
-UPDATE _Template_NPC SET LEmax=350, LE=350, AT=21, PA=6, MR=10, RSKo=9, RSBr=9, RSRu=9, RSBa=9, RSLA=9, RSRA=9, RSLB=9, RSRB=9 WHERE Id='Steingolem_loc09_aldessia';
-UPDATE _Template_NPC SET LEmax=875, LE=875, AT=25, PA=0, MR=10 WHERE Id='Zyklopenskelett_loc10';
+UPDATE _Template_NPC SET LEmax=525, LE=525, AT=23, PA=8, MR=10, RSKo=9, RSBr=9, RSRu=9, RSBa=9, RSLA=9, RSRA=9, RSLB=9, RSRB=9 WHERE Id='Steingolem_loc09_aldessia';
+UPDATE _Template_NPC SET LEmax=1312, LE=1312, AT=27, PA=0, MR=10 WHERE Id='Zyklopenskelett_loc10';
 UPDATE _Template_NPC SET LEmax=63, LE=63, AT=19, PA=19, MR=0, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Wuehlschrat_loc10';
 UPDATE _Template_NPC SET LEmax=63, LE=63, AT=19, PA=14, MR=0, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Wuehlschrat_loc09';
 UPDATE _Template_NPC SET LEmax=125, LE=125, AT=19, PA=0, MR=0 WHERE Id='Grolm2_untot_loc10_geistspawn';
@@ -22,7 +22,7 @@ UPDATE _Template_NPC SET LEmax=125, LE=125, AT=19, PA=0, MR=0 WHERE Id='Grolm2_u
 UPDATE _Template_NPC SET LEmax=125, LE=125, AT=19, PA=0, MR=0 WHERE Id='Grolm_untot_loc10_geistspawn';
 UPDATE _Template_NPC SET LEmax=125, LE=125, AT=19, PA=0, MR=0 WHERE Id='Grolm_untot_loc10_Waffe';
 UPDATE _Template_NPC SET LEmax=125, LE=125, AT=19, PA=0, MR=0 WHERE Id='Grolm_untot_loc10';
-UPDATE _Template_NPC SET LEmax=650, LE=650, AT=24, PA=12, MR=6, RSKo=4, RSBr=4, RSRu=4, RSBa=4, RSLA=4, RSRA=4, RSLB=4, RSRB=4 WHERE Id='Oger_04_kraeftig_loc08_boss';
+UPDATE _Template_NPC SET LEmax=975, LE=975, AT=26, PA=14, MR=6, RSKo=4, RSBr=4, RSRu=4, RSBa=4, RSLA=4, RSRA=4, RSLB=4, RSRB=4 WHERE Id='Oger_04_kraeftig_loc08_boss';
 UPDATE _Template_NPC SET LEmax=250, LE=250, AT=23, PA=18, MR=0, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Mantra_keh_04_loc12_major_clever';
 UPDATE _Template_NPC SET LEmax=250, LE=250, AT=23, PA=18, MR=0, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Mantra_keh_04_loc12_major_mixed';
 UPDATE _Template_NPC SET LEmax=250, LE=250, AT=23, PA=18, MR=0, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Mantra_keh_04_loc12_major_spellcaster';
@@ -52,8 +52,8 @@ UPDATE _Template_NPC SET LEmax=150, LE=150, AT=18, PA=6, MR=0, RSKo=3, RSBr=3, R
 UPDATE _Template_NPC SET LEmax=150, LE=150, AT=18, PA=6, MR=0, RSKo=3, RSBr=3, RSRu=3, RSBa=3, RSLA=3, RSRA=3, RSLB=3, RSRB=3 WHERE Id='Mantra_keh_01_loc12_portal_2_nah';
 UPDATE _Template_NPC SET LEmax=150, LE=150, AT=18, PA=6, MR=0, RSKo=3, RSBr=3, RSRu=3, RSBa=3, RSLA=3, RSRA=3, RSLB=3, RSRB=3 WHERE Id='Mantra_keh_01_loc12';
 UPDATE _Template_NPC SET LEmax=313, LE=313, AT=25, PA=18, MR=0, RSKo=1, RSBr=1, RSRu=1, RSBa=1, RSLA=1, RSRA=1, RSLB=1, RSRB=1, Immunity='' WHERE Id='Malgorra_loc12';
-UPDATE _Template_NPC SET LEmax=313, LE=313, AT=21, PA=20, MR=12, RSKo=7, RSBr=7, RSRu=7, RSBa=7, RSLA=7, RSRA=7, RSLB=7, RSRB=7, Immunity='wound' WHERE Id='Arombolosch_Wahnsinn';
-UPDATE _Template_NPC SET LEmax=160, LE=160, AT=20, PA=6, MR=14, RSBr=3, RSRu=3, RSBa=3, RSLA=3, RSRA=3, RSLB=3, RSRB=3 WHERE Id='Aldessia_feindlich';
+UPDATE _Template_NPC SET LEmax=469, LE=469, AT=23, PA=22, MR=12, RSKo=7, RSBr=7, RSRu=7, RSBa=7, RSLA=7, RSRA=7, RSLB=7, RSRB=7, Immunity='wound' WHERE Id='Arombolosch_Wahnsinn';
+UPDATE _Template_NPC SET LEmax=240, LE=240, AT=22, PA=8, MR=14, RSBr=3, RSRu=3, RSBa=3, RSLA=3, RSRA=3, RSLB=3, RSRB=3 WHERE Id='Aldessia_feindlich';
 UPDATE _Template_NPC SET LEmax=75, LE=75, AT=21, PA=14, MR=0, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Zwerg_Krieger_loc09_aldessia_handlanger';
 UPDATE _Template_NPC SET LEmax=63, LE=63, AT=19, PA=12, MR=6, RSLA=2, RSRA=1 WHERE Id='Drachenkultist_mittel_loc12_clever_ranged_special';
 UPDATE _Template_NPC SET LEmax=63, LE=63, AT=19, PA=12, MR=6, RSLA=2, RSRA=1 WHERE Id='Drachenkultist_mittel_loc12_clever_ranged';
@@ -93,7 +93,7 @@ UPDATE _Template_Monster SET LEmax=75, LE=75, AT=10, PA=0, MR=21, RSKo=7, RSBr=7
 UPDATE _Template_Monster SET LEmax=63, LE=63, AT=20, PA=0, MR=9, RSKo=5, RSBr=5, RSRu=5, RSBa=5, RSLA=5, RSRA=5, RSLB=5, RSRB=5 WHERE Id='Riesenskorpionl_loc12_bossfight_summoned';
 UPDATE _Template_Monster SET LEmax=63, LE=63, AT=23, PA=0, MR=9, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Riesenskorpion_loc12';
 UPDATE _Template_Monster SET LEmax=63, LE=63, AT=23, PA=0, MR=9, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Riesenskorpion_loc09';
-UPDATE _Template_Monster SET LEmax=220, LE=220, AT=23, MR=15, RSKo=7, RSBr=7, RSRu=7, RSBa=7, RSLA=7, RSRA=7, RSLB=7, RSRB=7 WHERE Id='gruftassel_boss_loc09';
+UPDATE _Template_Monster SET LEmax=330, LE=330, AT=25, MR=15, RSKo=7, RSBr=7, RSRu=7, RSBa=7, RSLA=7, RSRA=7, RSLB=7, RSRB=7 WHERE Id='gruftassel_boss_loc09';
 UPDATE _Template_Monster SET LEmax=88, LE=88, AT=20, PA=0, MR=14, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Gruftassel_loc12_bossfight_summoned';
 UPDATE _Template_Monster SET LEmax=50, LE=50, AT=20, PA=0, MR=14, RSKo=4, RSBr=4, RSRu=4, RSBa=4, RSLA=4, RSRA=4, RSLB=4, RSRB=4 WHERE Id='Gruftassel_loc09';
 UPDATE _Template_Monster SET LEmax=100, LE=100, AT=21, PA=0, MR=0 WHERE Id='Wolfsratte_var2_loc09';
@@ -101,7 +101,7 @@ UPDATE _Template_Monster SET LEmax=75, LE=75, AT=21, PA=0, MR=0 WHERE Id='Wolfsr
 UPDATE _Template_Monster SET LEmax=50, LE=50, AT=16, PA=0, MR=13, RSKo=2, RSBr=2, RSRu=2, RSBa=2, RSLA=2, RSRA=2, RSLB=2, RSRB=2 WHERE Id='Smaragdspinne_klein_loc10';
 UPDATE _Template_Monster SET LEmax=50, LE=50, AT=16, PA=0, MR=13, RSKo=2, RSBr=2, RSRu=2, RSBa=2, RSLA=2, RSRA=2, RSLB=2, RSRB=2 WHERE Id='Smaragdspinne_klein_loc09';
 UPDATE _Template_Monster SET LEmax=125, LE=125, AT=21, PA=0, MR=13, RSKo=4, RSBr=4, RSRu=4, RSBa=4, RSLA=4, RSRA=4, RSLB=4, RSRB=4 WHERE Id='Smaragdspinne_loc12_bossfight_summoned';
-UPDATE _Template_Monster SET LEmax=420, LE=420, AT=22, PA=0, MR=16, RSKo=5, RSBr=5, RSRu=5, RSBa=5, RSLA=5, RSRA=5, RSLB=5, RSRB=5 WHERE Id='Smaragdspinne_loc11';
+UPDATE _Template_Monster SET LEmax=630, LE=630, AT=24, PA=0, MR=16, RSKo=5, RSBr=5, RSRu=5, RSBa=5, RSLA=5, RSRA=5, RSLB=5, RSRB=5 WHERE Id='Smaragdspinne_loc11';
 UPDATE _Template_Monster SET LEmax=313, LE=313, AT=21, PA=0, MR=13, RSKo=4, RSBr=4, RSRu=4, RSBa=4, RSLA=4, RSRA=4, RSLB=4, RSRB=4 WHERE Id='Smaragdspinne_loc10';
 UPDATE _Template_Monster SET LEmax=63, LE=63, AT=21, PA=0, MR=0, RSKo=5, RSBr=5, RSRu=5, RSBa=5, RSLA=5, RSRA=5, RSLB=5, RSRB=5 WHERE Id='Riesenkrabbe_loc12_bossfight_summoned';
 UPDATE _Template_Monster SET LEmax=75, LE=75, AT=13, PA=0, MR=13, RSKo=1, RSBr=1, RSRu=1, RSBa=1, RSLA=1, RSRA=1, RSLB=1, RSRB=1 WHERE Id='Harpyie_loc12';

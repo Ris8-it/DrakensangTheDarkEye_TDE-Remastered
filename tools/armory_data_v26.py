@@ -128,7 +128,7 @@ ARMOUR_SLOT = {'ChestArmor': 'chest', 'ChestArmorWithoutShoulder': 'chest', 'Ful
                'Shoulder': 'shoulder', 'ArmArmor': 'arms', 'GlovesWithArmArmor': 'arms', 'Gloves': 'gloves', 'LegArmor': 'legs',
                'Shoes': 'legs', 'ShoesWithLegArmor': 'legs', 'Trousers': 'legs', 'TrousersWithLegArmor': 'legs'}
 ARMOUR_RULES = {  # (slot, material): ((early, mid, late, endgame) total RS cap, BE per RS point)
-    ('chest', 'Cloth'): ((7, 9, 12, 14), 0.0), ('chest', 'Leather'): ((14, 17, 20, 23), 0.10), ('chest', 'Metal'): ((18, 22, 26, 30), 0.16),
+    ('chest', 'Cloth'): ((9, 10, 12, 14), 0.0), ('chest', 'Leather'): ((14, 17, 20, 23), 0.10), ('chest', 'Metal'): ((18, 22, 26, 30), 0.16),
     ('head', 'Cloth'): ((2, 3, 3, 4), 0.0), ('head', 'Leather'): ((4, 5, 6, 6), 0.10), ('head', 'Metal'): ((5, 6, 6, 7), 0.15),
     ('shoulder', 'Cloth'): ((3, 4, 5, 6), 0.0), ('shoulder', 'Leather'): ((6, 8, 10, 12), 0.025), ('shoulder', 'Metal'): ((8, 10, 12, 14), 0.05),
     ('arms', 'Leather'): ((6, 8, 10, 10), 0.03), ('arms', 'Metal'): ((8, 10, 12, 12), 0.04),

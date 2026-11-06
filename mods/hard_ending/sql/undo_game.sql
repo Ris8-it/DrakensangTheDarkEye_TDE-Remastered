@@ -1,5 +1,5 @@
 BEGIN;
-UPDATE _Instance_Monster SET LEmax=420, LE=420, AT=22, PA=0, MR=16, RSKo=5, RSBr=5, RSRu=5, RSBa=5, RSLA=5, RSRA=5, RSLB=5, RSRB=5 WHERE Id='Smaragdspinne_loc11';
+UPDATE _Instance_Monster SET LEmax=630, LE=630, AT=24, PA=0, MR=16, RSKo=5, RSBr=5, RSRu=5, RSBa=5, RSLA=5, RSRA=5, RSLB=5, RSRB=5 WHERE Id='Smaragdspinne_loc11';
 UPDATE _Instance_Monster SET LEmax=150, LE=150, AT=16, PA=0, MR=13, RSKo=4, RSBr=6, RSRu=8, RSBa=6, RSLA=4, RSRA=4, RSLB=6, RSRB=6, Immunity='' WHERE Id='Purpurdrache';
 UPDATE _Instance_NPC SET LEmax=94, LE=94, AT=21, PA=23, MR=6, RSKo=1, RSBr=1, RSRu=1, RSLA=2, RSRA=6, RSLB=6 WHERE Id='Drachenkultist_gross_loc12_malgorrawache';
 UPDATE _Instance_NPC SET LEmax=94, LE=94, AT=21, PA=12, MR=6, RSKo=1, RSBr=1, RSRu=1, RSLA=2, RSRA=6, RSLB=6 WHERE Id='Drachenkultist_gross_loc12_hammer';
@@ -10,8 +10,8 @@ UPDATE _Instance_NPC SET LEmax=63, LE=63, AT=19, PA=12, MR=6, RSLA=2, RSRA=1 WHE
 UPDATE _Instance_NPC SET LEmax=63, LE=63, AT=19, PA=12, MR=6, RSLA=2, RSRA=1 WHERE Id='Drachenkultist_mittel_loc12_bogen';
 UPDATE _Instance_NPC SET LEmax=63, LE=63, AT=19, PA=12, MR=6, RSLA=2, RSRA=1 WHERE Id='Drachenkultist_mittel_loc12_saebel';
 UPDATE _Instance_NPC SET LEmax=75, LE=75, AT=21, PA=14, MR=0, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Zwerg_Krieger_loc09_aldessia_handlanger';
-UPDATE _Instance_NPC SET LEmax=160, LE=160, AT=20, PA=6, MR=14, RSBr=3, RSRu=3, RSBa=3, RSLA=3, RSRA=3, RSLB=3, RSRB=3 WHERE Id='Aldessia_feindlich';
-UPDATE _Instance_NPC SET LEmax=313, LE=313, AT=21, PA=20, MR=12, RSKo=7, RSBr=7, RSRu=7, RSBa=7, RSLA=7, RSRA=7, RSLB=7, RSRB=7, Immunity='wound' WHERE Id='Arombolosch_Wahnsinn';
+UPDATE _Instance_NPC SET LEmax=240, LE=240, AT=22, PA=8, MR=14, RSBr=3, RSRu=3, RSBa=3, RSLA=3, RSRA=3, RSLB=3, RSRB=3 WHERE Id='Aldessia_feindlich';
+UPDATE _Instance_NPC SET LEmax=469, LE=469, AT=23, PA=22, MR=12, RSKo=7, RSBr=7, RSRu=7, RSBa=7, RSLA=7, RSRA=7, RSLB=7, RSRB=7, Immunity='wound' WHERE Id='Arombolosch_Wahnsinn';
 UPDATE _Instance_NPC SET LEmax=313, LE=313, AT=25, PA=18, MR=0, RSKo=1, RSBr=1, RSRu=1, RSBa=1, RSLA=1, RSRA=1, RSLB=1, RSRB=1, Immunity='' WHERE Id='Malgorra_loc12';
 UPDATE _Instance_NPC SET LEmax=150, LE=150, AT=8, PA=6, MR=0, RSKo=3, RSBr=3, RSRu=3, RSBa=3, RSLA=3, RSRA=3, RSLB=3, RSRB=3 WHERE Id='Mantra_keh_01_loc12_start_arombolosch';
 UPDATE _Instance_NPC SET LEmax=150, LE=150, AT=18, PA=6, MR=0, RSKo=3, RSBr=3, RSRu=3, RSBa=3, RSLA=3, RSRA=3, RSLB=3, RSRB=3 WHERE Id='Mantra_keh_01_loc12_mixed';
@@ -21,10 +21,10 @@ UPDATE _Instance_NPC SET LEmax=250, LE=250, AT=23, PA=18, MR=0, RSKo=6, RSBr=6, 
 UPDATE _Instance_NPC SET LEmax=250, LE=250, AT=23, PA=18, MR=0, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Mantra_keh_04_loc12_major_b';
 UPDATE _Instance_NPC SET LEmax=250, LE=250, AT=23, PA=18, MR=0, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Mantra_keh_04_loc12_major_c';
 UPDATE _Instance_NPC SET LEmax=250, LE=250, AT=23, PA=18, MR=0, RSKo=6, RSBr=6, RSRu=6, RSBa=6, RSLA=6, RSRA=6, RSLB=6, RSRB=6 WHERE Id='Mantra_keh_04_loc12_major_d';
-UPDATE _Instance_NPC SET LEmax=650, LE=650, AT=24, PA=12, MR=6, RSKo=4, RSBr=4, RSRu=4, RSBa=4, RSLA=4, RSRA=4, RSLB=4, RSRB=4 WHERE Id='Oger_04_kraeftig_loc08_boss';
-UPDATE _Instance_NPC SET LEmax=875, LE=875, AT=25, PA=0, MR=10 WHERE Id='Zyklopenskelett_loc10';
-UPDATE _Instance_NPC SET LEmax=350, LE=350, AT=21, PA=6, MR=10, RSKo=9, RSBr=9, RSRu=9, RSBa=9, RSLA=9, RSRA=9, RSLB=9, RSRB=9 WHERE Id='Steingolem_loc09_aldessia';
+UPDATE _Instance_NPC SET LEmax=975, LE=975, AT=26, PA=14, MR=6, RSKo=4, RSBr=4, RSRu=4, RSBa=4, RSLA=4, RSRA=4, RSLB=4, RSRB=4 WHERE Id='Oger_04_kraeftig_loc08_boss';
+UPDATE _Instance_NPC SET LEmax=1312, LE=1312, AT=27, PA=0, MR=10 WHERE Id='Zyklopenskelett_loc10';
+UPDATE _Instance_NPC SET LEmax=525, LE=525, AT=23, PA=8, MR=10, RSKo=9, RSBr=9, RSRu=9, RSBa=9, RSLA=9, RSRA=9, RSLB=9, RSRB=9 WHERE Id='Steingolem_loc09_aldessia';
 UPDATE _Instance_NPC SET LEmax=63, LE=63, AT=19, PA=0, MR=0 WHERE Id='Feuergeist_02_loc11_variation';
-UPDATE _Instance_MonsterLarge SET LEmax=1500, LE=1500, AT=19, RSKo=8, RSBr=8, RSRu=8, RSBa=8, RSLA=8, RSRA=8, RSLB=8, RSRB=10, Immunity='largemonster;poison;wound' WHERE Id='Japhgur';
+UPDATE _Instance_MonsterLarge SET LEmax=2250, LE=2250, AT=21, RSKo=8, RSBr=8, RSRu=8, RSBa=8, RSLA=8, RSRA=8, RSLB=8, RSRB=10, Immunity='largemonster;poison;wound' WHERE Id='Japhgur';
 UPDATE _Instance_MonsterLarge SET LEmax=1500, LE=1500, AT=18, RSKo=4, RSBr=6, RSRu=10, RSBa=8, RSLA=8, RSRA=8, RSLB=8, RSRB=8 WHERE Id='loc12_finale_Malgorra_Monster';
 COMMIT;

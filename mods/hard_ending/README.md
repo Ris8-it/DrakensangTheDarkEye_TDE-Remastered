@@ -11,7 +11,7 @@ Multiplies current values: LE x1.3, AT/PA +2, MR +2, armour +1 for late enemies;
 | Monster | Harpyie_loc12 | 75 | 98 |  |
 | Monster | Riesenkrabbe_loc12_bossfight_summoned | 63 | 82 |  |
 | Monster | Smaragdspinne_loc10 | 313 | 407 |  |
-| Monster | Smaragdspinne_loc11 | 420 | 546 |  |
+| Monster | Smaragdspinne_loc11 | 630 | 819 |  |
 | Monster | Smaragdspinne_loc12_bossfight_summoned | 125 | 162 |  |
 | Monster | Smaragdspinne_klein_loc09 | 50 | 65 |  |
 | Monster | Smaragdspinne_klein_loc10 | 50 | 65 |  |
@@ -19,7 +19,7 @@ Multiplies current values: LE x1.3, AT/PA +2, MR +2, armour +1 for late enemies;
 | Monster | Wolfsratte_var2_loc09 | 100 | 130 |  |
 | Monster | Gruftassel_loc09 | 50 | 65 |  |
 | Monster | Gruftassel_loc12_bossfight_summoned | 88 | 114 |  |
-| Monster | gruftassel_boss_loc09 | 220 | 352 |  |
+| Monster | gruftassel_boss_loc09 | 330 | 528 |  |
 | Monster | Riesenskorpion_loc09 | 63 | 82 |  |
 | Monster | Riesenskorpion_loc12 | 63 | 82 |  |
 | Monster | Riesenskorpionl_loc12_bossfight_summoned | 63 | 82 |  |
@@ -59,8 +59,8 @@ Multiplies current values: LE x1.3, AT/PA +2, MR +2, armour +1 for late enemies;
 | NPC | Drachenkultist_mittel_loc12_clever_ranged | 63 | 82 |  |
 | NPC | Drachenkultist_mittel_loc12_clever_ranged_special | 63 | 82 |  |
 | NPC | Zwerg_Krieger_loc09_aldessia_handlanger | 75 | 98 |  |
-| NPC | Aldessia_feindlich | 160 | 288 |  |
-| NPC | Arombolosch_Wahnsinn | 313 | 501 | wound;overthrown |
+| NPC | Aldessia_feindlich | 240 | 432 |  |
+| NPC | Arombolosch_Wahnsinn | 469 | 750 | wound;overthrown |
 | NPC | Malgorra_loc12 | 313 | 626 | overthrown;stun |
 | NPC | Mantra_keh_01_loc12 | 150 | 195 |  |
 | NPC | Mantra_keh_01_loc12_portal_2_nah | 150 | 195 |  |
@@ -90,7 +90,7 @@ Multiplies current values: LE x1.3, AT/PA +2, MR +2, armour +1 for late enemies;
 | NPC | Mantra_keh_04_loc12_major_spellcaster | 250 | 325 |  |
 | NPC | Mantra_keh_04_loc12_major_mixed | 250 | 325 |  |
 | NPC | Mantra_keh_04_loc12_major_clever | 250 | 325 |  |
-| NPC | Oger_04_kraeftig_loc08_boss | 650 | 975 |  |
+| NPC | Oger_04_kraeftig_loc08_boss | 975 | 1462 |  |
 | NPC | Grolm_untot_loc10 | 125 | 162 |  |
 | NPC | Grolm_untot_loc10_Waffe | 125 | 162 |  |
 | NPC | Grolm_untot_loc10_geistspawn | 125 | 162 |  |
@@ -99,8 +99,8 @@ Multiplies current values: LE x1.3, AT/PA +2, MR +2, armour +1 for late enemies;
 | NPC | Grolm2_untot_loc10_geistspawn | 125 | 162 |  |
 | NPC | Wuehlschrat_loc09 | 63 | 82 |  |
 | NPC | Wuehlschrat_loc10 | 63 | 82 |  |
-| NPC | Zyklopenskelett_loc10 | 875 | 1225 |  |
-| NPC | Steingolem_loc09_aldessia | 350 | 455 |  |
+| NPC | Zyklopenskelett_loc10 | 1312 | 1837 |  |
+| NPC | Steingolem_loc09_aldessia | 525 | 682 |  |
 | NPC | Steingolem_loc10 | 250 | 325 |  |
 | NPC | Steingolem_loc12 | 250 | 325 |  |
 | NPC | Steingolem_loc12_bossfight_summoned | 250 | 325 |  |
@@ -112,5 +112,5 @@ Multiplies current values: LE x1.3, AT/PA +2, MR +2, armour +1 for late enemies;
 | NPC | Skelett_magier_loc12_bossfight_summoned_lighting | 75 | 98 |  |
 | NPC | Feuergeist_loc10 | 188 | 244 |  |
 | NPC | Feuergeist_02_loc11_variation | 63 | 82 |  |
-| MonsterLarge | Japhgur | 1500 | 1950 | largemonster;poison;wound;overthrown |
+| MonsterLarge | Japhgur | 2250 | 2925 | largemonster;poison;wound;overthrown |
 | MonsterLarge | loc12_finale_Malgorra_Monster | 1500 | 1950 |  |

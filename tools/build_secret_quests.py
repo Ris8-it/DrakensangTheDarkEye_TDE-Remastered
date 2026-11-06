@@ -7,7 +7,7 @@
 3. Wendelin Raunefuss, teller of rumours (Wagoner's Home, Ferdok): free hints to every secret in the pack.
 Usage: python -I tools/build_secret_quests.py "<game>/export/db/armory_backup" mods/secret_quests
 """
-import sys, os, shutil, sqlite3, tempfile
+import sys, os, shutil, sqlite3, tempfile, math
 sys.path.insert(0, os.path.dirname(__file__))
 from dsa import Mod
 from quests import Story, ACTSEL as A
@@ -48,7 +48,7 @@ RHULANA, FORGRIMM, GWENDALA = 'Rhulana', 'Forgrimm_Sohn_des_Ferolax', 'pc_gwenda
 # ---------------- quest items (made here; vanilla icons) ----------------
 from dsa import make_icon
 os.makedirs(os.path.join(out, 'icons'), exist_ok=True); ICONS = []
-def qitem(iid, base, name, desc, stack=1, art=None, quest='NONE'):
+def qitem(iid, base, name, desc, stack=1, art=None, quest='NONE', robable=0):
     key = art or iid[4:]                       # own icon file so Codex art can replace it mid-game
     custom = os.path.join(ROOT, 'assets', 'remastered_icons', f'arm_{key}.dds')
     dst = os.path.join(out, 'icons', f'arm_{key}.dds')
@@ -57,7 +57,7 @@ def qitem(iid, base, name, desc, stack=1, art=None, quest='NONE'):
         brush = m.s.execute('select IconBrush from _Template_Item where Id=?', (base,)).fetchone()[0]
         make_icon(os.path.join(ROOT, 'tools', 'research', 'out', 'icons_vanilla', brush.split('/')[-1] + '.dds'), dst, 'regular')
     if f'arm_{key}.dds' not in ICONS: ICONS.append(f'arm_{key}.dds')
-    m.template('Item', base, iid, name, desc, Value=0, MaxStackCount=stack, StackCount=1, Robable=0, QuestId=quest, CanDestroy=0, IconBrush=f'icons/arm_{key}')   # quest item (audit A6)
+    m.template('Item', base, iid, name, desc, Value=0, MaxStackCount=stack, StackCount=1, Robable=robable, QuestId=quest, CanDestroy=0, IconBrush=f'icons/arm_{key}')   # quest item (audit A6)
 qitem('arm_q_sigil', 'robable_glueksbringer', 'Crimson Sigil', quest='arm_q_crimson', desc=
       'A red iron seal worn by the duelists of the Crimson Circle. Master Klingenhand, outside the Golden Lance in Ferdok, wants them all.', stack=7)
 qitem('arm_q_ledger', 'loc02_lieferschein', "Klingenhand's Ledger", quest='arm_q_crimson', desc=
@@ -71,7 +71,7 @@ qitem('arm_q_ledger', 'loc02_lieferschein', "Klingenhand's Ledger", quest='arm_q
       "Ravena Blutfeder, the Crimson Master: waits where fire meets stone. You will know it when you get there.")
 PAGES = [  # page id, name, chest (Id, level), hint
     ('arm_q_page1', 'Codex Page I: Of Embers', ('jischka_tot_liegend', 'dungeon02_kanalisation'), 'in the sewers under Ferdok'),
-    ('arm_q_page2', 'Codex Page II: Of Ashes', ('loc03_truhe_burg', 'location03'), 'where robbers hoard what they steal'),
+    ('arm_q_page2', 'Codex Page II: Of Ashes', ('loc03_truhe_burg', 'location03'), 'in a locked chest by the ruins of the Blood Mountains'),
     ('arm_q_page3', 'Codex Page III: Of Bones', ('loc04_sarkophag_chest_1', 'dungeon04_gruft'), 'where the dead are buried with their secrets'),
     ('arm_q_page4', 'Codex Page IV: Of Dreams', ('skelett_tot_sitzend_loc05', 'dungeon05_burg'), 'in the vaults of an old castle'),
 ]
@@ -84,6 +84,21 @@ Q = 'arm_q_crimson'
 FENCE = 'MeleeAttack 6.0 0, Finte 3.0 0, GezielterStich 2.0 0, Todesstoss 1.0 0'
 HEAVY = 'MeleeAttack 6.0 0, Wuchtschlag 3.0 0, Niederwerfen 2.0 0, Hammerschlag 1.0 0'
 SABER = 'MeleeAttack 6.0 0, Finte 2.0 0, Klingensturm 2.0 0, Wuchtschlag 1.0 0'
+# Every human boss and crew fights with the full set its weapon allows (player, 3 Nov), casts Armatrutz on drawing, and brings a mage.
+# the strongest moves lead (player, 3 Nov): Stormblade, Mortal Blow, Roundhouse Blow, Strike of Wrath, where the weapon allows them
+MOVESET = {'TaDolche': 'MeleeAttack 2.0 0, Klingensturm 3.0 0, Todesstoss 3.0 0, GezielterStich 2.0 0, Finte 1.0 0',
+           'TaFechtwaffen': 'MeleeAttack 2.0 0, Klingensturm 3.0 0, Todesstoss 3.0 0, GezielterStich 2.0 0, Finte 1.0 0',
+           'TaSaebel': 'MeleeAttack 2.0 0, Klingensturm 4.0 0, Befreiungsschlag 3.0 0, Wuchtschlag 1.0 0, Niederwerfen 1.0 0',
+           'TaSchwerter': 'MeleeAttack 2.0 0, Klingensturm 3.0 0, Befreiungsschlag 3.0 0, GezielterStich 1.0 0, Wuchtschlag 1.0 0',
+           'TaSpeere': 'MeleeAttack 2.0 0, Todesstoss 3.0 0, GezielterStich 2.0 0, Umreissen 1.0 0, Finte 1.0 0',
+           'TaZwHiebwaffen': 'MeleeAttack 2.0 0, Hammerschlag 3.0 0, Befreiungsschlag 3.0 0, Niederwerfen 1.0 0, Wuchtschlag 1.0 0',
+           'TaHiebwaffen': 'MeleeAttack 2.0 0, Hammerschlag 3.0 0, Befreiungsschlag 3.0 0, Niederwerfen 1.0 0, Wuchtschlag 1.0 0'}
+def moves(wid):
+    r = sc.execute('select TaAttr from _Template_Weapon where Id=?', (wid,)).fetchone()
+    return MOVESET.get(r[0] if r else '', MOVESET['TaFechtwaffen'])
+HEXER = dict(AEmax=120, AE=120, ZaIgnifaxius=12, ZaFulminictus=12, ZaPlumbumbarum=10, ZaSomnigravis=10, ZaHorriphobus=10, ZaArmatrutz=10,
+             Behaviour='cast_always')   # no Paralysis: being turned to stone is no fun (player, 3 Nov)
+ARMATRUTZ = lambda who: f'CastSpell who="{who}" spellId="Armatrutz" target="{who}" zfpUnused="12" executeAfter="true" {A}'
 def stats(le, at, pa, rs, mr, att, xp, lvl, fk=0, aw=8):
     s = dict(LE=le, LEmax=le, LEmin=-10, AT=at, PA=pa, AW=aw, MR=mr, BasisXP=xp, Stufe=lvl, Behaviour='clever_fighter', ScriptPreset='', SetupEquipment='',
              **{k: rs for k in ('RSKo', 'RSBr', 'RSRu', 'RSBa', 'RSLA', 'RSRA', 'RSLB', 'RSRB')}, **dict(zip(('MU', 'KL', 'IN', 'CH', 'FF', 'GE', 'KO', 'KK'), att)))
@@ -98,14 +113,14 @@ DUELISTS = [  # key, display, clone, level, anchor, offset, gear [(id, lootable)
      [('arm_s_ashblade', 1)], stats(150, 18, 14, 4, 6, (15, 12, 12, 10, 14, 15, 15, 16), 18, 10), SABER, True, None,
      "Smell that? Ash. I burned a chapel of Praios with the priests inside, and the Circle paid me in gold for it. Klingenhand sent you, didn't he.",
      None, "Then let us see if you burn as well as they did!", 40, 'Ilgrim Ashblade', "Ilgrim Ashblade smells of ash and is fond of ruins. The ledger says no more."),
-    ('faelwen', 'Faelwen Duskarrow, Hunter of Elves', 'loc02_elfentrainer', 'location04', ('MarkerPoint', 'loc04_marker_baum'), (2.5, 0, 1.0),
-     [('arm_l_duskarrow', 1)], stats(150, 15, 12, 3, 9, (14, 13, 16, 12, 17, 17, 13, 13), 20, 11, fk=20, aw=10), 'MeleeAttack 5.0 0', False, GWENDALA,
-     "Quiet, now. I have been listening to you squelch through the marsh for an hour. Elves pay well to have other elves found. Humans pay better to have them lost.",
+    ('faelwen', 'Faelwen Duskarrow, Hunter of Elves', 'loc02_elfentrainer', 'location03', ('MarkerPoint', 'loc03_marker_raeuber_danos_goto'), (2.5, 0, 1.0),   # Moorbridge closes for good (player, 2 Nov)
+     [('arm_l_duskarrow', 1)], stats(150, 15, 12, 3, 9, (14, 13, 16, 12, 17, 17, 13, 13), 20, 11, fk=20, aw=10), 'Meisterschuetze 1.0 0', False, GWENDALA,   # Master Marksman only (3 Nov)
+     "Quiet, now. I have been listening to you crash through this forest for an hour. Elves pay well to have other elves found. Humans pay better to have them lost.",
      "Faelwen. Kin-slayer. The forest still sings the names of those you sold. Today it learns a new verse: yours.",
      "Run, then. I like it better when they run.", 50, 'Faelwen Duskarrow', "Faelwen Duskarrow, an elf who hunts elves, likes old trees and wet feet. He fights with a bow."),
-    ('wolfhart', 'Sir Wolfhart the Oathbreaker', 'Gundwein_L01', 'location05', ('MarkerPoint', 'marker_loc05_toter_mann_2'), (2.5, 0, 0),
+    ('wolfhart', 'Sir Wolfhart the Oathbreaker', 'Gundwein_L01', 'location08', ('MarkerPoint', 'Mapmarker_loc08_Tallon_Gruft'), (3.0, 0, 0),   # Grimmzahn closes for good (player, 2 Nov)
      [('arm_l_oathbreaker', 1), ('arm_s_oath_pavise', 1)], stats(220, 19, 17, 6, 7, (16, 12, 12, 13, 13, 14, 17, 18), 22, 13), HEAVY, True, None,
-     "These dead men served Grimmzahn. So did I, once. I swore on my sword to hold the gate. Then the orcs offered more than the Baron did.",
+     "The dead in this crypt keep better company than the living. I served Grimmzahn, once. I swore on my sword to hold the gate. Then the orcs offered more than the Baron did.",
      None, "Klingenhand's errand-runner. Come, then. I have broken better oaths than you.", 60, 'Sir Wolfhart the Oathbreaker',
      "Sir Wolfhart the Oathbreaker keeps company with the dead. Sword and shield."),
     ('sabeth', 'Sabeth Lionsbane, the Outcast', 'loc02_amazon_anfuehrerin', 'location08', ('MarkerPoint', 'loc08_questmarker_tatzelwurm_hoehle'), (3.0, 0, 0),
@@ -126,15 +141,54 @@ DUELISTS = [  # key, display, clone, level, anchor, offset, gear [(id, lootable)
      "Ravena Blutfeder, the Crimson Master, waits where fire meets stone."),
 ]
 PURSE = dict(jorgo=12, ilgrim=16, faelwen=20, wolfhart=35, sabeth=40, grimbart=20, ravena=20)   # ducats; gold where it can still be spent (audit C1)
+# Each duelist is the hardest human fight of their area (player, 2 Nov): more life, better attack and parry, spells for the casters,
+# an aura for the ash-burner, and two bodyguards who draw with them (Grimbart guards the Deeps alone, as his greeting says).
+FIERCE_CC = {'ilgrim': dict(AuraStatuseffect='burning'),
+             'faelwen': dict(AEmax=90, AE=90, ZaFulminictus=12, ZaArmatrutz=12),   # an elven hunter: lightning and Armatrutz (player, 2 Nov)
+             'ravena': dict(AEmax=150, AE=150, ZaIgnifaxius=14, ZaPlumbumbarum=12, ZaHorriphobus=10, ZaSomnigravis=10, ZaKulminatio=12)}
+GUARDS = {  # key -> (name, clone NPC, weapon, stats, attacks)
+    'jorgo': ('Harbour Bravo', 'Raeuber01_loc02_mr_pickpocket', 'Rapier', stats(110, 15, 13, 2, 4, (13, 11, 12, 10, 13, 14, 13, 13), 8, 7), FENCE),
+    'ilgrim': ('Ash Brother', 'loc02_roter_schlaechter_01', 'Saebel', stats(130, 16, 12, 3, 5, (14, 10, 11, 9, 12, 13, 14, 15), 9, 8), SABER),
+    'faelwen': ('Elf-Tracker', 'Raeuber03_loc02_milde_gabe_dieb_2', 'Speer', stats(130, 15, 12, 3, 6, (13, 11, 14, 10, 14, 15, 13, 13), 10, 9), 'MeleeAttack 6.0 0, Umreissen 2.0 0'),
+    'wolfhart': ('Grimmzahn Deserter', 'soldat_ferdok_04_loc02_trainer_praios_nahkampf', 'Langschwert', stats(170, 17, 14, 5, 6, (14, 10, 11, 10, 12, 13, 15, 16), 11, 11), HEAVY),
+    'sabeth': ('Outcast Amazon', 'loc02_amazon_anfuehrerin', 'Amazonensaebel', stats(180, 18, 14, 4, 6, (15, 11, 12, 11, 13, 15, 15, 15), 12, 12), SABER),
+    'ravena': ('Crimson Adept', 'loc02_trainer_praios_magie', 'Magierrapier', dict(stats(200, 18, 15, 4, 12, (15, 15, 14, 13, 15, 15, 14, 13), 14, 14),
+              AEmax=80, AE=80, ZaIgnifaxius=10, ZaFulminictus=8), FENCE),
+}
+HEXERS = ('jorgo', 'ilgrim', 'faelwen', 'wolfhart', 'sabeth')   # Ravena's guards are mages already; Grimbart fights alone
+GUARD_IDS = lambda key: ([f'arm_npc_cc_{key}_g{i}' for i in (1, 2)] if key in GUARDS else []) + ([f'arm_npc_cc_{key}_g3'] if key in HEXERS else [])
+lt_guard = st.loot_table('arm_lt_cc_guard', [('Money', 'Geld', 100, 600, 1), ('Item', 'zutat_s_edelsteine', 30, 1, 1)])
 for key, disp, clone, lvl, anchor, off, gear, sts, attacks, melee, comp, greet, comp_line, taunt, qxp, ttl, hint in DUELISTS:
     nid, did = f'arm_npc_cc_{key}', f'arm_dlg_cc_{key}'
+    sts = dict(sts, LE=int(sts['LE'] * 1.6), LEmax=int(sts['LEmax'] * 1.6), AT=sts['AT'] + 2, PA=sts['PA'] + 2, IsVictoryWorthy=1, **FIERCE_CC.get(key, {}))
+    if key in GUARDS:
+        gname, gclone, gweap, gsts, gatt = GUARDS[key]
+        for i, gid in enumerate(GUARD_IDS(key)):
+            if gid.endswith('_g3'):   # the group's mage, a step behind
+                st.npc(gid, 'Crimson Hexer', 'loc02_trainer_praios_magie', lvl, anchor, (off[0], off[1] + 1.0, off[2] - 2.5), park=True,
+                       SpecialAttackChances=MOVESET['TaFechtwaffen'], LootTable=lt_guard, **dict(gsts, **HEXER))
+                st.stock(gid, 'Weapon', 'Magierrapier', lootable=1)
+                continue
+            st.npc(gid, gname, gclone, lvl, anchor, (off[0] + (-1.8 if i else 1.8), off[1] + 1.0, off[2] + 2.0), park=True, SpecialAttackChances=moves(gweap),   # 1 m up (3 Nov)
+                   LootTable=lt_guard, **gsts)
+            st.stock(gid, 'Weapon', gweap, lootable=1)
     _pc = DUELIST_PIECES.get(key, []); _pc = [_pc] if isinstance(_pc, str) else _pc
     piece = [('Armor', x, 100, 1, 1) for x in _pc]   # heirloom-set pieces (armory v2.4/2.5)
-    lt = st.loot_table(f'arm_lt_cc_{key}', [('Money', 'Geld', 100, PURSE[key] * 100, 1), ('Item', 'zutat_s_edelsteine', 60, 2, 1), ('Item', 'zutat_s_blattgold', 50, 1, 1)] + piece)
+    extra = [('Ammo', 'arm_am_duskfeather', 100, 20, 1), ('Recipe', 'arm_rezept_am_duskfeather', 100, 1, 0)] if key == 'faelwen' else []   # his own arrows and their plan
+    lt = st.loot_table(f'arm_lt_cc_{key}', [('Money', 'Geld', 100, PURSE[key] * 100, 1), ('Item', 'zutat_s_edelsteine', 60, 2, 1), ('Item', 'zutat_s_blattgold', 50, 1, 1)] + piece + extra)
+    if melee: attacks = moves(gear[0][0])   # the full set of the duelist's own weapon
     st.npc(nid, disp, clone, lvl, anchor, off, park=True, SpecialAttackChances=attacks, LootTable=lt, **sts)   # parked until Klingenhand's job (after Moorbridge)
     for iid, loot in gear: st.stock(nid, cat(iid), iid, lootable=loot)
     st.stock(nid, 'Item', 'arm_q_sigil', lootable=1)
+    # Faelwen carries no arrows (3 Nov he had 40 unlootable Duskfeathers and neither his dropped arrows nor the plan reached the
+    # player, 6 Nov): vanilla archers carry none either and shoot anyway, and their loot table alone drops their ammo.
     draw = f'SetFaction faction="FaFeind" who="{nid}" executeAfter="true" {A}' + (f'EquipBestCloseRangeWeapon who="{nid}" executeAfter="true" {A}' if melee else '')
+    draw += ''.join(f'SetFaction faction="FaFeind" who="{g}" executeAfter="true" {A}EquipBestCloseRangeWeapon who="{g}" executeAfter="true" {A}' for g in GUARD_IDS(key))
+    draw += ''.join(ARMATRUTZ(x) for x in [nid] + GUARD_IDS(key))   # everyone hardens up as they draw
+    if key == 'faelwen':   # he calls two nature-spirit bears of the Dark Forest, one at each side, 5 m out (not on his head, 3 Nov)
+        for _j, _dx in ((1, 5.0), (2, -5.0)):
+            _pt = st.point(f'arm_npc_cc_faelwen_bear{_j}_entry', lvl, anchor, (off[0] + _dx, off[1] + 1.0, off[2] + 2.0))
+            draw += f'CreateEntity category="Monster" templateId="Baer_naturgeist" how="spawnAtEntity" entity="{_pt}" number="1" executeAfter="true" {A}'
     fight = ['r_fight', 'r_bye']
     takes = [dict(id='StartState', type='StartState', kids=(['t_greet_c'] if comp else []) + ['t_greet']),
              dict(id='t_greet', type='Take', kids=fight, text=greet),
@@ -166,7 +220,8 @@ HAS_ITEM = lambda cat, iid: f'HasAmount category="{cat}" templateId="{iid}" oper
 DESTROY = lambda cat, iid: (f'DestroyEntity category="{cat}" templateId="{iid}" count="1" storageGroup="PlayerParty" executeAfter="true" '
                             f'notInStorage="false" destroyDirectly="false" {A}')
 for did, (nid, lvl, anchor, off, hello) in KSPOTS.items():
-    st.npc(nid, 'Alrik Klingenhand, Retired Fencing Master', 'staedter_reich_m_01_loc02_haendler_graf_waffen', lvl, anchor, off, ScriptPreset='')
+    st.npc(nid, 'Alrik Klingenhand, Retired Fencing Master', 'staedter_reich_m_01_loc02_haendler_graf_waffen', lvl, anchor, off, ScriptPreset='',
+           turn=180 if lvl == 'location02_grafenstadt' else 0)   # at the Golden Lance he faced the wall (player, 2 Nov)
     HUB = ['r_early', 'r_story', 'r_where', 'r_sig3', 'r_sig7', 'r_sabeth', 'r_bye']
     st.dialog(did, nid, [
         dict(id='StartState', type='StartState', kids=['t_return', 't_first']),
@@ -181,7 +236,7 @@ for did, (nid, lvl, anchor, off, hello) in KSPOTS.items():
                   "swords to anyone who paid. My son challenged them to a friendly bout. It was not friendly. I am too old to hunt them. You are not. "
                   "Each of them wears a red iron sigil. Bring me all seven, and I will give you what I gave none of them: everything I know."),
         dict(id='r_accept', type='Response', kids=['t_accepted'], text='I will break the Crimson Circle.'),
-        dict(id='t_accepted', type='Take', kids=['r_bye'], act=GIVE('arm_q_ledger') + ''.join(st.arrive(f'arm_npc_cc_{d[0]}') for d in DUELISTS),
+        dict(id='t_accepted', type='Take', kids=['r_bye'], act=GIVE('arm_q_ledger') + ''.join(st.arrive(x) for d in DUELISTS for x in [f'arm_npc_cc_{d[0]}'] + GUARD_IDS(d[0])),
              text="Then take my ledger; it holds all I have heard of them. Start with Jorgo. He drinks in the harbour, where poor Ardo fell. "
                   "And mind Ravena, the last of them. I taught her everything, and she taught herself the rest."),
         dict(id='r_where', type='Response', kids=['t_where'], cond=[KANY('r_accept')] + KNONE('t_sig7'), text='Remind me where they are.'),
@@ -224,7 +279,9 @@ st.task(f'{Q}_final', 'Seven Sigils', 'All seven duelists are dead. Bring their 
 QC, RK = 'arm_q_codex', 'loc02_rakorium'
 BYE = '4d17e405-b426-4c21-83d2-a366d990b659'   # vanilla "Nothing, thank you."
 WRAITH = 'arm_npc_rk_echo'
-st.spawn_template(WRAITH, 'Echo of the Codex', 'npc_untoter_nekromant_loc08_gruft_boss', Faction='FaFeind', LEmax=260, LEmin=-10, AT=18, PA=14, MR=14,
+st.spawn_template(WRAITH, 'Echo of the Codex', 'npc_untoter_nekromant_loc08_gruft_boss', Faction='FaFeind', LEmax=450, LEmin=-10, AT=20, PA=16, MR=16,
+                  AEmax=180, AE=180, IsVictoryWorthy=1, ZaKulminatio=18, ZaPlumbumbarum=16, ZaCorpofrigo=18, ZaSomnigravis=14, ZaHorriphobus=12,
+                  SpecialAttackChances='MeleeAttack 3.0 0, Wuchtschlag 2.0 0, Klingensturm 2.0 0, Finte 2.0 0, Umreissen 1.0 0',   # vanilla typo '1.0.0' fixed
                   SetupStorage='Weapon/weapon_special_zauberstab/false/false;', SetupEquipment='', BasisXP=25, Stufe=15,
                   LootTable=st.loot_table('arm_lt_rk_echo', [('Money', 'Geld', 100, 5000, 1), ('Item', 'zutat_s_edelsteine', 100, 3, 1)]))
 PAGE_REWARD = {  # page -> (action, Rakorium's reaction)
@@ -241,12 +298,12 @@ rk_takes = [
     dict(id='arm_rk_r_codex', type='Response', kids=['arm_rk_t_offer'], cond=['!' + TA(RK, 'arm_rk_r_accept')], text='Master Rakorium, is there anything I could do for your research?'),
     dict(id='arm_rk_t_offer', type='Take', kids=['arm_rk_r_accept', 'arm_rk_r_later'],
          text="Research? Research! Yes! The Codex Pyrdaconis, the dream-book of the great dragon Pyrdacor himself, torn into four pages by a careless "
-              "Hesindian novice and scattered to the winds. One went down the sewers right here in Ferdok, I am sure of it. The others? Wherever robbers, "
+              "Hesindian novice and scattered to the winds. One went down the sewers right here in Ferdok, I am sure of it. The others? Wherever ruins, "
               "the dead and old stone walls keep things. You go everywhere, don't you? Bring them to me and I will prove, once and for all, that dragons "
               "dream. In verse!"),
     dict(id='arm_rk_r_accept', type='Response', kids=['arm_rk_t_accepted'], text='I will find your four pages, Master.'),
     dict(id='arm_rk_t_accepted', type='Take', kids=[BYE],
-         text="Splendid! Sewers, robbers, crypts, vaults. All the nice places. Bring each page as you find it; every chapter makes the next one easier to read."),
+         text="Splendid! Sewers, ruins, crypts, vaults. All the nice places. Bring each page as you find it; every chapter makes the next one easier to read."),
     dict(id='arm_rk_r_later', type='Response', kids=['arm_rk_t_later'], text='Perhaps another time.'),
     dict(id='arm_rk_t_later', type='Take', kids=[BYE], text="Another time, another time. Everything is another time with you young people."),
 ]
@@ -343,24 +400,59 @@ for wid, tp in FIRE:
                            "steel, and follow these marks at any forge. The blade will remember this flame for a thousand years.")]
 st.extend_dialog(PN, {'Last Greeting': [f'arm_pn_r_{tp}' for _, tp in FIRE]}, pn_takes)
 
+# ================= 6. THE DUSKBORN PACK (Tallon, review 2 Nov) =================
+# Ten black wolves, two lieutenants and Duskmane, the old pack-lord of the Rattelshof hills, on the road from Prancelot's goblin
+# ambush up to the Linnorm cave (the one Tallon fight nobody skips). Duskmane carries his pelt and the plan for the Silverpelt
+# Mantle (White Fur Mantle II). Offsets climb with the road (about 0.25 m up per metre east).
+DUSK_AT = ('SpawnPoint', 'loc08_enc_parzalon_goblins', 'EncounterName')    # first point (338.9, 7.4, 128.6)
+lt_dusk = st.loot_table('arm_lt_duskborn', [('Item', 'arm_tr_darkwolf_pelt', 40, 1, 1), ('Item', 'arm_tr_wolf_fang', 50, 1, 1)], picks=2)
+lt_lieut = st.loot_table('arm_lt_dusk_lieutenant', [('Item', 'arm_tr_darkwolf_pelt', 100, 2, 1), ('Item', 'arm_tr_wolf_fang', 100, 2, 1)], picks=2)
+lt_lord = st.loot_table('arm_lt_duskmane', [('Item', 'arm_rl_rattel_pelt', 100, 1, 1), ('Recipe', 'arm_rezept_wf_mantle2', 100, 1, 0),
+                                            ('Item', 'arm_tr_darkwolf_pelt', 100, 2, 1), ('Item', 'arm_tr_wolf_fang', 100, 2, 1)], picks=4)
+DUSKWOLF = dict(Faction='FaRaubtier', LEmin=-10, MR=6, **{k: 3 for k in ('RSKo', 'RSBr', 'RSRu', 'RSBa', 'RSLA', 'RSRA', 'RSLB', 'RSRB')})
+DUSK = [  # key, display, base, offset (east, up, north), stats
+    ('duskmane', 'Duskmane, Lord of the Rattelshof Pack', 'Wolf_03', (24.0, 4.0, 8.0),
+     dict(DUSKWOLF, LE=650, LEmax=650, PA=6, MR=14, BasisXP=60, Stufe=18, LootTable=lt_lord, FurriersLootTable='skin_wolf_groß',
+          Immunity='overthrown;unconscious;stun;wound', RSKo=5, RSBr=5, RSRu=5, RSBa=5, AT=23, AW=6, ATW6=3, ATW6plus=5, Behaviour='clever_fighter', IsVictoryWorthy=1)),
+    ('cinderjaw', 'Cinderjaw', 'Wolf_03', (21.0, 3.2, 11.0),
+     dict(DUSKWOLF, LE=240, LEmax=240, AT=19, PA=4, MR=10, BasisXP=30, Stufe=16, LootTable=lt_lieut, FurriersLootTable='skin_wolf_groß',
+          Immunity='overthrown;unconscious;stun;wound;burning;fire', RSBr=4, RSRu=4, ATW6=2, ATW6plus=5, AuraStatuseffect='burning', IsVictoryWorthy=1)),   # scorched muzzle: a fire aura
+    ('gloomfang', 'Gloomfang', 'Wolf_03', (21.0, 3.2, 5.0),
+     dict(DUSKWOLF, LE=240, LEmax=240, AT=19, PA=4, MR=10, BasisXP=30, Stufe=16, LootTable=lt_lieut, FurriersLootTable='skin_wolf_groß',
+          Immunity='overthrown;unconscious;stun;wound', RSBr=4, RSRu=4, ATW6=2, ATW6plus=5, AW=10, IsVictoryWorthy=1)),   # fades into the shadows: hard to hit
+] + [(f'duskborn_{i:02d}', 'Duskborn Wolf', 'Wolf_02', off,
+      dict(DUSKWOLF, LE=75, LEmax=75, AT=17, PA=2, BasisXP=8, Stufe=13, LootTable=lt_dusk, FurriersLootTable='skin_wolf_mittel', ATW6plus=4))
+     for i, off in enumerate([(17.0, 2.4, 6.0), (17.5, 2.5, 9.5), (18.5, 2.7, 12.5), (19.0, 2.8, 3.0), (20.0, 3.0, 8.0),
+                              (22.5, 3.5, 13.0), (23.0, 3.6, 3.5), (25.5, 4.2, 11.0), (26.0, 4.3, 5.5), (27.5, 4.6, 8.5)], 1)]
+DUSK_INFO = {'duskmane': 'Grey at the muzzle and black down the spine, the old lord of the Rattelshof pack. He has never once been in a hurry.',
+             'cinderjaw': 'A black wolf with a scorched muzzle and eyes like coals. It fights at its lord\'s right hand.',
+             'gloomfang': 'A lean black wolf that seems to fade into the shadows between the trees. It fights at its lord\'s left hand.'}
+for key, disp, base, off, over in DUSK:
+    st.monster(f'arm_mo_{key}', disp, base, 'location08', DUSK_AT, off, info=DUSK_INFO.get(key, 'A black wolf of the Rattelshof hills, big and quiet.'), **over)
+
 # ================= 5. THE MAD PACK (Dark Forest, review 1 Nov) =================
 # Alvina's wolves have gone moon-mad: 13 wolves, the alpha Greymaw and the white storm-wolf Stormhowl (lightning aura of the forest's
 # nature-spirit bears), placed together in the western woods of location03. Hard for chapter 2 on purpose. Their pelts, sinew, mane
-# and heartstone exist nowhere else; Hagen the goatherd gives the Moonhowl plans (armory_data_v25) once the pack is dead.
-QM, HG, HD = 'arm_q_madpack', 'arm_npc_hagen', 'arm_dlg_hagen'
+# and heartstone exist nowhere else. They are Alwene's wolves (their vanilla templates carry her name): Greymaw wears a witch's
+# charm, and Knowall, the witches' talking toad, takes it and passes on the witches' notes, the Moonhowl plans (player, 2 Nov:
+# no more goatherd). Greymaw's fang also belongs in Ulfried's Grand Collection (build_quest_avestrue.py).
+QM, KD = 'arm_q_madpack', 'Loc03AllwissDialog'
+KNOWALL_HUBS = ['b0b12ac0-c29e-4970-a2bb-94f0111e485c', '01e7ba34-9c92-4002-84f7-35f7c5812ed9']   # "You are friend of Knowall" / "Why did you come to Knowall?"
 PACK_AT = ('SpawnPoint', 'loc03_enc_random_26', 'EncounterName')   # first spawn point of a wild-woods encounter; offsets follow its other points
 MPELT, MSINEW = 'arm_tr_moonmad_pelt', 'arm_tr_moon_sinew'
 lt_pack = st.loot_table('arm_lt_madwolf', [('Item', MPELT, 70, 1, 1), ('Item', MSINEW, 50, 1, 1), ('Item', 'arm_tr_wolf_fang', 50, 1, 1)], picks=3)
-lt_alpha = st.loot_table('arm_lt_greymaw', [('Item', 'arm_tr_greymaw_mane', 100, 1, 1), ('Item', MPELT, 100, 2, 1), ('Item', MSINEW, 100, 3, 1),
-                                            ('Item', 'arm_tr_wolf_fang', 100, 2, 1)], picks=4)
+qitem('arm_q_wolf_charm', 'robable_glueksbringer', "Witch's Wolf-Charm", "Owl feathers and red thread, braided into the alpha's fur. The witches "
+      "of the Dark Forest tie these on the wolves they keep. Knowall, their talking toad, will know what it means.", quest=QM)
+lt_alpha = st.loot_table('arm_lt_greymaw', [('Item', 'arm_q_wolf_charm', 100, 1, 1), ('Item', 'arm_tr_greymaw_fang', 100, 1, 1), ('Item', 'arm_tr_greymaw_mane', 100, 1, 1), ('Item', MPELT, 100, 2, 1), ('Item', MSINEW, 100, 3, 1),
+                                            ('Item', 'arm_tr_wolf_fang', 100, 2, 1)])   # every entry drops
 lt_storm = st.loot_table('arm_lt_stormhowl', [('Item', 'arm_tr_storm_heart', 100, 1, 1), ('Item', MPELT, 100, 1, 1), ('Item', MSINEW, 100, 1, 1)], picks=3)
 WOLF = dict(Faction='FaRaubtier', LEmin=-10, PA=0, MR=4, **{k: 3 for k in ('RSKo', 'RSBr', 'RSRu', 'RSBa', 'RSLA', 'RSRA', 'RSLB', 'RSRB')})
 PACK = [  # key, display, base, offset, stats
     ('greymaw', 'Greymaw, the Mad Alpha', 'Wolf_03_loc03_alwene', (0.0, 0, 0.0),
-     dict(WOLF, LE=200, LEmax=200, AT=18, PA=4, MR=6, BasisXP=20, Stufe=13, LootTable=lt_alpha, FurriersLootTable='skin_wolf_groß',
-          Immunity='overthrown;unconscious;stun;wound', RSKo=4, RSBr=4, RSRu=4, RSBa=4)),
+     dict(WOLF, LE=320, LEmax=320, PA=4, MR=6, BasisXP=20, Stufe=13, LootTable=lt_alpha, FurriersLootTable='skin_wolf_groß',
+          Immunity='overthrown;unconscious;stun;wound', RSKo=4, RSBr=4, RSRu=4, RSBa=4, AT=20, ATW6=2, ATW6plus=5, AW=7, Behaviour='clever_fighter', IsVictoryWorthy=1)),
     ('stormhowl', 'Stormhowl', 'wolf_weiss_loc00z6', (-5.3, 0, 3.6),
-     dict(WOLF, LE=150, LEmax=150, AT=17, PA=2, MR=14, BasisXP=18, Stufe=12, LootTable=lt_storm, AuraStatuseffect='blitzDichFind',
+     dict(WOLF, LE=150, LEmax=150, AT=18, PA=2, MR=14, BasisXP=18, Stufe=12, LootTable=lt_storm, AuraStatuseffect='blitzDichFind', ATW6=2, ATW6plus=4, IsVictoryWorthy=1,
           Immunity='poison;overthrown;unconscious;stun;wound')),
 ] + [(f'madwolf_{i:02d}', 'Moon-mad Wolf' if i <= 9 else 'Moon-mad Hunter', 'Wolf_02_loc03_alwene' if i <= 9 else 'Wolf_03_loc03_alwene', off,
       dict(WOLF, LE=40 if i <= 9 else 55, LEmax=40 if i <= 9 else 55, AT=14 if i <= 9 else 16, BasisXP=4 if i <= 9 else 6, Stufe=8 if i <= 9 else 10,
@@ -370,45 +462,39 @@ PACK = [  # key, display, base, offset, stats
 INFO = {'greymaw': 'The alpha of the mad pack. Grey as iron, and it does not flinch from fire.',
         'stormhowl': 'A white wolf whose fur crackles like a coming storm. Lightning answers when it is struck.'}
 for key, disp, base, off, over in PACK:
-    st.monster(f'arm_mo_{key}', disp, base, 'location03', PACK_AT, off, info=INFO.get(key, 'A wolf with silver in its eyes. It does not run.'), **over)
+    st.monster(f'arm_mo_{key}', disp, base, 'location03', PACK_AT, (off[0], off[1] + 1.5, off[2]), info=INFO.get(key, 'A wolf with silver in its eyes. It does not run.'), **over)
 
-st.npc(HG, 'Hagen, Goatherd', 'Dorfbewohner_loc03_dunkelforst', 'location03', ('NPC', 'loc03_dunkelforst_haendlerin'), (2.5, 0, 2.0), ScriptPreset='')
 PLAN = lambda rid: f'CreateEntity category="Recipe" templateId="{rid}" how="spawnInStorage" entity="Hero" number="1" executeAfter="true" {A}'
 PACK_DEAD = ['IsDead who="arm_mo_greymaw"; ', 'IsDead who="arm_mo_stormhowl"; ']
-HH = ['r_story', 'r_done', 'r_bye']
-st.dialog(HD, HG, [
-    dict(id='StartState', type='StartState', kids=['t_return', 't_first']),
-    dict(id='t_first', type='Take', kids=HH,
-         text="You there, with the weapons! You look like you know which end to hold. Good. Somebody has to do something about the wolves."),
-    dict(id='t_return', type='Take', kids=HH, cond=[TA(HD, 't_first')], text="Any news from the western woods? I still hear them at night."),
-    dict(id='r_story', type='Response', kids=['t_story'], cond=['!' + TA(HD, 'r_accept')], text='What about the wolves?'),
-    dict(id='t_story', type='Take', kids=['r_accept', 'r_bye'],
-         text="Alvina's wolves. The witch who walks the woods keeps them the way I keep goats. This spring a storm came down on the western woods, "
-              "and something came with it. Now her wolves hunt as one pack, fifteen of them, eyes like coals, and they do not run from fire. "
-              "A big grey alpha leads them; we call him Greymaw. And with them runs a white one whose fur crackles like lightning. Stormhowl. "
-              "My goats are gone. My dog is gone. Next it will be a child. Kill the two leaders and the madness dies with them. I can pay, "
-              "and I know what those pelts are good for."),
-    dict(id='r_accept', type='Response', kids=['t_accepted'], text='I will hunt the mad pack.'),
-    dict(id='t_accepted', type='Take', kids=['r_bye'],
-         text="West, where the trees grow close and the old road gives up. Do not go tired and do not go alone. They hunt together, so should you."),
-    dict(id='r_done', type='Response', kids=['t_reward'], cond=[TA(HD, 'r_accept')] + PACK_DEAD + ['!' + TA(HD, 't_reward')],
-         text='Greymaw and Stormhowl are dead.'),
-    dict(id='t_reward', type='Take', kids=['r_bye'],
-         act=''.join(PLAN(f'arm_rezept_{k}') for k in ('mh_mantle', 'mh_jerkin', 'mh_breeches', 'mh_grips', 'mh_bow')) + GOLD(40),
-         text="I heard the howling stop last night and did not dare believe it. Thank you. Here: my grandmother was a trapper, and these are "
-              "her notes. Moon-mad pelt and sinew make leather no blade likes to bite and a bowstring that sings. Take them to any workbench. "
-              "And the purse. It is not much, but the goats would want you to have it."),
-    dict(id='r_bye', type='Response', text='Farewell, Hagen.'),
+KN = lambda take: f'TalkedAbout dialogId="{KD}" takeId="{take}"; '
+st.extend_dialog(KD, {h: ['arm_mp_r_charm', 'arm_mp_r_early'] for h in KNOWALL_HUBS}, [
+    dict(id='arm_mp_r_early', type='Response', kids=['arm_mp_t_early'], cond=['IsDead who="arm_mo_greymaw"; ', '!IsDead who="arm_mo_stormhowl"; ', '!' + KN('arm_mp_t_charm')],
+         text='I took this charm from a mad wolf.'),
+    dict(id='arm_mp_t_early', type='Take',
+         text="Croak! Mother's charm, from the grey one. But Knowall still hears the white one, crackle crackle, in the west. Storm in its fur. "
+              "Bring Knowall the charm when both are quiet. Croak."),
+    dict(id='arm_mp_r_charm', type='Response', kids=['arm_mp_t_charm'], cond=PACK_DEAD + [HAS('arm_q_wolf_charm', 1), '!' + KN('arm_mp_t_charm')],
+         text='I found this charm in the fur of a mad wolf. The pack is dead.'),
+    dict(id='arm_mp_t_charm', type='Take',
+         act=TAKE('Loc03_Allwiss', 'arm_q_wolf_charm', 1) + ''.join(PLAN(f'arm_rezept_{k}') for k in ('mh_mantle', 'mh_jerkin', 'mh_breeches', 'mh_grips', 'mh_bow', 'tl_wolf2')) + XP(60),
+         text="Croak... Mother Alwene's charm. Storm came down on the western woods and the wolves went bad, bad, eyes like coals. Knowall could not "
+              "help. You helped. Mother left skins-and-sinew notes with Knowall for whoever ends it. Moon-mad pelt makes leather no blade bites, "
+              "sinew makes a string that sings. Take, take. Knowall is thankful, croak, croak."),
 ])
-st.task(QM, 'The Mad Pack', "Hagen, a goatherd in the Dark Forest, says Alvina's wolves have gone mad and hunt as one pack in the western woods. "
-        "He wants their leaders dead: the grey alpha Greymaw and the white wolf Stormhowl.", "The mad pack is dead. Hagen gave me his grandmother's trapper notes.",
-        open_cond=[TA(HD, 'r_accept')], close_cond=[TDONE(f'{QM}_return', QM)])
+st.task(QM, 'The Mad Pack', "The witches of the Dark Forest keep wolves, and something has driven them mad: they hunt as one pack in the western "
+        "woods, led by the grey alpha Greymaw and the white wolf Stormhowl. The grey one wore a witch's charm. Knowall, the witches' talking toad, "
+        "will know what it means.", "The mad pack is dead. Knowall gave me the witches' notes on moon-mad pelt and sinew.",
+        open_cond=['IsDead who="arm_mo_greymaw"; '], close_cond=[TDONE(f'{QM}_return', QM)])   # opens with the alpha's death
 st.task(f'{QM}_hunt', 'Greymaw and Stormhowl', 'Kill the two leaders of the mad pack in the western woods. The rest of the pack will not stand aside.',
         'Greymaw and Stormhowl are dead.', parent=QM, state='unlocked', close_cond=PACK_DEAD, close_act=XP(40), target='arm_mo_greymaw')
-st.task(f'{QM}_return', 'Back to Hagen', 'Tell Hagen the goatherd that the pack is broken.', 'I told Hagen.', parent=QM,
-        open_cond=[TDONE(f'{QM}_hunt', QM)], close_cond=[TA(HD, 't_reward')], close_act=XP(60), target=HG)
+st.task(f'{QM}_return', "The Witch's Charm", "Bring the witch's charm to Knowall, the witches' talking toad.", 'I gave Knowall the charm.', parent=QM,
+        open_cond=[TDONE(f'{QM}_hunt', QM)], close_cond=[KN('arm_mp_t_charm')], close_act=XP(40), target='Loc03_Allwiss')
+
+# 7. the Thieves' Guild lives in its own file (shares this namespace)
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'secret_guild.py'), encoding='utf-8').read())
 
 m.write(out)
 open(os.path.join(out, 'icons', 'files.txt'), 'w').write('\n'.join(ICONS) + '\n')
 sc.close(); shutil.rmtree(snap, ignore_errors=True)
+for _l in getattr(m, 'ground_log', []): print('  ground:', _l)
 print('ok static', len(m.static), 'game', len(m.game), 'texts', len(m.locale))

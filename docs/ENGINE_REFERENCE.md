@@ -173,7 +173,7 @@ Phase 0 (2026-10-28) and 0b (reported 2026-10-28/30). "Proven" = observed in-gam
 - Never set somnigravis/horriphobus/other spell states. Creatable: wound, burning, poison_weapon, overthrown, corpofrigo, stun, blitzDichFind + any custom scripted status.
 - Status-effect scripts: no If without Else.
 - Named enemies' carried storage is probably equipment, not loot (cultists carry a cleaver but drop daggers from `LootTable`). Put boss rewards in the NPC's `loot_unique_*` table.
-- Loot tables: `LootTableValue` = number of entries drawn; to guarantee an added entry raise it to (entries incl. ours). Value 0 tables roll each entry.
+- Loot tables: `LootTableValue` = number of entries drawn; to guarantee an added entry raise it to (entries incl. ours). **Value 0 does NOT roll every entry** (Marsh Pearl and Crab Shell Plate never dropped, 2 Nov): the builders now always set it to the entry count.
 - Native recipes consume Weapon/Armor/Shield ingredients (`Weapon/Langbogen/1`); jewelry ingredients untested.
 - Item text: vanilla uses literal `
 `; keep descriptions compact (lore + bonuses + procs).
@@ -208,6 +208,11 @@ Phase 0 (2026-10-28) and 0b (reported 2026-10-28/30). "Proven" = observed in-gam
 - Loot tables may hand out plans: `Recipe/<id>/100/1/0/;` (vanilla `rob_unique_alwene`). Dialog can too:
   `CreateEntity category="Recipe" templateId="..." how="spawnInStorage" entity="Hero"`.
 - A chest with a `LootTable` has no explicit storage: `m.place(... 'chest' ...)` fails on it; add to its loot table instead.
+- (6 Nov, from the save) Pick count = entry count does roll every entry: Greymaw 6/6, Ashpelt, Stormhowl, Oracle 3/3, Ronkwer 2/2
+  all delivered every 100 % entry. Value-0 plans drop from an NPC corpse (Da Vanya's Sunward Helm plan learned).
+- Vanilla archers (cultists, orcs, goblins, Praiots, zombies) carry NO ammo and shoot anyway; their ammo drop is only in the loot
+  table. Faelwen carried 40 unlootable `arm_am_duskfeather` and his 100 % table drop of the same ammo (and his plan) never arrived:
+  never give an NPC carried ammo of the id its table drops (inferred, the plan's loss is unexplained).
 
 **Tools**
 - `CanDestroy` decides whether a quick-slot tool is used up: Hair pin (1) breaks, Locksmith knife `special_kleinesmesser` (0) is
@@ -234,3 +239,27 @@ Phase 0 (2026-10-28) and 0b (reported 2026-10-28/30). "Proven" = observed in-gam
 - Save columns are typed. Never write Python `bytes` into a TEXT column (sqlite stores a BLOB that never equals the text again):
   read with a cp1252 text factory, or cast afterwards. `save_doctor.py check` finds both problems.
 - A save is rewritten by the game on every save/autosave: edit only with the game closed, and re-check which save is newest.
+- (2 Nov, hypothesis under test) After saves were edited with Python's modern SQLite, the game sometimes failed to load them with
+  `Sqlite3Dataset::PerformQuery ... SELECT "TakeId","TakeStatus" FROM _Story_DialogTakeStatus / SQL logic error or missing database`,
+  although every row read fine with SQLite 3.6.1 and integrity_check was ok. Remedy applied: rewrite the save with the bundled
+  `tools/bin/sqlite3.exe` (`vacuum`); both save tools now end with that. If it recurs, bisect with the `.before_*` backups.
+- **Cloned NPCs must not keep the source's `Groups`** (2 Nov): the Dark Eye gang cloned from the sleeping Dark Eyes kept `loc02_schwarzaugen_lagerhaus`, was not in `_DSA_GroupTable`, and the game asserted (`HasTableGuid(groupName, ...)`, groupmanager.cc 409) after closing Cano's shop. `quests.npc()`/`monster()` now clear it.
+- **Clones keep `IsSitting` and the saved pose** (3 Nov): Faelwen, cloned from the bench-sitting Ferdok elf trainer, sat in mid-air and could not fight (soft lock). `quests.npc()` clears `IsSitting` and sets `LastBaseAnimation` Idle.
+- **Moved NPCs walk back to their old home** (`RoamingBasePosition`, 3 floats): after moving Faelwen from Moorbridge he walked to his old coordinates in the Dark Forest. `sync_save_world.py` resets the home to the entry. Spawned monsters land on their target entity: use `Story.point()` spots, not the boss himself.
+- **Quick-slot tokens need the `Game::` class prefix** (3 Nov): the old class mod left `SpellQuickSlot=FlimFlamFunkel=1` on the Elven Fighter (archetype_EL_KA_M/W); creating that character asserted in quickslotproperty.cc 250. build_remastered.py restores the prefix on every PC/CharWizard template.
+- **Spells are not talents** (3 Nov): `HasTalent attribute="AttributoKK"` asserts "TalentManager::GetInfo(AttributoKK): talent not found". No vanilla condition reads a spell value (the full condition list has none), so scripts cannot scale with spell skill.
+- **Spell hooks found in the exe strings** (3 Nov, read only, untested): `CanActivateTalent talent=` accepts talent, spell OR attack ids (checks the selection leader; asserts if none). `CastSpell` params: `who spellId target zfpUnused modifier fakeOnly track executeAfter`; vanilla's unused `chargeble_attributoch.xml` casts AttributoCH with zfpUnused 2 (cut "charged item" feature: `HasCharge`, `CreateChargedItemQuickslot`). The `Best...Entity` tokens are a fixed list (BestAttrXXEntity, BestTa<talent>Entity incl. BestTaMagiekundeEntity), none for spells. Spell modifier rules (`ZaModMax`): `Level`, `ArmatrutzSpecial`, `TlalucusSpecial`, `0`. The 8 `attributoXX` statuses have no `_Scripts_StatusEffectScripts` row. Modifier strings take fixed numbers only, but spell values are attributes (`ZaAttributoKK +2` works like vanilla `ZaHorriphobus +2`). The game folder's d3d9.dll is DXVK.
+- **Attributo lab results** (player-tested 3 Nov, 5 casts each):
+  - **ZaP1-3 = 'LEmax'** (probe against Life max): **works**. The dice never eat spell points, so the spell always lands at its best for the spell value, and it grows when the value is raised. This is the reliability fix.
+  - **ZaDuration** works (20 min / 1 h observed). **ZaVal3 does nothing**: still +1 base with ZaVal3=2. A fixed-power cast with zfpUnused 9 gave +4 = 9/3+1.
+  - **ZaModMax='Level'** on Attributo: the slider appears and its cost/level changes, but the bonus ignores it. The Attributo code does not read the modifier.
+  - **ZaTargetType='Area'** on Attributo: **CRASH** when clicking the ground, NEBULA ASSERTION `msg->HasSpellTargetEntity()` (magicproperty.cc 531).
+  - **CastSpell from a quick-slot item** (`who/target=ActingEntity zfpUnused=N`): **works**. It casts at once, only for a bearer who knows the spell, and spends that hero's AE.
+  - **Clarity status (+20 to the probe attributes) followed by CastSpell or a hand cast**: best result every time. It proves the probe theory.
+  - Potion-base items with CanDestroy 0 are **not consumed** on use, so the CreateEntity "give it back" line duplicates them.
+  - The `SetStatusEffect` +20 statuses stack.
+  - The KK aura talisman (CanActivateTalent gate + permanent SetStatusEffect) did nothing.
+  - Several `CastSpell` actions in one script **replace each other**: only the last one runs, like a click without Ctrl. `executeAfter` means "after the dialogue ends", not a queue.
+  - `CastSpell` inside a `RunActionScriptInRadius` script did nothing.
+  - **Party-wide cast: PROVEN** (3 Nov). The item gives the bearer a short status whose trigger block runs: `CastSpell spellId=.. target="Hero"` (no who) + `WaitAction 4`, then for each companion name `If IsPartyMember who=X` (cast + wait) `Else` (WaitAction 0.1). The bearer casts on each party member in turn: one cast each, real spell value and AE.
+  - `who="StatusEffectEntity"` in a status trigger script: **CRASH** (`statusEffectEntity hasn't been set`, tokenmanager.cc 222). Leave `who` out; the action then works on the bearer.

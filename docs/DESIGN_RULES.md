@@ -84,7 +84,12 @@ All wolf plans are sold only by Crooked Otto (Count's Town). Older plans swap on
 - Unique beasts and bosses are wound-immune, have high magic resistance (willpower), +1-2 armour and a life pool matching their
   story weight (`tools/beasts_data.py`; the pack's own legends +30 % life). Hard Ending scales on top of these values.
 
-## 7. Icons
+## 7. Abilities
+
+- Light-fighter and thrower abilities ask for the attributes those builds have (Courage low, no Strength for throws); the
+  old class mod's walls are lowered in `build_remastered.py` (ABILITIES). Tooltip "Requires:" lines are generated, never typed.
+
+## 8. Icons
 
 - Painted, slightly desaturated, warm light from the upper left, soft dark shadow; judged at 128 px on parchment.
 - Tier glow added by the pipeline (blue amazing, violet superrare, gold legendary, subtle red mythic); sheets are split and re-glowed.

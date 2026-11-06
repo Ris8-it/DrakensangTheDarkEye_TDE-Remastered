@@ -84,6 +84,11 @@ for (c,) in s.execute('select ConditionContent from _Story_TaskCloseConditions u
     for m in re.finditer(r'IsDead who="(arm_[^"]+)"', c or ''):
         if m.group(1) not in placed: fail.append(f'IsDead target not placed: {m.group(1)}'); refs += 1
 print(f'4. references checked ({refs} broken)')
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import ground   # every placed pack monster/NPC/entry on the ground of its level (6 Nov: Grimtusk stood off the map)
+_off = ground.check(os.path.join(TEST, 'game.db4'))
+if _off: fail.append(f'{_off} placed pack entities off the ground or off the map')
+print(f'4b. placements on the ground ({_off} off)')
 
 if '--spoilers' in sys.argv:
     subprocess.run([sys.executable, '-I', os.path.join(os.path.dirname(__file__), 'spoiler_scan.py'), TEST, BASE])

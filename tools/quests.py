@@ -126,12 +126,12 @@ class Story:
         return tg
 
     # ---------- NPCs ----------
-    def npc(self, nid, display, clone, level, anchor, offset=(0.0, 0.0, 0.0), merchant=False, park=False, **over):
+    def npc(self, nid, display, clone, level, anchor, offset=(0.0, 0.0, 0.0), merchant=False, park=False, turn=0, **over):
         """Clone an existing NPC (template + instance; `clone` = instance Id or Name) as a new character placed at
         `anchor` = (instance table, Name) in `level`, e.g. ('NPC', 'Jaeger_Kauzenstein') or ('MarkerPoint', 'Loc03_Marker_Burg'), plus `offset` metres.
         `over`: columns set on both template and instance (stats, Behaviour, LootTable, ...).
         park=True: the NPC (and its stock) starts in the '_graveyard_' level, like vanilla's parked characters, and an entry point
-        '<nid>_entry' marks its real spot; bring it in with arrive(nid)."""
+        '<nid>_entry' marks its real spot; bring it in with arrive(nid). turn = degrees about the vertical axis (180: face the other way)."""
         m = self.m
         src = m.g.execute('select * from _Instance_NPC where (Id=? or Name=?) and _Level=? order by rowid', (clone, clone, level)).fetchone() \
             or m.g.execute('select * from _Instance_NPC where Id=? or Name=? order by rowid', (clone, clone)).fetchone()
@@ -142,11 +142,22 @@ class Story:
         a = self._anchor(anchor, level)
         assert a, (anchor, level)
         mat = list(struct.unpack('<16f', a)); mat[12] += offset[0]; mat[13] += offset[1]; mat[14] += offset[2]
+        self._ground(level, mat, nid)
+        if turn:
+            import math
+            co, si = math.cos(math.radians(turn)), math.sin(math.radians(turn))
+            x, z = mat[0:3], mat[8:11]
+            mat[0:3] = [co * x[i] - si * z[i] for i in range(3)]; mat[8:11] = [si * x[i] + co * z[i] for i in range(3)]
         row = dict(src)
         row.update(Guid=U(self.ns, 'npc', nid).bytes, _ID=f'|Level|Objects|NPC|{nid}', _Level=level, Id=nid, Name=nid, LookAtText=f'lookat_{nid}',
                    Transform=struct.pack('<16f', *mat), StorageContentCount=0, CanRob=0, StolenGoodsTable='', Faction='FaAllFriendly', CanTalk=1,
                    BaseActionScript='', BaseAction='', CurrAction='v*;2;false;false;')   # idle: the clone's routine/saved action (patrol paths of its home level) crashes elsewhere
         tmpl['BaseActionScript'] = ''
+        if 'Groups' in row: row['Groups'] = ''   # never inherit the clone's script group: it is not in _DSA_GroupTable and the game asserts (2 Nov)
+        for k in ('IsSitting',):   # a bench-sitter's clone sits in mid-air and cannot fight (Faelwen, 3 Nov)
+            if k in row: row[k] = 0
+            if k in tmpl: tmpl[k] = 0
+        if 'LastBaseAnimation' in row: row['LastBaseAnimation'] = 'Idle'
         if merchant: row.update(RetailFactor=1.0, PurchaseFactor=0.5)
         for k, v in over.items():
             assert k in row or k in tmpl, (nid, k)
@@ -170,10 +181,34 @@ class Story:
         m._npc_rows = getattr(m, '_npc_rows', {}); m._npc_rows[nid] = (row['Guid'], row['_Level'])
         return row['Guid']
 
+    def point(self, name, level, anchor, offset=(0.0, 0.0, 0.0)):
+        """A named spot (an object entry point) for CreateEntity how="spawnAtEntity": spawns land there instead of on someone's head."""
+        m = self.m
+        donor = m.g.execute("select * from _Instance_Entry where _Level=? and Id='EntryPortalObject' order by rowid", (level,)).fetchone()             or m.g.execute("select * from _Instance_Entry where Id='EntryPortalObject' order by rowid").fetchone()
+        mat = list(struct.unpack('<16f', self._anchor(anchor, level))); mat[12] += offset[0]; mat[13] += offset[1]; mat[14] += offset[2]
+        self._ground(level, mat, name)
+        ent = dict(donor)
+        ent.update(Guid=U(self.ns, 'point', name).bytes, _ID=f'|Level|Objects|Entry|{name}', _Level=level, Name=name, Transform=struct.pack('<16f', *mat))
+        m.game += [f"DELETE FROM _Instance_Entry WHERE Guid={lit(ent['Guid'])};", insert('_Instance_Entry', ent)]
+        m.undo_game.insert(0, f"DELETE FROM _Instance_Entry WHERE Guid={lit(ent['Guid'])};")
+        return name
+
     def arrive(self, nid):
         """Dialog/task action that moves a parked NPC (npc(park=True)) from '_graveyard_' to its entry point."""
         level, ename = self.m._arrivals[nid]
         return f'TransferEntity entity="{nid}" location="{level}" entryPoint="{ename}" track="0" {ACTSEL}'
+
+    def _ground(self, level, mat, what):
+        """Put a placement on the ground of its level (tools/ground.py: kept when it stands within vanilla's spread, moved onto the
+        nearest walk node when it floats or is buried, build error when it is off the map). No archives -> left as given."""
+        import ground
+        nm = self.m.g.execute('select NavMesh from _Instance_Levels where Id=?', (level,)).fetchone()
+        grid = ground.nav(level, nm[0] if nm else '')
+        if grid is None: return
+        state, pos, note = ground.judge(grid, mat[12], mat[13], mat[14])
+        assert state != 'fail', f'{what} in {level}: {note}'
+        if state == 'fix': mat[12], mat[13], mat[14] = pos
+        if state != 'ok': self.m.ground_log = getattr(self.m, 'ground_log', []) + [f'{state} {what} ({level}): {note}']
 
     def _anchor(self, anchor, level):
         """anchor = (instance table, value[, column='Name']) -> Transform blob."""
@@ -195,9 +230,11 @@ class Story:
         donor = m.g.execute('select * from _Instance_Monster where Id=? order by rowid', (base,)).fetchone() or m.g.execute('select * from _Instance_Monster order by rowid').fetchone()
         donor = dict(donor)
         mat = list(struct.unpack('<16f', self._anchor(anchor, level))); mat[12] += offset[0]; mat[13] += offset[1]; mat[14] += offset[2]
+        self._ground(level, mat, mid)
         row = {c: tmpl.get(c, donor[c]) for c in donor}
         row.update(Guid=U(self.ns, 'monster', mid).bytes, _ID=donor['_ID'].rsplit('|', 1)[0] + '|' + mid, _Level=level, _Layers=donor['_Layers'],
                    Transform=struct.pack('<16f', *mat))
+        if 'Groups' in row: row['Groups'] = ''
         m.game += [f"DELETE FROM _Instance_Monster WHERE Guid={lit(row['Guid'])};", insert('_Instance_Monster', row)]
         m.undo_game.insert(0, f"DELETE FROM _Instance_Monster WHERE Guid={lit(row['Guid'])};")
         m.text(f'lookat_{mid}', display)
@@ -243,12 +280,13 @@ class Story:
         assert r, (typ, iid)
         return dict(r)
 
-    def loot_table(self, name, entries, picks=0):
+    def loot_table(self, name, entries, picks=None):
         """New loot table. entries: (Type, Id, chance%, amount, value) like vanilla ('Money/Geld/100/200/1/;' = 200 heller).
-        picks 0 = every entry rolls on its own chance."""
+        picks = LootTableValue, the number of entries drawn; default every entry (each then rolls its own chance).
+        Never 0: a value-0 table does not roll every entry (Marsh Pearl and Crab Shell Plate never dropped, 2 Nov)."""
         m = self.m
         content = ''.join(f'{t}/{i}/{c}/{n}/{v}/;' for t, i, c, n, v in entries)
         m.static += [f"DELETE FROM _DSA_LootTables WHERE LootTableName={lit(name)};",
-                     insert('_DSA_LootTables', dict(LootTableName=name, LootTableValue=str(picks), LootTableContent=content))]
+                     insert('_DSA_LootTables', dict(LootTableName=name, LootTableValue=str(picks or len(entries)), LootTableContent=content))]
         m.undo_static.append(f"DELETE FROM _DSA_LootTables WHERE LootTableName={lit(name)};")
         return name

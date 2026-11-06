@@ -12,7 +12,7 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | **Ember Hatchet** | Weapon (Beil) | 8% on hit: Burning | Avestrue, old mill: chest `truhe_kreatur_maultier_01_loc01` | Smithing 5 |  | armory_icons_v2 |
 | **Amazon's Practice Saber** | Weapon (Saebel) | — | Avestrue: sold by `bredo_bento_loc01`<br>Ferdok, Praios Square: sold by `Haendler_3_loc02_haendler_praios_waffen` |  |  | armory_icons_v2 |
 | **Cudgel of the Watch** | Weapon (Knueppel) | 12% on hit: Stun | Ferdok, sewers: chest `jischka_tot_liegend` |  |  | armory_icons_v2 |
-| **Keen Hunting Bow** | Weapon (Kurzbogen) | On hit: +1 damage | Avestrue: sold by `Jaeger_Kauzenstein`<br>Ferdok, Praios Square: sold by `Jaeger_Kauzenstein_loc02_trainer_praios_bogen` |  |  | armory_icons_v2 |
+| **Keen Hunting Bow** | Weapon (Kurzbogen) | — | Avestrue: sold by `Jaeger_Kauzenstein`<br>Ferdok, Praios Square: sold by `Jaeger_Kauzenstein_loc02_trainer_praios_bogen` |  |  | armory_icons_v2 |
 | **Notched Battle Axe** | Weapon (Streitaxt) | 5% on hit: Wound | Ferdok, Wagoner's Home: chest `loc02_kiste_milde_gabe_beute` |  |  | armory_icons_v2 |
 | **Balanced Longsword** | Weapon (Langschwert) | — | Ferdok, Praios Square: sold by `Haendler_3_loc02_haendler_praios_waffen` |  |  | armory_icons_v2 |
 | **Viper's Kiss** | Weapon (Dolch) | 12% on hit: Poison | Ferdok, Thieves' Guild: chest `loc02_diebespacour_truhe_14` |  |  | armory_icons_v2 |
@@ -22,7 +22,7 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | **Boar Spear** | Weapon (Speer) | 12% on hit: Knockdown | Moorbridge: chest `loc04_steinknopf_chest` |  |  | armory_icons_v2 |
 | **Balanced Throwing Knives** | Weapon (Wurfdolch) | On hit: +1 damage | Ferdok, Praios Square: sold by `Raeuber03_loc02_dieb_haendler` |  |  | armory_icons_v2 |
 | **Icicle Foil** | Weapon (Florett) | 8% on hit: Cold Shock (Corpofrigo) | Blood Mountains: chest `loc03_truhe_danor` |  |  | armory_icons_v2 |
-| **Owlstone's Hunting Cap** | Armor (hut_jaeger) | Animal Lore +3 | Avestrue: sold by `Jaeger_Kauzenstein`<br>Ferdok, Praios Square: sold by `Jaeger_Kauzenstein_loc02_trainer_praios_bogen` |  | PeSkinningKnife | armory_icons_v2 |
+| **Owlstone's Hunting Cap** | Armor (hut_jaeger) | Animal Lore +2 | Avestrue: sold by `Jaeger_Kauzenstein`<br>Ferdok, Praios Square: sold by `Jaeger_Kauzenstein_loc02_trainer_praios_bogen` |  | PeArmRHuntersCap | armory_icons_v2 |
 | **Avestrue Gambeson** | Armor (torso_wattierter_waffenrock) | — | Avestrue: chest `truhe_kreatur_doerfler_01_loc01` |  |  | armory_icons_v2 |
 | **Thief's Soft Boots** | Armor (schuhe_horasischer_einbrecher) | Pick Pocket +2 | Ferdok, Thieves' Guild: sold by `Cuano`<br>Ferdok, Thieves' Guild: sold by `Cuano_var_nach_loc05` |  | PeTaschendieb1 | armory_icons_v2 |
 | **Herbalist's Gloves** | Armor (handschuhe_tulamide_alchemist) | Alchemy +3 | Ferdok, Count's Town: sold by `Peraine_Priesterin_01_loc02_haendler_graf_kraeuter` |  | PeAlchimie3 | armory_icons_v2 |
@@ -34,18 +34,18 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | **Ring of the Small Astral Spring** | Jewelry (Silberring) | AE +5 | Ferdok, Count's Town: sold by `Auralia_loc02_alchimistin_auralia` |  | PeArmRAstralSpring | armory_icons_v2 |
 | **Amulet of Travia's Hearth** | Jewelry (Silberkette) | LE +2, Treat Wounds +1 | Avestrue: chest `truhe_01_loc01_avesschrein` |  | PeArmRHearthAmulet | armory_icons_v2 |
 | **Ring of Phex's Fingers** | Jewelry (Silberring) | Dexterity +1, Pick Locks +2 | Ferdok, Thieves' Guild: chest `loc02_diebespacour_truhe_10` |  | PeFF1;PeArmRPhexRing | armory_icons_v2 |
-| **Wanderer's Ring of Aves** | Jewelry (Silberring) | Survival +3, Plant Lore +2 | Avestrue: chest `truhe_01_loc01_avesschrein` |  | PeArmRAvesRing | armory_icons_v2 |
+| **Wanderer's Ring of Aves** | Jewelry (Silberring) | AU +5 | Avestrue: chest `truhe_01_loc01_avesschrein` |  | PeArmRAvesRing | armory_icons_v2 |
 | **Watchman's Shield** | Shield (Holzschild_02) | — | Ferdok, Count's Town: sold by `staedter_reich_m_01_loc02_haendler_graf_waffen`<br>Ferdok, Count's Town: sold by `staedter_reich_m_01_loc02_haendler_graf_waffen_nach_loc05` |  |  | armory_icons_v2 |
 | **Hjaldinger Round Shield** | Shield (Thorwaler_Rundschild) | AU +10 | Blood Mountains: chest `loc03_truhe_guthof` |  | PeAU10 | armory_icons_v2 |
 | **Spellguard Buckler** | Shield (Buckler) | AE +5 | Ferdok, Thieves' Guild: sold by `Cuano`<br>Ferdok, Thieves' Guild: sold by `Cuano_var_nach_loc05` |  | PeArmRSpellguard | armory_icons_v2 |
 | **Artisan's Band** | Jewelry (Silberring) | Blacksmith +2, Bowyer +2, Alchemy +2 | Ferdok, Count's Town: sold by `Zwerg_Handwerker_loc02_trainer_graf_schmied`<br>Tallon: sold by `Handwerkerin_1_loc08_haendler_handwerk` |  | PeArmRArtisanBand | armory_icons_v2 |
 | **Holdwin's Splitting Maul** | Weapon (Kriegshammer) | 8% on hit: Knockdown | crafted only |  |  | armory_icons_v2 |
 
-## Amazing (76)
+## Amazing (80)
 
 | Item | Type | Effects | Where | Craft | Effects ids | Icon |
 |---|---|---|---|---|---|---|
-| **Lioncub Saber** | Weapon (Amazonensaebel) | 12% on hit: Sundered Guard | Moorbridge Crypts: chest `loc04_sarkophag_chest_1` |  |  | armory_icons_v2 |
+| **Lioncub Saber** | Weapon (Amazonensaebel) | 12% on hit: Sundered Guard | Silver Falls, Castle Vaults: dragon-room chest 4 (lock 16) |  |  | armory_icons_v2 |
 | **Saber of Embers** | Weapon (Khunchomer) | Against burning foes: +1d6 fire damage; 12% on hit: Burning | Blood Mountains, manor kitchen: chest `loc03_truhe_koch` | Smithing 10 |  | armory_icons_v2 |
 | **Bloodletter** | Weapon (Bastartschwert) | 12% on hit: Bleeding | crafted only | Smithing 12 |  | armory_icons_v2 |
 | **Firun's Kiss** | Weapon (Partisane) | 12% on hit: Cold Shock (Corpofrigo); Against frozen foes: +2 magic damage | Blood Mountains, cult dungeon: Jost's chest | Smithing 11 |  | armory_icons_v2 |
@@ -55,9 +55,9 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | **Leech Rapier** | Weapon (Rapier) | 25% on hit: heals the wielder 3 LE | Ferdok, Ducal Citadel: chest `loc02_truhe_residenz` | Smithing 10 |  | armory_icons_v2 |
 | **Starleech Staff** | Weapon (Kampfstab) | On hit: restores 1 AE to the wielder; 10% on hit: Hexed | Tallon, trader's ruin: chest `skelett_tot_sitzend_dun08_haendler` | Bowcraft 8 |  | armory_icons_v2 |
 | **Peraine's Thorn** | Weapon (kampfstab_01) | LE +10; 20% on hit: heals the wielder 4 LE | Tallon Crypt: chest `loc08_gruft_sarg_tagebuch_04` |  | PeLE10 | armory_icons_v2 |
-| **Ember Longbow** | Weapon (Langbogen) | 12% on hit: Burning | Tallon: sold by `Jaeger_Kauzenstein_loc08_jaeger` | Bowcraft 12 |  | armory_icons_v2 |
-| **Huntress' Crossbow** | Weapon (Leichte Armbrust) | On hit: +2 damage | Moorbridge: marsh chest 3 | Bowcraft 9 |  | armory_icons_v2 |
-| **Felling Crossbow** | Weapon (Leichte Armbrust) | 15% on hit: Knockdown | Silver Falls, Castle Vaults: chest `skelett_tot_sitzend_loc05` | Bowcraft 10 |  | armory_icons_v2 |
+| **Ember Longbow** | Weapon (Langbogen) | — | Tallon: sold by `Jaeger_Kauzenstein_loc08_jaeger` | Bowcraft 12 |  | armory_icons_v2 |
+| **Huntress' Crossbow** | Weapon (Leichte Armbrust) | — | Moorbridge: marsh chest 3 | Bowcraft 9 |  | armory_icons_v2 |
+| **Felling Crossbow** | Weapon (Leichte Armbrust) | — | Silver Falls, Castle Vaults: chest `skelett_tot_sitzend_loc05` | Bowcraft 10 |  | armory_icons_v2 |
 | **Ogre-Feller** | Weapon (Barbarenstreitaxt) | 15% on hit: Shaken | Tallon: ogre camp chest |  |  | armory_icons_v2 |
 | **Serpent's Embrace** | Weapon (Schwerer Dolch) | 20% on hit: Poison; Against poisoned foes: +2 poison damage | Moorbridge Crypts: chest `loc04_truhe_01_4` | Smithing 9 |  | armory_icons_v2 |
 | **Short Sword of Thunder** | Weapon (Kurzschwert) | 12% on hit: +1d6 magic damage | crafted only | Smithing 9 |  | armory_icons_v2 |
@@ -70,10 +70,7 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | **Robe of the Astral Tide** | Armor (oberteil_kampfmagier_ferdok) | AE +10, Magic resistance +2 | Tallon: sold by `npc_magiertrainer_loc08_trainer_magie` |  | PeMagicHat | armory_icons_v2 |
 | **Apron of Ingerimm** | Armor (oberteil_zwergenprospektor) | Blacksmith +6; Immune to burning | Murolosh: sold by `Zwerg_Handwerker_loc09_schmied` |  | PeSledge;PeNotBurnable | armory_icons_v2 |
 | **Ironhide Greaves** | Armor (beine_eisenschienen_01) | Constitution +1; Immune to knockdown | Silver Falls, Castle Vaults: secret end chest | Smithing 11 | PeKO1;PeImmuneToKnockdown | armory_icons_v2 |
-| **Duelist's Grips** | Armor (handschuhe_verstaerkte_lederruestung) | Parry +1, Agility +1 | Tallon: sold by `Haendler_3_loc08_haendler_ruestung` | Smithing 8 | PeGE1;PeWpPA2 | armory_icons_v2 |
 | **Ironfist Gauntlets** | Armor (handschuhe_panzer) | Strength +1 | crafted only | Smithing 12 | PeKK1 | armory_icons_v2 |
-| **Iryan Half-greaves** | Armor (beine_verstaerkte_lederruestung) | Constitution +1 | Tallon: sold by `Haendler_3_loc08_haendler_ruestung` | Smithing 9 | PeKO1 | armory_icons_v2 |
-| **Ranger's Reinforced Breeches** | Armor (hose_verstaerkte_lederruestung) | Agility +1 | crafted only | Smithing 8 | PeGE1 | armory_icons_v2 |
 | **Adept's Shoulder-mantle** | Armor (schultern_verstaerkte_lederruestung) | AE +10 | Tallon: sold by `npc_magiertrainer_loc08_trainer_magie` | Alchemy 9 | PeAE10 | armory_icons_v2 |
 | **Spellweaver's Breeches** | Armor (hose_thorwaler) | Intuition +1, Cleverness +1 | Tallon: sold by `npc_magiertrainer_loc08_trainer_magie` | Alchemy 9 | PeIN1;PeKL1 | armory_icons_v2 |
 | **Amulet of the Unbowed** | Jewelry (Silberkette) | AU +5 | Blood Mountains: Mantra'keh at Da Vanya's |  | PeArmAUnbowed | armory_icons_v2 |
@@ -84,7 +81,7 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | **Salamander Phial** | Jewelry (Goldkette) | Magic resistance +1, AE +5; Immune to burning | Behind the Fire Falls: chest `zyklop_skelett_tot` |  | PeNotBurnable;PeArmASalamanderPhial | armory_icons_v2 |
 | **Splinter of Umbracor's Heart** | Jewelry (Goldkette) | LE +10, AE +10; Immune to burning | Dragon's Lair: chest `loc08a_truhe_japhgur` |  | PeAE10;PeLE10;PeNotBurnable | armory_icons_v2 |
 | **Nightfox Buckler** | Shield (Buckler) | Dodge +1, Magic resistance +2 | boss loot: Skelett_alrico_farfara_loc04 |  | PeAW1;PeArmANightfoxBuckler | armory_icons_v2 |
-| **Hexing Knives** | Weapon (Wurfmesser) | On hit: +2 magic damage; 12% on hit: Hexed | boss loot: ferio_drachenkultist | Smithing 7 |  | armory_icons_v2 |
+| **Hexing Hatchets** | Weapon (weapon_crafted_wurfbeil) | 15% on hit: Hexed | boss loot: ferio_drachenkultist | Smithing 8 |  | armory_icons_v2 |
 | **Starfall Stars** | Weapon (Wurfsterne) | On hit: +1d6 magic damage; 15% on hit: Dazed | Ferdok, Praios Square: sold by `Raeuber03_loc02_dieb_haendler`<br>Tallon: sold by `Raeuber03_loc08_haendler_dieb` | Smithing 9 |  | armory_icons_v2 |
 | **Spellthief's Dirk** | Weapon (Langdolch) | AE +5; 15% on hit: restores 1 AE to the wielder; 12% on hit: Hexed | crafted only | Smithing 9 | PeArmASpellthiefDirk | armory_icons_v2 |
 | **Nightfox Hood** | Armor (helm_verstaerkte_lederruestung) | Magic resistance +2, Sneak +2 | Ferdok, Thieves' Guild: sold by `Cuano_var_nach_loc05` |  | PeArmNHood | armory_icons_v2 |
@@ -105,36 +102,46 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | **Twinfang** | Weapon (Langdolch) | 15% on hit: Poison; 10% on hit: wielder gains Shadowstep | Tallon: sold by `Raeuber03_loc08_haendler_dieb` |  |  | armory_icons_v2 |
 | **Misericorde** | Weapon (Schwerer Dolch) | Against downed foes: +1d6+2 damage; Against stunned foes: +1d6+2 damage | Tallon Crypt: chest `loc08_gruft_sarg_tagebuch_01` |  |  | armory_icons_v2 |
 | **Moonshadow Saber** | Weapon (Saebel) | 12% on hit: wielder gains Shadowstep | Moorbridge Crypts: chest `loc04_truhe_01_4` |  |  | armory_icons_v2 |
-| **Whisperwind** | Weapon (Kurzbogen) | On hit: +1 damage; 12% on hit: Dazed | Tallon Crypt: chest `loc08_gruft_sarg_tagebuch_05` |  |  | armory_icons_v2 |
+| **Whisperwind** | Weapon (Kurzbogen) | — | Tallon Crypt: chest `loc08_gruft_sarg_tagebuch_05` |  |  | armory_icons_v2 |
 | **Lion's Tooth of Kurkum (I)** | Jewelry (Goldkette) | Sabers +1, AU +3 | dungeon02_taverne_goldene_lanze: chest `chest_schatztruhe_01_loc02_chest_mactalaenata` |  | PeArmHRh1 | armory_icons_v2 |
 | **Ferolax's Hammer-Ring (I)** | Jewelry (Goldring) | Blacksmith +2, Two-handed Axes/Maces +1 | dungeon02_taverne_silberkrug: chest `pc_forgrimm` |  | PeArmHFo1 | armory_icons_v2 |
 | **Seed of the Moon-Tree (I)** | Jewelry (Silberkette) | Bow +1, Perception +2 | Moorbridge: chest `loc04_steinknopf_chest` |  | PeArmHGw1 | armory_icons_v2 |
 | **Grimoire Locket (I)** | Jewelry (Silberkette) | AE +5, Arcane Lore +1 | dungeon02_bibliothek: chest `loc02_truhe_bibliothek_aventurischer_bote` |  | PeArmHTh1 | armory_icons_v2 |
-| **Moonbow** | Weapon (Elfenbogen) | Intuition +1; 15% on hit: Dazed | Ferdok, Praios Square: sold by `npc_elfentrainer` |  | PeIN1 | armory_icons_v2 |
+| **Moonbow** | Weapon (Elfenbogen) | Intuition +1 | Ferdok, Praios Square: sold by `npc_elfentrainer` |  | PeIN1 | armory_icons_v2 |
 | **Archer's Moon-Glove** | Armor (handschuhe_elfen) | Dexterity +1, Bow +2 | Ferdok, Praios Square: sold by `npc_elfentrainer` |  | PeFF1;PeArmAMoonglove | armory_icons_v2 |
 | **Thief's Patch-Mantle** | Armor (schultern_verstaerkte_lederruestung) | Sneak +2, AE +5 | Ferdok, Thieves' Guild: sold by `Cuano_var_nach_loc05` |  | PeArmAPatchMantle | armory_icons_v2 |
-| **White Fur Mantle** | Armor (schultern_nasreddin) | Survival +2, Animal Lore +1 | crafted only | Bowcraft 6 | PeArmWpMantle | armory_icons_v2 |
-| **Darkwolf Grips** | Armor (handschuhe_nasreddin) | Bow +1, Brawling +1 | crafted only | Bowcraft 8 | PeArmWpGrips | armory_icons_v2 |
+| **White Fur Mantle** | Armor (schultern_nasreddin) | Magic resistance +1 | crafted only | Bowcraft 6 | PeArmWpMantle | armory_icons_v2 |
+| **Darkwolf Grips** | Armor (handschuhe_nasreddin) | Bow +1 | crafted only | Bowcraft 8 | PeArmWpGrips | armory_icons_v2 |
 | **Tuskhide Cuirass** | Armor (torso_verstaerkte_lederruestung) | LE +5, Willpower +1; Set (Tuskhide): LE +2 for each piece you own; all four: Willpower +2, AU +5 (re-equip after finding a piece) | crafted only | Smithing 7 | PeArmTcCuirass;PeArmSetTcCuirass | armory_icons_v2 |
-| **Tuskhide Bracers** | Armor (armschienen_nieten_01) | Brawling +2, AU +3 | crafted only | Smithing 6 | PeArmTcBracers | armory_icons_v2 |
-| **Bearclaw Helm** | Armor (helm_verstaerkte_lederruestung) | Intimidate +2, AU +3 | crafted only | Bowcraft 7 | PeArmTcHelm | armory_icons_v2 |
-| **Witchweave Robe** | Armor (oberteil_heilmagier) | AE +10, Magic resistance +1, Plant Lore +2; Set (Witchweave): AE +2 for each piece you own; all four: Magic resistance +1, Intuition +1 (re-equip after finding a piece) | crafted only | Alchemy 8 | PeAE10;PeArmWwRobe;PeArmSetWwRobe | armory_icons_v2 |
+| **Tuskhide Bracers** | Armor (armschienen_nieten_01) | AU +5 | crafted only | Smithing 6 | PeArmTcBracers | armory_icons_v2 |
+| **Bearclaw Helm** | Armor (helm_verstaerkte_lederruestung) | LE +5, AU +5 | crafted only | Bowcraft 7 | PeArmTcHelm | armory_icons_v2 |
+| **Witchweave Robe** | Armor (oberteil_heilmagier) | AE +10, Magic resistance +1; Set (Witchweave): AE +2 for each piece you own; all four: Magic resistance +1, Intuition +1 (re-equip after finding a piece) | crafted only | Alchemy 8 | PeAE10;PeArmWwRobe;PeArmSetWwRobe | armory_icons_v2 |
 | **Witchweave Hat** | Armor (hut_heilmagier) | AE +5, Arcane Lore +2 | crafted only | Alchemy 7 | PeArmWwHood | armory_icons_v2 |
 | **Witchweave Slippers** | Armor (schuhe_magier) | AE +3, Sneak +2 | crafted only | Alchemy 7 | PeArmWwShoes | armory_icons_v2 |
+| **Guild Stiletto** | Weapon (Langdolch) | 12% on hit: Bleeding | crafted only |  |  | armory_icons_v2 |
+| **Cutpurse's Buckler** | Shield (Buckler) | Dodge +1, Pick Pocket +1 | crafted only |  | PeAW1;PeArmTgBuckler | armory_icons_v2 |
+| **Guild Throwing Stars** | Weapon (Wurfsterne) | 15% on hit: Dazed | crafted only |  |  | armory_icons_v2 |
+| **Cutpurse's Half-Boots** | Armor (schuhe_taschendieb) | Sneak +2, Pick Pocket +1 | crafted only | Bowcraft 7 | PeArmTgHalfboots | armory_icons_v2 |
+| **Night Hand Gloves** | Armor (handschuhe_des_diebes) | Dexterity +3, Pick Pocket +2, Pick Locks +1 | crafted only | Bowcraft 8 | PeFF3;PeTaschendieb1;PeArmTgGloves1 | armory_icons_v2 |
+| **Phex's Lucky Coin** | Jewelry (Silberkette) | Pick Locks +2, Disarm Traps +2, Haggle +1 | crafted only |  | PeArmTgPhexCoin | armory_icons_v2 |
+| **Thunderhead Warhammer** | Weapon (Kriegshammer) | — | crafted only | Smithing 10 |  | armory_icons_v2 |
 
-## Super rare (87)
+## Super rare (102)
 
 | Item | Type | Effects | Where | Craft | Effects ids | Icon |
 |---|---|---|---|---|---|---|
+| **Duelist's Grips** | Armor (handschuhe_verstaerkte_lederruestung) | Parry +1 | Tallon: sold by `Haendler_3_loc08_haendler_ruestung` | Smithing 10 | PeWpPA2 | armory_icons_v2 |
+| **Iryan Half-greaves** | Armor (beine_verstaerkte_lederruestung) | — | Tallon: sold by `Haendler_3_loc08_haendler_ruestung` | Smithing 10 |  | armory_icons_v2 |
+| **Ranger's Reinforced Breeches** | Armor (hose_verstaerkte_lederruestung) | Dodge +1 | crafted only | Smithing 10 | PeAW1 | armory_icons_v2 |
 | **Rondra's Reprimand** | Weapon (Amazonensaebel) | 15% on hit: Sundered Guard; Against downed foes: +1d6 damage; 8% on hit: wielder gains Battle Trance | crafted only |  |  | armory_icons_v2 |
 | **Coalheart** | Weapon (Felsspalter) | Immune to burning; Against burning foes: +1d6 fire damage; 15% on hit: Burning | Deeps of Gruldur: secret room 2 |  | PeNotBurnable | armory_icons_v2 |
 | **Mountain's Patience** | Weapon (Zwergenschlaegel) | 15% on hit: Stun; Against stunned foes: +1d6 damage | crafted only |  |  | armory_icons_v2 |
-| **Nightsong** | Weapon (Elfenbogen) | Intuition +1; 15% on hit: Stun; Against stunned foes: +1d6 magic damage | crafted only |  | PeIN1 | armory_icons_v2 |
-| **Heartseeker** | Weapon (Kriegsbogen) | 15% on hit: Bleeding; 10% on hit: Stun | Dragon's Lair: Arom's chest |  |  | armory_icons_v2 |
+| **Nightsong** | Weapon (Elfenbogen) | Intuition +1 | crafted only |  | PeIN1 | armory_icons_v2 |
+| **Heartseeker** | Weapon (Kriegsbogen) | — | Dragon's Lair: Arom's chest |  |  | armory_icons_v2 |
 | **Archon's Rod** | Weapon (Magierstab) | AE +10, Magic resistance +2, Fulminictus +2, Ignifaxius +2; 25% on hit: Hexed; On hit: restores 2 AE to the wielder | Silver Falls, Castle Vaults: dragon-room chest 4 (lock 16) |  | PeMagicHat;PeArmSArchonRod | armory_icons_v2 |
 | **Whisper of Phex** | Weapon (Rapier) | Pick Pocket +2; 15% on hit: Dazed; Against dazed foes: +3 damage | Silver Falls, Castle Vaults: chest `skelett_tot_sitzend_loc05` |  | PeTaschendieb1 | armory_icons_v2 |
 | **Tusk of the Sow-King** | Weapon (Jagdspiess) | 15% on hit: Knockdown; 12% on hit: Bleeding | Silver Falls, Castle Vaults: dragon-room chest 2 |  |  | armory_icons_v2 |
-| **Thunderbolt** | Weapon (Schwere Armbrust) | On hit: +1d6 magic damage; 20% on hit: Stun | Deeps of Gruldur: chest `loc10_zwergenschatz` |  |  | armory_icons_v2 |
+| **Thunderbolt** | Weapon (Schwere Armbrust) | — | Deeps of Gruldur: chest `loc10_zwergenschatz` |  |  | armory_icons_v2 |
 | **Widowmaker** | Weapon (Zweihaender) | 15% on hit: Bleeding; 10% on hit: Knockdown | Silver Falls, Castle Vaults: secret alchemist chest |  |  | armory_icons_v2 |
 | **Mail of the Silver Falls Sentinel** | Armor (torso_kettenhemd_lang) | LE +10, Constitution +1; Immune to knockdown | Silver Falls, Castle Vaults: chest `skelett_tot_sitzend_loc05` |  | PeLE10;PeKO1;PeImmuneToKnockdown | armory_icons_v2 |
 | **Hesinde's Thinking Cap** | Armor (hut_magierhut) | AE +10, Intuition +1, Cleverness +1 | Tallon, trader's ruin: chest `skelett_tot_sitzend_dun08_haendler` |  | PeAE10;PeIN1;PeKL1 | armory_icons_v2 |
@@ -180,9 +187,9 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | **Black Widow** | Weapon (Schwerer Dolch) | 20% on hit: Frailty; Against poisoned foes: +1d6 poison damage; 12% on hit: Poison | crafted only |  |  | armory_icons_v2 |
 | **Stormcaller** | Weapon (Partisane) | 12% on hit: Stun; Against stunned foes: +1d6 magic damage | loc10_geheimraum_03 |  |  | armory_icons_v2 |
 | **Hearthguard Greataxe** | Weapon (Barbarenstreitaxt) | 15% on hit: Frailty; 8% on hit: wielder gains Iron Skin | Deeps of Gruldur: chest `loc10_zwergenschatz` |  |  | armory_icons_v2 |
-| **Harbour Riposte** | Weapon (Rapier) | 20% on hit: Sundered Guard; Against sundered foes: +1d6 damage; 8% on hit: wielder gains Quickstep | crafted only |  |  | armory_icons_v2 |
+| **Harbour Riposte** | Weapon (Rapier) | 15% on hit: Sundered Guard | crafted only |  |  | armory_icons_v2 |
 | **Ashblade** | Weapon (Khunchomer) | Courage +1; 15% on hit: Burning; Against burning foes: +1d6 fire damage; 8% on hit: wielder gains Battle Trance | crafted only |  | PeMU1 | armory_icons_v2 |
-| **Duskarrow** | Weapon (Elfenbogen) | Dexterity +1; On hit: +1 damage; 15% on hit: Dazed; 10% on hit: Cold Shock (Corpofrigo); 8% on hit: wielder gains Quickstep | crafted only |  | PeFF1;PeArmLDuskarrow | armory_icons_v2 |
+| **Duskarrow** | Weapon (Langbogen) | Dexterity +1 | crafted only |  | PeFF1;PeArmLDuskarrow | armory_icons_v2 |
 | **Pavise of the Broken Oath** | Shield (Eisenschild_01) | Constitution +1; Immune to knockdown | crafted only |  | PeKO1;PeImmuneToKnockdown | armory_icons_v2 |
 | **Klingenhand's Fencing Gloves** | Armor (handschuhe_streuner) | Attack +1, Parry +1 | crafted only |  | PeMagicalRapier;PeWpPA2 | armory_icons_v2 |
 | **Rakorium's Spare Spectacles** | Jewelry (Silberkette) | Cleverness +1, Intuition +1, Magic resistance +1, Arcane Lore +3 | crafted only |  | PeIN1;PeKL1;PeArmJRkSpectacles | armory_icons_v2 |
@@ -198,29 +205,41 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | **The Stolen Grimoire (II)** | Jewelry (Silberkette) | Cleverness +1, AE +10, Arcane Lore +2; Set (The Stolen Grimoire): AE +3 for each piece you own (re-equip after finding a piece) | crafted only | Alchemy 10 (unique base) | PeAE10;PeKL1;PeArmHTh2;PeArmSetHTh2 | armory_icons_v2 |
 | **Spellthief's Cowl** | Armor (hut_streuner) | Cleverness +1, AE +5 | boss loot: npc_untoter_nekromant_loc08_gruft_boss |  | PeKL1;PeArmGtCowl | armory_icons_v2 |
 | **Ink-Stained Gloves** | Armor (handschuhe_des_diebes) | Dexterity +2, Pick Pocket +2 | crafted only |  | PeFF2;PeTaschendieb1 | armory_icons_v2 |
-| **Thornwood Warbow** | Weapon (Kriegsbogen) | 15% on hit: Bleeding; 10% on hit: Knockdown | Tallon, trader's ruin: chest `hesperia_schuttberg` |  |  | armory_icons_v2 |
-| **Silverleaf Longbow** | Weapon (weapon_crafted_elfenbogen) | Dexterity +1; 12% on hit: Cold Shock (Corpofrigo); Against frozen foes: +1d6 magic damage | boss loot: Alwene |  | PeFF1 | armory_icons_v2 |
+| **Thornwood Warbow** | Weapon (Kriegsbogen) | — | Tallon, trader's ruin: chest `hesperia_schuttberg` |  |  | armory_icons_v2 |
+| **Silverleaf Longbow** | Weapon (weapon_crafted_elfenbogen) | Dexterity +1 | boss loot: Alwene |  | PeFF1 | armory_icons_v2 |
 | **Lioness Pauldrons** | Armor (schultern_plattenruestung_01) | Courage +1, LE +5 | crafted only |  | PeMU1;PeArmLqPauldrons | armory_icons_v2 |
 | **Moonwarden's Mantle** | Armor (schultern_nasreddin) | Intuition +1, Perception +2 | Tallon, trader's ruin: chest `hesperia_schuttberg` |  | PeIN1;PeArmMwMantle | armory_icons_v2 |
 | **Darkwolf Jerkin** | Armor (torso_nasreddin) | Sneak +2, AU +5; Set (The Wolfpack): AU +2 for each piece you own; all four: Dodge +1, Sneak +2 (re-equip after finding a piece) | crafted only | Bowcraft 10 | PeArmWpJerkin;PeArmSetWpJerkin | armory_icons_v2 |
 | **Darkwolf Breeches** | Armor (hose_verstaerkte_lederruestung) | Perception +2 | crafted only | Bowcraft 9 | PeArmWpBreeches | armory_icons_v2 |
-| **Moonhowl Mantle** | Armor (schultern_nasreddin) | Survival +3, Animal Lore +2, Magic resistance +1 | crafted only | Bowcraft 10 | PeArmMhMantle | armory_icons_v2 |
+| **Moonhowl Mantle** | Armor (schultern_nasreddin) | Sneak +2, Magic resistance +1 | crafted only | Bowcraft 10 | PeArmMhMantle | armory_icons_v2 |
 | **Moonhowl Breeches** | Armor (hose_verstaerkte_lederruestung) | Perception +3, AU +5 | crafted only | Bowcraft 11 | PeArmMhBreeches | armory_icons_v2 |
-| **Moonhowl Grips** | Armor (handschuhe_nasreddin) | Bow +2, Brawling +1, Dexterity +1 | crafted only | Bowcraft 11 | PeFF1;PeArmMhGrips | armory_icons_v2 |
+| **Moonhowl Grips** | Armor (handschuhe_nasreddin) | Bow +2, Dexterity +1 | crafted only | Bowcraft 11 | PeFF1;PeArmMhGrips | armory_icons_v2 |
 | **Ironshell Cuirass** | Armor (torso_verstaerkte_lederruestung) | LE +8, Willpower +2, Magic resistance +1; Set (Ironshell): LE +3 for each piece you own; all four: Parry +1, Magic resistance +1 (re-equip after finding a piece) | crafted only | Smithing 10 | PeArmTsCuirass;PeArmSetTsCuirass | armory_icons_v2 |
-| **Ironshell Bracers** | Armor (armschienen_nieten_01) | Brawling +2, AU +5, Parry +1 | crafted only | Smithing 9 | PeWpPA2;PeArmTsBracers | armory_icons_v2 |
+| **Ironshell Bracers** | Armor (armschienen_nieten_01) | AU +5, Parry +1 | crafted only | Smithing 9 | PeWpPA2;PeArmTsBracers | armory_icons_v2 |
 | **Ironshell Helm** | Armor (helm_verstaerkte_lederruestung) | Intimidate +3, Magic resistance +1 | crafted only | Smithing 9 | PeArmTsHelm | armory_icons_v2 |
 | **Emberweave Hat** | Armor (hut_heilmagier) | AE +8, Arcane Lore +3, Intuition +1 | crafted only | Alchemy 11 | PeIN1;PeArmWeHood | armory_icons_v2 |
 | **Emberweave Slippers** | Armor (schuhe_magier) | AE +5, Sneak +2, Agility +1 | crafted only | Alchemy 11 | PeGE1;PeArmWeShoes | armory_icons_v2 |
 | **Skyhunter Hood** | Armor (helm_lederkappe) | Perception +3, Bow +1 | crafted only | Bowcraft 11 | PeArmShHood | armory_icons_v2 |
+| **Silverpelt Mantle** | Armor (schultern_nasreddin) | AU +5, Magic resistance +2 | crafted only | Bowcraft 11 | PeArmWfMantle2 | armory_icons_v2 |
+| **Sunward Helm** | Armor (helm_verstaerkte_lederruestung) | Magic resistance +2, LE +5, AU +5 | crafted only | Smithing 10 | PeArmRlSunwardHelm | armory_icons_v2 |
+| **Cinder Ward** | Jewelry (Goldkette) | AU +5; Immune to burning | crafted only | Bowcraft 9 | PeNotBurnable;PeArmRlCinderWard | armory_icons_v2 |
+| **Nightrunner Veil** | Armor (hut_turban_nasreddin) | Sneak +2, Perception +2 | crafted only | Bowcraft 9 | PeArmTgNrVeil | armory_icons_v2 |
+| **Nightrunner Jerkin** | Armor (torso_nasreddin) | Sneak +2, Dodge +1 | crafted only | Bowcraft 10 | PeAW1;PeArmTgNrJerkin | armory_icons_v2 |
+| **Nightrunner Boots** | Armor (schuhe_nasreddin) | Sneak +2, Dodge +1 | crafted only | Bowcraft 9 | PeAW1;PeArmTgNrBoots | armory_icons_v2 |
+| **Velvet Hand Gloves** | Armor (handschuhe_des_diebes) | Dexterity +3, Attack +1, Pick Pocket +3, Pick Locks +2 | crafted only | Bowcraft 11 | PeFF3;PeTaschendieb1;PeMagicalRapier;PeArmTgGloves2 | armory_icons_v2 |
+| **Whisperthorn** | Weapon (Florett) | 10% on hit: Sundered Guard; 10% on hit: wielder gains Quickstep | crafted only |  |  | armory_icons_v2 |
+| **Velane's Fang** | Weapon (Langdolch) | 15% on hit: Wyrm Venom; 12% on hit: Bleeding | crafted only |  |  | armory_icons_v2 |
+| **Shadow Stars** | Weapon (Wurfsterne) | 20% on hit: Bleeding | crafted only |  |  | armory_icons_v2 |
+| **Ronkwer's Hauberk** | Armor (torso_kettenhemd_lang) | LE +5 | crafted only |  | PeArmRkPlate | armory_icons_v2 |
+| **Harpy Queen's Crest** | Armor (helm_verstaerkte_lederruestung) | Ranged combat +3, Dodge +1 | crafted only | Bowcraft 12 | PeAW1;PeArmHqCrest | armory_icons_v2 |
 
-## Legendary (37)
+## Legendary (44)
 
 | Item | Type | Effects | Where | Craft | Effects ids | Icon |
 |---|---|---|---|---|---|---|
 | **Fang of the Lioness** | Weapon (Amazonensaebel) | Courage +1; Immune to knockdown; 20% on hit: Sundered Guard; Against downed foes: +1d6 damage; Against burning foes: +1d6 fire damage; 10% on hit: wielder gains Lion's Roar | Dragon's Lair: chest `loc08a_truhe_japhgur` |  | PeMU1;PeImmuneToKnockdown;PeArmLFangLioness | armory_icons_v2 |
 | **First-Forge Hammer of Angrosch** | Weapon (Streitkolben) | Strength +2; Immune to burning; 15% on hit: Knockdown; 15% on hit: Burning; Against downed foes: +1d6 fire damage; 8% on hit: wielder gains Iron Skin | Behind the Fire Falls: chest `loc11_chest_05` |  | PeKK2;PeNotBurnable;PeArmLAngroschHammer | armory_icons_v2 |
-| **Bow of Sala Mandra** | Weapon (Elfenbogen) | Intuition +2; 20% on hit: Cold Shock (Corpofrigo); Against frozen foes: +1d6 magic damage; 10% on hit: Stun; 8% on hit: wielder gains Quickstep | Dragon's Lair: chest `loc08a_truhe_japhgur` |  | PeIN2;PeArmLSalaMandra | armory_icons_v2 |
+| **Bow of Sala Mandra** | Weapon (Elfenbogen) | Intuition +2 | Dragon's Lair: chest `loc08a_truhe_japhgur` |  | PeIN2;PeArmLSalaMandra | armory_icons_v2 |
 | **Eye of Hesinde** | Weapon (Magierstab) | AE +10, Magic resistance +2, Cleverness +1, Intuition +1, Fulminictus +2, Ignifaxius +2, Armatrutz +1; On hit: restores 2 AE to the wielder; 20% on hit: Hexed; 8% on hit: wielder gains Astral Surge | Deeps of Gruldur: chest `loc10_chest_zwergenskelett` |  | PeMagicHat;PeIN1;PeKL1;PeArmLEyeHesinde | armory_icons_v2 |
 | **Phex's Last Laugh** | Weapon (Drachenzahn) | Pick Pocket +2, Agility +1, Dexterity +1; 20% on hit: Dazed; 15% on hit: Wyrm Venom; Against dazed foes: +1d6 damage; 10% on hit: wielder gains Quickstep | Dragon's Lair: Arom's chest |  | PeGE1FF1;PeTaschendieb1;PeArmLPhexLaugh | armory_icons_v2 |
 | **Wyrmbane** | Weapon (Andergaster) | Immune to burning; 15% on hit: Bleeding; 12% on hit: Knockdown; 8% on hit: wielder gains Battle Trance | Dragon's Lair: chest `loc08a_truhe_japhgur` |  | PeNotBurnable;PeArmLWyrmbane | armory_icons_v2 |
@@ -247,14 +266,21 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | **Margin-Walker Boots** | Armor (schuhe_streuner) | Agility +1, Sneak +3 | Deeps of Gruldur: chest `loc10_chest_zwergenskelett` |  | PeGE1;PeArmGtBoots | armory_icons_v2 |
 | **Rakorium's Robe of Disputation** | Armor (oberteil_magierrobe_schwarz) | AE +10, Magic resistance +2, Cleverness +1 | crafted only |  | PeMagicHat;PeKL1 | armory_icons_v2 |
 | **Moonhowl Jerkin** | Armor (torso_nasreddin) | Sneak +3, AU +10, Agility +1; Set (The Moonhowl Pack): AU +3 for each piece you own; all four: Dodge +1, Sneak +3, Magic resistance +1 (re-equip after finding a piece) | crafted only | Bowcraft 13 | PeAU10;PeGE1;PeArmMhJerkin;PeArmSetMhJerkin | armory_icons_v2 |
-| **Moonhowl Longbow** | Weapon (Langbogen) | On hit: +1 damage; 20% on hit: +1d6 magic damage | crafted only | Bowcraft 12 |  | armory_icons_v2 |
+| **Moonhowl Longbow** | Weapon (Langbogen) | — | crafted only | Bowcraft 12 |  | armory_icons_v2 |
 | **Stormhowl Shoulder Guards** | Armor (schultern_nasreddin) | Magic resistance +2, Dodge +1, Perception +2 | crafted only | Bowcraft 12 (unique base) | PeAW1;PeArmMhIryanShoulders | armory_icons_v2 |
 | **Warlord Cuirass** | Armor (torso_verstaerkte_lederruestung) | LE +12, Courage +1, Strength +1; Immune to knockdown; Set (The Warlord): LE +4 for each piece you own; all four: Attack +1, Parry +1 (re-equip after finding a piece) | crafted only | Smithing 13 | PeLE10;PeKK1;PeMU1;PeImmuneToKnockdown;PeArmTwCuirass;PeArmSetTwCuirass | armory_icons_v2 |
 | **Warlord Bracers** | Armor (armschienen_nieten_01) | Attack +1, Dexterity +1, AU +5 | crafted only | Smithing 12 | PeFF1;PeMagicalRapier;PeArmTwBracers | armory_icons_v2 |
 | **Warlord Helm** | Armor (helm_verstaerkte_lederruestung) | Courage +1, Intimidate +3, Magic resistance +1 | crafted only | Smithing 12 | PeMU1;PeArmTwHelm | armory_icons_v2 |
-| **Emberweave Robe** | Armor (oberteil_heilmagier) | AE +15, Magic resistance +2, Plant Lore +2; Immune to burning; Set (Emberweave): AE +3 for each piece you own; all four: Magic resistance +2, Cleverness +1 (re-equip after finding a piece) | crafted only | Alchemy 12 | PeMagicHat;PeNotBurnable;PeArmWeRobe;PeArmSetWeRobe | armory_icons_v2 |
-| **Skyhunter Mantle** | Armor (schultern_nasreddin) | Survival +3, Animal Lore +2, Magic resistance +2, Dodge +1 | crafted only | Bowcraft 13 | PeAW1;PeArmShMantle | armory_icons_v2 |
-| **Skyhunter Grips** | Armor (handschuhe_nasreddin) | Bow +3, Brawling +1, Dexterity +2 | crafted only | Bowcraft 13 | PeFF2;PeArmShGrips | armory_icons_v2 |
+| **Emberweave Robe** | Armor (oberteil_heilmagier) | AE +15, Magic resistance +2; Immune to burning; Set (Emberweave): AE +3 for each piece you own; all four: Magic resistance +2, Cleverness +1 (re-equip after finding a piece) | crafted only | Alchemy 12 | PeMagicHat;PeNotBurnable;PeArmWeRobe;PeArmSetWeRobe | armory_icons_v2 |
+| **Skyhunter Mantle** | Armor (schultern_nasreddin) | Sneak +3, Perception +2, Dodge +1 | crafted only | Bowcraft 13 | PeAW1;PeArmShMantle | armory_icons_v2 |
+| **Skyhunter Grips** | Armor (handschuhe_nasreddin) | Bow +3, Dexterity +1 | crafted only | Bowcraft 13 | PeFF1;PeArmShGrips | armory_icons_v2 |
+| **Mantle of the Pack-Mother** | Armor (schultern_nasreddin) | AU +10, Magic resistance +2, Courage +1 | crafted only | Bowcraft 14 | PeAU10;PeMU1;PeArmWfMantle3 | armory_icons_v2 |
+| **Shadow Hand Gloves** | Armor (handschuhe_des_diebes) | Dexterity +3, Attack +1, Parry +1, Dodge +1, Pick Pocket +4, Pick Locks +3 | crafted only | Bowcraft 13 | PeFF3;PeTaschendieb1;PeAW1;PeMagicalRapier;PeWpPA2;PeArmTgGloves3 | armory_icons_v2 |
+| **Mask of the Fox** | Armor (hut_turban_nasreddin) | Charisma +1, Pick Pocket +3, Fast Talk +2, Sneak +2 | crafted only |  | PeTaschendieb1;PeCH1;PeArmTgFoxMask | armory_icons_v2 |
+| **Hands of Phex** | Armor (handschuhe_des_diebes) | Dexterity +4, Agility +1, Attack +2, Parry +1, Dodge +1, Pick Pocket +5, Pick Locks +4 | crafted only | Bowcraft 15 (unique base) | PeGE1FF1;PeFF3;PeTaschendieb1;PeAW1;PeMagicalRapier;PeWpPA2;PeArmTgGloves4 | armory_icons_v2 |
+| **Steps of the Fox** | Armor (schuhe_nasreddin) | Agility +2, Dodge +2, Sneak +4 | crafted only |  | PeAW2;PeGE2;PeArmTgFoxBoots | armory_icons_v2 |
+| **Phex's Wink** | Jewelry (Goldkette) | Dexterity +2, Agility +1, Dodge +1, Pick Pocket +3, Pick Locks +2 | crafted only |  | PeGE1FF1;PeTaschendieb1;PeAW1;PeFF1;PeArmTgPhexWink | armory_icons_v2 |
+| **Fortune's Edge** | Weapon (Rapier) | 15% on hit: Sundered Guard; Against sundered foes: +1d6 damage; 8% on hit: wielder gains Quickstep | crafted only |  |  | armory_icons_v2 |
 
 ## Mythic (18)
 
@@ -274,8 +300,8 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | **Rondra's Verdict** | Weapon (Amazonensaebel) | Agility +1, Courage +1, Sabers +2, Parry +1; 15% on hit: Sundered Guard; 12% on hit: Wound; Against wounded foes: +1d6 damage; 10% on hit: wielder gains Lion's Roar; Against sundered foes: +1d6+2 damage | crafted only | Smithing 15 (unique base) | PeGE1;PeMU1;PeWpPA2;PeArmMRfRondraVerdict | armory_icons_v2 |
 | **Last Oath, Fulfilled** | Weapon (Drachentoeterhammer) | Strength +1, Constitution +1; Immune to burning; 10% on hit: Knockdown; Against downed foes: +1d6 damage; 12% on hit: Wound | crafted only | Smithing 15 (unique base) | PeKK1;PeKO1;PeNotBurnable | armory_icons_v2 |
 | **Cleaver of the Returned Exile** | Weapon (Felsspalter) | Strength +2, Constitution +1, Courage +1; 15% on hit: Knockdown; 15% on hit: Frailty; Against downed foes: +1d6+2 damage; 8% on hit: wielder gains Iron Skin; 12% on hit: Wound | crafted only | Smithing 15 (unique base) | PeKK2;PeKO1;PeMU1 | armory_icons_v2 |
-| **Sala Mandra's Lullaby** | Weapon (Elfenbogen) | Intuition +2, Agility +1; 20% on hit: Cold Shock (Corpofrigo); Against frozen foes: +1d6 magic damage; 10% on hit: Stun; 8% on hit: wielder gains Quickstep | crafted only | Bowcraft 15 (unique base) | PeIN2;PeGE1;PeArmMRfSala | armory_icons_v2 |
-| **Duskarrow Redeemed** | Weapon (Elfenbogen) | Dexterity +1, Intuition +2; On hit: +1 damage; 15% on hit: Dazed; 10% on hit: Cold Shock (Corpofrigo); 8% on hit: wielder gains Quickstep; 12% on hit: Bleeding | crafted only | Bowcraft 15 (unique base) | PeIN2;PeFF1;PeArmMRfDuskarrow | armory_icons_v2 |
+| **Sala Mandra's Lullaby** | Weapon (Elfenbogen) | Intuition +2, Agility +1 | crafted only | Bowcraft 15 (unique base) | PeIN2;PeGE1;PeArmMRfSala | armory_icons_v2 |
+| **Duskarrow Redeemed** | Weapon (Langbogen) | Dexterity +1, Intuition +2 | crafted only | Bowcraft 15 (unique base) | PeIN2;PeFF1;PeArmMRfDuskarrow | armory_icons_v2 |
 | **Crimson Vow, Unbroken** | Weapon (Langdolch) | Agility +2, Dexterity +1, AE +10, Cleverness +1; 20% on hit: Bleeding; 15% on hit: Starburn; Against bleeding foes: +1d6+2 damage; On hit: restores 1 AE to the wielder; 10% on hit: wielder gains Shadowstep; 10% on hit: wielder gains Astral Surge | crafted only | Smithing 15 (unique base) | PeGE1FF1;PeAE10;PeGE1;PeKL1;PeArmMRfCrimson | armory_icons_v2 |
 | **Phex's Final Jest** | Weapon (Drachenzahn) | Pick Pocket +2, Agility +1, Dexterity +2; 20% on hit: Dazed; 15% on hit: Wyrm Venom; Against dazed foes: +1d6 damage; 10% on hit: wielder gains Quickstep; 15% on hit: Shadowstep; 10% on hit: Wound | crafted only | Smithing 15 (unique base) | PeGE1FF1;PeTaschendieb1;PeFF1;PeArmMRfPhex | armory_icons_v2 |
 
@@ -299,10 +325,10 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | Serpent's Embrace | Smithing 7 | 1 Heavy Dagger, 2 Venom sac | Ferdok, Count's Town `Zwerg_Handwerker_loc02_trainer_graf_schmied`<br>Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
 | Short Sword of Thunder | Smithing 7 | 1 Short Sword, 1 Bear Claw | Ferdok, Count's Town `Zwerg_Handwerker_loc02_trainer_graf_schmied`<br>Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
 | Ironhide Greaves | Smithing 9 | 1 Iron Greaves, 2 Steel, 2 Leather strips | Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
-| Duelist's Grips | Smithing 6 | 1 Heavy Leather Gloves, 3 Leather strips, 2 Boar Tusk | Ferdok, Count's Town `Zwerg_Handwerker_loc02_trainer_graf_schmied`<br>Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
+| Duelist's Grips | Smithing 8 | 1 Heavy Leather Gloves, 2 Leather strips, 2 Boar Tusk |  |
 | Ironfist Gauntlets | Smithing 10 | 1 Gauntlets, 2 Kosh steel | Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
-| Iryan Half-greaves | Smithing 7 | 1 Heavy Leather Greaves, 3 Leather strips, 1 Steel | Ferdok, Count's Town `Zwerg_Handwerker_loc02_trainer_graf_schmied`<br>Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
-| Ranger's Reinforced Breeches | Smithing 6 | 1 Heavy-duty Leather Pants, 3 Leather strips | Ferdok, Count's Town `Zwerg_Handwerker_loc02_trainer_graf_schmied`<br>Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
+| Iryan Half-greaves | Smithing 8 | 1 Heavy Leather Greaves, 3 Leather strips, 1 Steel |  |
+| Ranger's Reinforced Breeches | Smithing 8 | 1 Heavy-duty Leather Pants, 2 Dark Wolf Pelt, 1 Improved sinews |  |
 | Adept's Shoulder-mantle | Alchemy 7 | 1 Leather Shoulder Guards, 2 Firefly Ember Sac | Tallon `npc_magiertrainer_loc08_trainer_magie` |
 | Spellweaver's Breeches | Alchemy 7 | 1 Thorwalian Pants, 2 Firefly Ember Sac, 1 Gemstones | Tallon `npc_magiertrainer_loc08_trainer_magie` |
 | Gauntlets of the Mountain King | Smithing 12 | 1 Dwarven Gauntlets, 2 Dwarven steel, 1 Glittering Green Eye | Murolosh `Zwerg_Handwerker_loc09_schmied` |
@@ -314,7 +340,7 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | Wyrmhide Jerkin | Smithing 12 | 1 Leather Doublet., 2 Heavy Wyrm Scale, 2 Dragon blood, 4 Leather strips | Murolosh `Zwerg_Handwerker_loc09_schmied` |
 | Dragonblood Robe | Alchemy 12 | 1 Robe of the City of Ferdok, 1 Heavy Wyrm Scale, 3 Dragon blood, 2 Gold leaf | Murolosh `Zwerg_Handwerker_loc09_zutatenhaendler` |
 | Wyrmscale Shield | Smithing 11 | 1 Iron Shield, 2 Heavy Wyrm Scale | Murolosh `Zwerg_Handwerker_loc09_schmied` |
-| Hexing Knives | Smithing 5 | 1 Steel, 2 Boar Tusk | Ferdok, Count's Town `Zwerg_Handwerker_loc02_trainer_graf_schmied`<br>Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
+| Hexing Hatchets | Smithing 6 | 10 Sharpened Throwing Hatchet, 1 Boar Tusk, 1 Alcohol | Ferdok, Count's Town `Zwerg_Handwerker_loc02_trainer_graf_schmied`<br>Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
 | Starfall Stars | Smithing 7 | 1 Steel, 1 Crypt-louse Carapace | Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
 | Witchfire Daggers | Smithing 9 | 1 Kosh steel, 2 Tindermold | Murolosh `Zwerg_Handwerker_loc09_schmied` |
 | Spellthief's Dirk | Smithing 7 | 1 Dirk, 1 Bear Claw | Ferdok, Count's Town `Zwerg_Handwerker_loc02_trainer_graf_schmied`<br>Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
@@ -340,24 +366,24 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | Crimson Vow, Unbroken | Smithing 13 | 1 Crimson Vow, 1 Heavy Wyrm Scale, 1 Dwarven steel, 2 Gemstones | Murolosh `Zwerg_Handwerker_loc09_schmied` |
 | Phex's Final Jest | Smithing 13 | 1 Phex's Last Laugh, 1 Heavy Wyrm Scale, 1 Dwarven steel, 2 Gemstones | Murolosh `Zwerg_Handwerker_loc09_schmied` |
 | White Fur Mantle | Bowcraft 4 | 1 Silver Ruff of White Fur, 2 Wolfskin, 2 Leather strips | Ferdok, Count's Town `holzfaeller_loc02_haendler_graf_fliegender` |
-| Darkwolf Jerkin | Bowcraft 8 | 3 Dark Wolf Pelt, 2 Leather strips, 1 Improved sinews | Ferdok, Count's Town `holzfaeller_loc02_haendler_graf_fliegender` |
-| Darkwolf Breeches | Bowcraft 7 | 1 Heavy-duty Leather Pants, 2 Dark Wolf Pelt, 1 Leather strips | Ferdok, Count's Town `holzfaeller_loc02_haendler_graf_fliegender` |
-| Darkwolf Grips | Bowcraft 6 | 1 Dark Wolf Pelt, 2 Wolf Fang, 1 Leather strips | Ferdok, Count's Town `holzfaeller_loc02_haendler_graf_fliegender` |
+| Darkwolf Jerkin | Bowcraft 8 | 3 Dark Wolf Pelt, 2 Leather strips, 1 Improved sinews |  |
+| Darkwolf Breeches | Bowcraft 7 | 1 Heavy-duty Leather Pants, 2 Dark Wolf Pelt, 1 Leather strips |  |
+| Darkwolf Grips | Bowcraft 6 | 1 Dark Wolf Pelt, 2 Wolf Fang, 1 Leather strips |  |
 | Moonhowl Mantle | Bowcraft 8 | 1 White Fur Mantle, 2 Moon-mad Pelt, 1 Moon-mad Sinew, 2 Leather strips |  |
-| Moonhowl Jerkin | Bowcraft 11 | 1 Darkwolf Jerkin, 1 Greymaw's Mane, 2 Moon-mad Pelt, 1 Moon-mad Sinew |  |
-| Moonhowl Breeches | Bowcraft 9 | 1 Darkwolf Breeches, 2 Moon-mad Pelt, 1 Leather strips |  |
-| Moonhowl Grips | Bowcraft 9 | 1 Darkwolf Grips, 1 Moon-mad Pelt, 2 Moon-mad Sinew |  |
+| Moonhowl Jerkin | Bowcraft 11 | 1 Darkwolf Jerkin, 1 Greymaw's Mane, 2 Moon-mad Pelt, 1 Moon-mad Sinew | Tallon `Jaeger_Kauzenstein_loc08_jaeger` |
+| Moonhowl Breeches | Bowcraft 9 | 1 Darkwolf Breeches, 2 Moon-mad Pelt, 1 Leather strips | Tallon `Jaeger_Kauzenstein_loc08_jaeger` |
+| Moonhowl Grips | Bowcraft 9 | 1 Darkwolf Grips, 1 Moon-mad Pelt, 2 Moon-mad Sinew | Tallon `Jaeger_Kauzenstein_loc08_jaeger` |
 | Moonhowl Longbow | Bowcraft 10 | 1 Longbow, 3 Moon-mad Sinew, 1 Elf wood |  |
 | Stormhowl Shoulder Guards | Bowcraft 10 | 1 Iryan Leather Shoulder Guards, 1 Stormhowl's Heartstone, 2 Moon-mad Pelt, 2 Leather strips | Tallon `Jaeger_Kauzenstein_loc08_jaeger` |
 | Tuskhide Cuirass | Smithing 5 | 1 Leather Cuirass, 4 Boar Tusk, 2 Leather strips | Ferdok, Count's Town `Zwerg_Handwerker_loc02_trainer_graf_schmied` |
 | Tuskhide Bracers | Smithing 4 | 1 Studded Arm Greaves, 2 Boar Tusk, 1 Leather strips | Ferdok, Count's Town `Zwerg_Handwerker_loc02_trainer_graf_schmied` |
 | Bearclaw Helm | Bowcraft 5 | 1 Leather Helm, 2 Bear Claw, 1 Leather strips | Ferdok, Count's Town `holzfaeller_loc02_haendler_graf_fliegender` |
-| Ironshell Cuirass | Smithing 8 | 1 Tuskhide Cuirass, 3 Crab Shell Plate, 1 Steel | Moorbridge `Wirt_2_loc04_schmied` |
-| Ironshell Bracers | Smithing 7 | 1 Tuskhide Bracers, 2 Crab Shell Plate | Moorbridge `Wirt_2_loc04_schmied` |
-| Ironshell Helm | Smithing 7 | 1 Bearclaw Helm, 2 Crab Shell Plate, 1 Troll-toad Wart | Moorbridge `Wirt_2_loc04_schmied` |
-| Warlord Cuirass | Smithing 11 | 1 Ironshell Cuirass, 1 Tatzelwurm Fang, 2 Crypt-louse Carapace, 1 Kosh steel | Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
-| Warlord Bracers | Smithing 10 | 1 Ironshell Bracers, 2 Crypt-louse Carapace, 1 Kosh steel | Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
-| Warlord Helm | Smithing 10 | 1 Ironshell Helm, 2 Bear Claw, 1 Kosh steel | Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
+| Ironshell Cuirass | Smithing 8 | 1 Tuskhide Cuirass, 3 Crab Shell Plate, 1 Steel | Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
+| Ironshell Bracers | Smithing 7 | 1 Tuskhide Bracers, 2 Crab Shell Plate |  |
+| Ironshell Helm | Smithing 7 | 1 Bearclaw Helm, 2 Crab Shell Plate, 1 Troll-toad Wart | Tallon `Handwerkerin_1_loc08_haendler_handwerk` |
+| Warlord Cuirass | Smithing 11 | 1 Ironshell Cuirass, 1 Ogre Chief's Hide, 1 Tatzelwurm Fang, 1 Kosh steel |  |
+| Warlord Bracers | Smithing 10 | 1 Ironshell Bracers, 1 Golem Heartstone, 2 Crypt-louse Carapace, 1 Dwarven steel | Murolosh `Zwerg_Handwerker_loc09_schmied` |
+| Warlord Helm | Smithing 10 | 1 Ironshell Helm, 2 Bear Claw, 1 Dwarven steel | Murolosh `Zwerg_Handwerker_loc09_schmied` |
 | Witchweave Robe | Alchemy 6 | 1 Green Magician's Robe, 2 Silk gland, 2 Troll-toad Wart | Blood Mountains `Saphira_Trader` |
 | Witchweave Hat | Alchemy 5 | 1 Pointy Hat, 1 Silk gland, 1 Troll-toad Wart | Blood Mountains `Saphira_Trader` |
 | Witchweave Slippers | Alchemy 5 | 1 Magician's Shoes, 1 Silk gland, 1 Firefly Ember Sac | Blood Mountains `Saphira_Trader` |
@@ -367,6 +393,20 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | Skyhunter Mantle | Bowcraft 11 | 1 Moonhowl Mantle, 3 Harpy feathers, 1 Improved sinews | Tallon `Jaeger_Kauzenstein_loc08_jaeger` |
 | Skyhunter Grips | Bowcraft 11 | 1 Moonhowl Grips, 2 Harpy feathers, 1 Bear Claw | Tallon `Jaeger_Kauzenstein_loc08_jaeger` |
 | Skyhunter Hood | Bowcraft 9 | 1 Leather Cap, 3 Harpy feathers, 1 Leather strips | Tallon `Jaeger_Kauzenstein_loc08_jaeger` |
+| Silverpelt Mantle | Bowcraft 9 | 1 White Fur Mantle, 1 Pelt of Duskmane, 2 Leather strips |  |
+| Mantle of the Pack-Mother | Bowcraft 12 | 1 Silverpelt Mantle, 1 Greymaw's Mane, 1 Aldessia's Silver Tincture, 2 Leather strips |  |
+| Sunward Helm | Smithing 8 | 1 Bearclaw Helm, 1 Inquisitor's Sun-Seal, 1 Gold leaf |  |
+| Cinder Ward | Bowcraft 7 | 1 Cinder of the Dragon-Cult, 1 Leather strips |  |
+| Cutpurse's Half-Boots | Bowcraft 5 | 1 Half-Boot, 2 Leather strips |  |
+| Night Hand Gloves | Bowcraft 6 | 1 Gloves of Shadow, 2 Leather strips, 1 Wolf Fang |  |
+| Nightrunner Veil | Bowcraft 7 | 1 Silk Keffiyeh, 1 Leather strips, 1 Gemstones |  |
+| Nightrunner Jerkin | Bowcraft 8 | 1 Iryan Armor, 3 Leather strips, 1 Glittering Green Eye |  |
+| Nightrunner Boots | Bowcraft 7 | 1 Iryan Leather Shoes, 2 Leather strips |  |
+| Velvet Hand Gloves | Bowcraft 9 | 1 Night Hand Gloves, 1 Kosh steel, 1 Glittering Green Eye |  |
+| Shadow Hand Gloves | Bowcraft 11 | 1 Velvet Hand Gloves, 1 Firefly Ember Sac, 1 Gold leaf |  |
+| Hands of Phex | Bowcraft 13 | 1 Shadow Hand Gloves, 1 Dwarven steel, 2 Gemstones |  |
+| Thunderhead Warhammer | Smithing 8 | 1 Warhammer, 2 Steel, 1 Bear Claw |  |
+| Harpy Queen's Crest | Bowcraft 10 | 1 Leather Helm, 6 Harpy feathers, 1 Gold leaf |  |
 
 ## Wyrm weapons (upgraded vanilla)
 
@@ -374,8 +414,8 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 |---|---|
 | Saber of the Wyrm | 1D6+10 HP; Immune to burning; 15% on hit: Burning; Against burning foes: +1d6 fire damage; 8% on hit: Wound |
 | Spear of the Wyrm | 2D6+8 HP; Immune to burning; 15% on hit: Knockdown; Against downed foes: +1d6 damage; 10% on hit: Burning |
-| Bow of the Wyrm | 4D6+5 HP; Immune to burning; On hit: +1d6 fire damage; 10% on hit: Burning |
-| Crossbow of the Wyrm | 3D6+14 HP; Immune to burning; 20% on hit: Stun; Against stunned foes: +1d6 damage; 10% on hit: Burning |
+| Bow of the Wyrm | 4D6+9 HP; Immune to burning |
+| Crossbow of the Wyrm | 3D6+15 HP; Immune to burning |
 
 ## Pal'Na'Thar final weapons (upgraded vanilla)
 
@@ -390,8 +430,8 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | Firethorn | 1D6+10 HP; Immune to burning; 15% on hit: Burning; 10% on hit: Wound |
 | Sparksting | 1D6+11 HP; Immune to burning; 15% on hit: Burning; 12% on hit: Dazed |
 | Sparkstrike | 1D6+11 HP; Immune to burning; 15% on hit: Burning; On hit: restores 2 AE to the wielder |
-| Firestorm | 2D6+6 HP; Immune to burning; 15% on hit: Burning; Against burning foes: +1d6 fire damage |
-| Flamesting | 2D6+14 HP; Immune to burning; 15% on hit: Burning; 20% on hit: Stun |
+| Firestorm | 2D6+7 HP; Immune to burning |
+| Flamesting | 2D6+14 HP; Immune to burning |
 
 ## Arrow ladder
 
@@ -408,6 +448,7 @@ Weapon, armour and shield bonuses use only native effects, so their tooltip line
 | Hawk-feather Arrows | On hit: +1 damage | 20 | 8 | Tallon `Jaeger_Kauzenstein_loc08_jaeger` | 6 D |
 | Sleepthorn Arrows | 15% on hit: Stun | 20 | 9 | Tallon `Jaeger_Kauzenstein_loc08_jaeger` | 7 D |
 | Moon-sinew Arrows | On hit: +1 damage; 15% on hit: +1d6 magic damage | 10 | 9 | Blood Mountains `Haendlerin_1_loc03_dunkelforst` | 7 D |
+| Duskfeather Arrows | On hit: +2 magic damage | 10 | 10 | None `None` | 10 D |
 
 ## Dragon hoard and supplies
 

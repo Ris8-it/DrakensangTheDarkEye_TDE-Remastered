@@ -4,7 +4,7 @@ Install AFTER `mods/armory_v2` (uses its effects and items). New game required.
 
 | Kind | Item | Effect | How to get |
 |---|---|---|---|
-| Talisman | **Wolf-fang Necklace** | Survival +2, AU +5 | Bowcraft 5: 3 Wolf Fang |
+| Talisman | **Wolf-fang Necklace** | AU +5, Sneak +1 | Bowcraft 5: 3 Wolf Fang |
 | Talisman | **Boar-tusk Charm** | LE +5, Willpower +2 | Bowcraft 6: 2 Boar Tusk |
 | Talisman | **Rat-king's Ring** | Pick Pocket +2, Pick Locks +2 | Bowcraft 6: 1 Giant Rat's Tail |
 | Talisman | **Bear-claw Talisman** | AU +10, Intimidate +2 | Bowcraft 8: 2 Bear Claw |
@@ -13,10 +13,11 @@ Install AFTER `mods/armory_v2` (uses its effects and items). New game required.
 | Talisman | **Ember-sac Charm** | AE +5; Immune to burning | Bowcraft 10: 2 Firefly Ember Sac |
 | Talisman | **Tatzelwurm-fang Amulet** | Courage +2; Immune to knockdown | Bowcraft 12: 1 Tatzelwurm Fang, 2 zutat_s_blattgold |
 | Talisman | **Purplewyrm-horn Talisman** | Strength +1, Constitution +1, Courage +1, LE +10; Immune to burning | Bowcraft 14: 1 Purplewyrm Horn, 2 zutat_s_edelsteine |
-| Talisman | **Alpha's Fang Necklace** | Agility +1, Sneak +2, Survival +2, AU +5 | Bowcraft 8: Wolf-fang Necklace, Fang of White Fur, 2 Wolf Fangs |
+| Talisman | **Alpha's Fang Necklace** | Dodge +1, Sneak +2, AU +5 | Bowcraft 8: Wolf-fang Necklace, Fang of White Fur, 2 Wolf Fangs |
 | Talisman | **Warding Charm** | Parry +1, Magic resistance +1 | Bowcraft 7: 2 Crab Shell Plate, 1 zutat_s_lederbaender |
 | Talisman | **Greater Warding Charm** | Parry +1, Magic resistance +2, Constitution +1 | Bowcraft 9: 1 Warding Charm, 2 Troll-toad Wart |
 | Talisman | **Grand Warding Charm** | Parry +1, Magic resistance +3, Constitution +1, AU +5 | Bowcraft 11: 1 Greater Warding Charm, 2 Crypt-louse Carapace |
+| Talisman | **Moonhowl Pendant** | AU +8, Sneak +2, Courage +1 | Bowcraft 9: Wolf-fang Necklace, 1 moon sinew, 2 wolf fangs (plan from Hagen) |
 | Oil | **Frostbite Oil** | On hit: +1 magic damage; 20% on hit: Cold Shock (Corpofrigo) | Alchemy 8, makes 3 |
 | Oil | **Ember Oil** | On hit: +1 fire damage; 25% on hit: Burning | Alchemy 8, makes 3 |
 | Oil | **Spider Venom Oil** | 25% on hit: Wyrm Venom | Alchemy 10, makes 3 |
@@ -38,6 +39,14 @@ Install AFTER `mods/armory_v2` (uses its effects and items). New game required.
 | Scroll | **Scroll of Iron Skin** | Parry +2, Dodge +2, Magic resistance +2. | Arcane lore 8, makes 2; 3 sold by the Tallon magic trainer |
 | Scroll | **Scroll of Battle Trance** | Attack +2, Parry +1, Courage +2. | Arcane lore 8, makes 2; 3 sold by the Tallon magic trainer |
 | Scroll | **Scroll of Mending** | Regains 3 LE every 3 seconds, ten times. | Arcane lore 8, makes 2; 3 sold by the Tallon magic trainer |
+| Talisman | **Focus Talisman: Courage** | the bearer casts Attributo (Courage) on the whole party nearby | sold by the magic trainers in Ferdok and Tallon |
+| Talisman | **Focus Talisman: Cleverness** | the bearer casts Attributo (Cleverness) on the whole party nearby | sold by the magic trainers in Ferdok and Tallon |
+| Talisman | **Focus Talisman: Intuition** | the bearer casts Attributo (Intuition) on the whole party nearby | sold by the magic trainers in Ferdok and Tallon |
+| Talisman | **Focus Talisman: Charisma** | the bearer casts Attributo (Charisma) on the whole party nearby | sold by the magic trainers in Ferdok and Tallon |
+| Talisman | **Focus Talisman: Dexterity** | the bearer casts Attributo (Dexterity) on the whole party nearby | sold by the magic trainers in Ferdok and Tallon |
+| Talisman | **Focus Talisman: Agility** | the bearer casts Attributo (Agility) on the whole party nearby | sold by the magic trainers in Ferdok and Tallon |
+| Talisman | **Focus Talisman: Constitution** | the bearer casts Attributo (Constitution) on the whole party nearby | sold by the magic trainers in Ferdok and Tallon |
+| Talisman | **Focus Talisman: Strength** | the bearer casts Attributo (Strength) on the whole party nearby | sold by the magic trainers in Ferdok and Tallon |
 | Skill weapon | **Phex's Gambit** | Pickpocket check on hit: +1d6+2 damage, Dazed | sold by `Raeuber03_loc08_haendler_dieb` |
 | Skill weapon | **Scholar's Edge** | Arcane lore check on hit: restores 3 AE to the wielder, +1d6 magic damage | sold by `npc_magiertrainer_loc08_trainer_magie` |
 | Skill weapon | **Huntmaster's Bow** | Animal lore check on hit: +1d6+2 damage | sold by `Jaeger_Kauzenstein_loc08_jaeger` |
@@ -52,14 +61,14 @@ Install AFTER `mods/armory_v2` (uses its effects and items). New game required.
 | Set bonus | **Mountain King set: with Ferolax's Forge-Plate, LE +10, Constitution +1** | otherwise Blacksmith +1 | on arm_j_mountain_king (checked when equipped) |
 | Set bonus | **Wyrm set: with the Wyrmscale Cuirass, Strength/Courage +1** | otherwise Animal Lore +1 | on arm_a_umbracor_splinter (checked when equipped) |
 | Gathering | **Gatherer's Gloves** | Plant Lore +2, Animal Lore +2 | `Dorfbewohner04_loc02_haendler_praios_gemischt` |
-| Gathering | **Ring of the Green Thumb** | Plant Lore +3, Survival +2 | `Peraine_Priesterin_01_loc02_haendler_graf_kraeuter` |
-| Gathering | **Hunter's Totem** | Animal Lore +3, Plant Lore +2, Survival +2 | `Jaeger_Kauzenstein_loc08_jaeger` |
-| Gathering tool | **Huntress' Skinning Knife** | Animal Lore +3 (quick-slot tool) | `Jaeger_Kauzenstein`, `Jaeger_Kauzenstein_loc02_trainer_praios_bogen` |
-| Gathering tool | **Herbalist's Sickle** | Plant Lore +3 (quick-slot tool) | `alchimistin_loc01`, `Dorfbewohnerin_loc02_haendler_praios_kraeuter`, `Haendlerin_1_loc08_haendler_kraeuter` |
-| Gathering tool | **Master Furrier's Knife** | Animal Lore +4 (quick-slot tool) | `Jaeger_Kauzenstein_loc08_jaeger` |
-| Gathering tool | **Druid's Golden Sickle** | Plant Lore +4 (quick-slot tool) | `Dorfbewohnerin01_loc04` |
-| Gathering tool | **Grandmaster Furrier's Knife** | Animal Lore +6 (quick-slot tool) | crafted |
-| Gathering tool | **Sickle of Peraine's Harvest** | Plant Lore +6 (quick-slot tool) | crafted |
+| Gathering | **Ring of the Green Thumb** | Plant Lore +3 | `Peraine_Priesterin_01_loc02_haendler_graf_kraeuter` |
+| Gathering | **Hunter's Totem** | Animal Lore +3, Plant Lore +2 | `Jaeger_Kauzenstein_loc08_jaeger` |
+| Gathering tool | **Huntress' Skinning Knife** | Animal Lore +2 (quick-slot tool) | `Jaeger_Kauzenstein`, `Jaeger_Kauzenstein_loc02_trainer_praios_bogen` |
+| Gathering tool | **Herbalist's Sickle** | Plant Lore +2 (quick-slot tool) | `alchimistin_loc01`, `Dorfbewohnerin_loc02_haendler_praios_kraeuter`, `Haendlerin_1_loc08_haendler_kraeuter` |
+| Gathering tool | **Master Furrier's Knife** | Animal Lore +3 (quick-slot tool) | `Jaeger_Kauzenstein_loc08_jaeger` |
+| Gathering tool | **Druid's Golden Sickle** | Plant Lore +3 (quick-slot tool) | `Dorfbewohnerin01_loc04` |
+| Gathering tool | **Grandmaster Furrier's Knife** | Animal Lore +4 (quick-slot tool) | crafted |
+| Gathering tool | **Sickle of Peraine's Harvest** | Plant Lore +4 (quick-slot tool) | crafted |
 | Surprise | **Dranor's Die-Ring** | Haggle +2, Pick Pocket +2 | secret |
 | Surprise | **Kladdis's Feather of Fortune** | Seduce +3, Sneak +2 | secret |
 | Surprise | **Traldar's Campaign Medal** | Etiquette +3, AU +5 | secret |
@@ -70,7 +79,6 @@ Install AFTER `mods/armory_v2` (uses its effects and items). New game required.
 | Surprise | **Rakorium's Unmagical Hat** | - | secret |
 | Surprise | **Your Own Wanted Poster** | Streetwise +3, Charisma -1 | secret |
 | Surprise | **Pot of Kurkum Warpaint** | Courage +1, Etiquette -2 | secret |
-| Surprise | **Gwendala's Pressed Moon-Lily** | Plant Lore +3 | secret |
 | Surprise | **Rakorium's Pet 'Dragon'** | AE +3, Animal Lore +2 | secret |
 | Surprise | **Kladdis's 37th Love Letter** | Seduce +2, Fast Talk +2 | secret |
 | Surprise | **Cyclops Monocle** | Perception +4, Agility -1 | secret |
@@ -82,9 +90,12 @@ Install AFTER `mods/armory_v2` (uses its effects and items). New game required.
 | Surprise | **Ardo's Lucky Sock** | Courage +2, Charisma -2 | secret |
 | Surprise | **Cano's Signet (Probably Stolen)** | Etiquette +3, Charisma +1, Haggle -3 | secret |
 | Surprise | **Rakorium's Second-Best Hat** | Cleverness +2, Intuition +1, Courage -1, AE +5 | secret |
-| Surprise | **Boots of Strategic Retreat** | Agility +1, Dodge +2, Courage -2 | secret |
+| Surprise | **Boots of Strategic Retreat** | Intuition +1, Dodge +1 | secret |
 | Surprise | **Forgrimm's Spare Beard Comb** | Strength +1, Charisma +1 | secret |
 | Secret | **Wenzel's Last Note** | a skeleton in the Avestrue bear cave | leads to the Dead Man's Lockpick in the Ferdok thieves' guild |
+| Ring | **Ring of Warding** | armour +1 every zone, stacks with Armatrutz | Japhgur's hoard |
+| Ring | **Wyrmward Signet** | armour +2 every zone, MR +1 | upgrade, Murolosh smith, Smithing 13 |
+| Ring | **Ward of the Old Bones** | armour +3 every zone, MR +2, no knockdown | upgrade with the Cyclops Rune-Bone, Smithing 15 |
 | Surprise | **Gwendala's Lucky Arrow** | +15 damage, 50% stun (3 arrows) | secret |
 | Surprise | **Avestrue chickens** | skinning: dragon egg 30%, golden feather 3% | Animal lore |
 | Surprise | **Rakorium's Omelette** | Courage +3, Strength +1, Cleverness -1, 10 min | tavern recipe |

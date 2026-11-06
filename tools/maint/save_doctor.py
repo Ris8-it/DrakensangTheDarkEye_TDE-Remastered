@@ -76,6 +76,11 @@ def check(path, ids, recipes, fix=False):
         for (i,) in S.execute(f"select distinct Id from \"{t}\" where Id like 'arm%'"):
             if i not in ids: rep.append(f'{t}: {i} has no template (needs a human: re-add the template or remove the object)')
     if fix: S.commit()
+    if fix:
+        S.close()   # rewrite with the bundled SQLite 3.6.1, the game's engine generation (see sync_save_world.py)
+        import subprocess
+        subprocess.run([os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'bin', 'sqlite3.exe'), path, 'vacuum;'], check=True)
+        S = sqlite3.connect(path); S.text_factory = dec
     ok = S.execute('pragma integrity_check').fetchone()[0]
     if ok != 'ok': rep.append('INTEGRITY: ' + ok)
     name = os.path.relpath(path, SAVES) if path.startswith(SAVES) else path

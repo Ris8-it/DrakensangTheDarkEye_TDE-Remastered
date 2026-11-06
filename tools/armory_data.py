@@ -130,7 +130,7 @@ ITEMS = [
 
     # ======================= AMAZING: identity effects, mostly craftable from ordinary gear =======================
     W('a_lioncub', 'amazing', 'Amazonensaebel', 'Lioncub Saber', 'A Kurkum saber for an Amazon who has drawn blood but not yet earned her lion.',
-      (C, 'loc04_sarkophag_chest_1', 'dungeon04_gruft'), hit=[('p', 12, [('st', 'ArmSundered')])], tint=HOLY),
+      (L, 'loot_loc05_truhe_drachenraum_04', 'all'), hit=[('p', 12, [('st', 'ArmSundered')])], tint=HOLY),
     W('a_ember_saber', 'amazing', 'Khunchomer', 'Saber of Embers', 'Tulamide fire-steel; the edge glows after every kill.',
       (C, 'loc03_truhe_koch', 'dungeon03_gutshaus_kueche'), hit=[('if', 'burning', [('dmg', 0, 1, 'fire', 'Ignisphaero_Impact')]), ('p', 12, [FIRE()])], tint=EMBER,
       recipe=R('TaSchmieden', 10, [('Weapon', 'Khunchomer', 1)], [(TINDER, 3), (KOSH, 1)], [FERDOK_SMITH, TALLON_CRAFT], 8)),
@@ -429,3 +429,7 @@ AMMO += AMMO_V24
 exec(open(_os.path.join(_os.path.dirname(__file__), 'armory_data_v25.py'), encoding='utf-8').read())
 # v2.6 crafting rework (five lines, beast parts) and the armour class rules (last)
 exec(open(_os.path.join(_os.path.dirname(__file__), 'armory_data_v26.py'), encoding='utf-8').read())
+# v2.7 rebalance: gates, relics, mantle tiers, item stories (docs/REBALANCE_PLAN.md)
+exec(open(_os.path.join(_os.path.dirname(__file__), 'armory_data_v27.py'), encoding='utf-8').read())
+# v2.8 the Thieves' Guild: gear and plans sold by the guild members who join Cano's hall (docs/THIEVES_GUILD_PLAN.md)
+exec(open(_os.path.join(_os.path.dirname(__file__), 'armory_data_v28.py'), encoding='utf-8').read())

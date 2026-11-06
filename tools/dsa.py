@@ -321,7 +321,7 @@ class Mod:
 
     def loot(self, table, typ, iid, mode='all', chance=100, amount=1, value=0):
         """Queue a loot-table entry. mode 'all': raise the pick count so every entry (vanilla + ours) drops;
-        'plus1': one extra pick; 'none': leave the pick count (value-0 tables roll every entry)."""
+        'plus1': one extra pick; 'none': leave the pick count. Value-0 tables are always raised to every entry (0 does not roll them all)."""
         r = self.loot_tables().get(table)
         assert r, table
         st = self._loot.setdefault(table, dict(v=r[0], n=r[1].count(';'), entries=[], mode=mode))
@@ -341,7 +341,9 @@ class Mod:
             v, n, add = st['v'], st['n'], ''.join(st['entries'])
             strip = 'LootTableContent'
             for e in st['entries']: strip = f"REPLACE({strip},{lit(e)},'')"
-            if v.isdigit() and v != '0' and st['mode'] in ('all', 'plus1'):
+            if v in ('0', ''):   # a value-0 table does not roll every entry: draw them all (vanilla + ours)
+                newv = str(n + len(st['entries']))
+            elif v.isdigit() and st['mode'] in ('all', 'plus1'):
                 newv = str(max(int(v), n) + len(st['entries'])) if st['mode'] == 'all' else str(int(v) + len(st['entries']))
             else:
                 newv = v

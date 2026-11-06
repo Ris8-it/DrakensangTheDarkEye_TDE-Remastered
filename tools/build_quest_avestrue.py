@@ -19,6 +19,13 @@ from quests import Story, ACTSEL as A
 db, out = sys.argv[1], sys.argv[2]
 HERE = os.path.dirname(__file__)
 m = Mod(db, 'questavestrue'); st = Story(m, 'questavestrue')
+# templates of the earlier modules (armory_v2, remastered_systems: the trophies Ulfried sells): a scratch static.db4 with their SQL applied
+import sqlite3, tempfile
+_snap = tempfile.mkdtemp(); shutil.copy2(os.path.join(db, 'static.db4'), _snap)
+_sc = sqlite3.connect(os.path.join(_snap, 'static.db4')); _sc.text_factory = lambda b: b.decode('cp1252', 'replace'); _sc.row_factory = sqlite3.Row
+for _mod in ('armory_v2', 'remastered_systems'):
+    _sc.executescript(open(os.path.join(os.path.dirname(__file__), '..', 'mods', _mod, 'sql', 'static.sql'), encoding='cp1252').read())
+st.templates_from = _sc
 os.makedirs(os.path.join(out, 'icons'), exist_ok=True)
 D = lambda d: int(d * 100)
 icon_files = []
@@ -53,24 +60,28 @@ def reward(rk, base, name, desc, mods, imm, tier, typ='Jewelry', **stats):
 BEASTS = [  # key, display, base template, level, anchor, offset, stat changes, unique trophy (key, name, desc), extra drops, reward (key, base, name, desc, mods, imm, tier), hint, xp
     # moved out of Avestrue (the village closes after the prologue, so he could be missed for good; audit A7)
     ('grimtusk', 'Old Grimtusk', 'Wildschwein_loc01', 'location03',
-     ('Monster', '|Level|Objects|Monster|unique|Josmene_Wildschwein_1', '_ID'), (5.0, 0, 4.0),
+     # 6 Nov: the old anchor (Josmene's boar 1) is a parked placeholder off the map (x 715); he stood unreachable. Now the woods below
+     # her farm, 89 m from Josmene, 23 m from any quest object, on the level's one walk graph (tools/ground.py, .work/inspect/spot2.py)
+     ('NPC', 'Josmene'), (-36.28, -4.31, -82.23),
      dict(LE=100, LEmax=100, AT=15, PA=2, RSBr=4, MR=3, BasisXP=6, Stufe=4),
      ('tr_grimtusk', "Grimtusk's Tusk", 'A tusk as long as a forearm, scarred by a dozen hunters who did not come home.'),
      [('Item', 'arm_tr_boar_tusk', 100, 2, 1), ('Item', 'Wildschweinfell', 100, 1, 1)],
      ('tl_grimtusk', 'Silberkette', 'Grimtusk Charm', "Old Grimtusk's tusk bound in silver. You shrug off a little more.", 'LEmax +3 TaSelbstbeherrschung +2', '', 'amazing'),
      "Old Grimtusk, a boar the size of a cart, roams with the wild boars of the Blood Mountains, near Josmene's farm.", 20),
-    ('ashpelt', 'Ashpelt the Elder', 'Baer_loc03', 'location03', ('MarkerPoint', 'loc03_marker_dunkelforst'), (6.0, 0, 0),
+    # out of the manor gate (player review 3 Nov): up in the woods 28 m west of Berndrik's pond camp, on flat navmesh ground clear of
+    # every quest entry/trigger/patrol (picked from location03.map with the re-data navmap reader; y = ground + 1 m)
+    ('ashpelt', 'Ashpelt the Elder', 'Baer_loc03', 'location03', ('NPC', 'Berndrich'), (-28.04, -0.17, 4.72),
      dict(LE=170, LEmax=170, AT=18, PA=3, RSBr=5, MR=6, BasisXP=12, Stufe=10),
      ('tr_ashpelt', "Ashpelt's Claw", 'A grey-tipped claw from the oldest bear of the Dark Forest. It is warm, as if the bear still lived.'),
      [('Item', 'arm_tr_bear_claw', 100, 2, 1), ('Item', 'Baerenfell', 100, 1, 1)],
      ('tl_ashpelt', 'Goldkette', "Ashpelt's Talisman", 'The elder bear walks with you.', 'AUmax +8 LEmax +4', '', 'superrare'),
      'Ashpelt the Elder, a grey bear older than the witches, sleeps deep in the Dark Forest of the Blood Mountains.', 35),
-    ('marshqueen', 'Queen of the Marsh', 'Loc03_DanosKroete', 'location04', ('MarkerPoint', 'loc04_marker_muehle'), (5.0, 0, 2.0),
-     dict(LE=160, LEmax=160, AT=19, PA=2, RSBr=4, MR=10, BasisXP=12, Stufe=10, Faction='FaRaubtier'),
+    ('marshqueen', 'Queen of the Marsh', 'Trollkroete_02_loc03', 'location04', ('SpawnPoint', 'Zombies01', 'EncounterName'), (0.0, 0, 0.0),   # deep in the marsh between the last two crypts (player, 2 Nov)
+     dict(LE=160, LEmax=160, AT=19, PA=2, RSBr=4, MR=10, BasisXP=12, Stufe=10, Faction='FaFeind', IsVictoryWorthy=1),
      ('tr_marsh_pearl', 'Marsh Pearl', 'A milky green pearl from the throat of the Queen of the Marsh. Spells seem to slide off it.'),
      [('Item', 'arm_tr_toad_wart', 100, 3, 1)],
      ('tl_marsh_pearl', 'Silberring', 'Marsh Pearl Ring', 'Bitter, cold and green. Magic and venom both struggle to reach you.', 'MR +2', 'poison', 'superrare'),
-     'The Queen of the Marsh, a troll-toad as big as a hut, croaks near the old mill of Moorbridge.', 40),
+     'The Queen of the Marsh, a troll-toad as big as a hut, croaks between the last crypts of the Moorbridge marsh.', 40),
     ('emberqueen', 'The Ember Queen', 'Feuerfliege_fett', 'location08', ('MarkerPoint', 'Mapmarker_loc08_Haendlerhoehle'), (5.0, 0, 0),
      dict(LE=260, LEmax=260, AT=19, PA=0, RSBr=3, MR=16, BasisXP=14, Stufe=12),   # audit B15: stronger than chapter 3's Ashpelt
      ('tr_ember_crown', 'Ember Crown', 'The glowing crest of the Ember Queen, mother of the Tallon fireflies. It never cools.'),
@@ -84,16 +95,48 @@ BEASTS = [  # key, display, base template, level, anchor, offset, stat changes, 
      ('tl_brood_heart', 'Goldkette', "Broodmother's Heart", 'Eight-eyed patience, quick as a strike. Venom is your friend now.', 'GE +2 FF +1 AW +1', 'poison', 'legendary'),
      'The Broodmother, the great emerald spider, guards the crystal caves behind the Fire Falls.', 60),
 ]
+# Fiercer legends (player, 2 Nov: "they have been super easy"): their own species' moves much more often, harder hits, clever
+# tactics, an aura where it fits (the auras vanilla gives fire spirits, swamp amoebas and spirit bears), and an escort of their
+# kind placed around them. key -> (stat changes, [(escort template, count, name, escort stat changes)])
+FIERCE = {
+    'grimtusk': (dict(AT=18, PA=4, ATW6=2, ATW6plus=6, RSBr=5, Behaviour='clever_fighter', SpecialAttackChances='BoarAttack 6.0 0, MeleeAttack 5.0 0'),
+                 [('Wildschwein', 3, 'Grimtusk Sow', dict(LE=50, LEmax=50, AT=14))]),
+    'ashpelt': (dict(AT=20, PA=5, ATW6=3, ATW6plus=5, RSBr=6, Behaviour='clever_fighter', AuraStatuseffect='blitzDichFind',
+                     SpecialAttackChances='BearSweepAttack 5.0 0, MeleeAttack 5.0 0'),
+                [('Baer_loc03', 2, "Ashpelt's Kin", dict(LE=75, LEmax=75))]),
+    'marshqueen': (dict(AT=21, PA=4, ATW6=3, ATW6plus=4, RSBr=5, Behaviour='clever_fighter', AuraStatuseffect='rotten_stench',
+                        SpecialAttackChances='TrolltoadStunAttack 5.0 0, MeleeAttack 5.0 0'),
+                   [('Trollkroete_02_loc03', 7, 'Marsh Courtier', dict(LE=35, LEmax=35, Faction='FaFeind'))]),   # a bigger court (player, 3 Nov)
+    'emberqueen': (dict(AT=22, PA=3, ATW6=3, ATW6plus=4, Behaviour='clever_fighter', AuraStatuseffect='burning', Immunity='burning;fire',
+                        SpecialAttackChances='FireFlyPoisonAttack 5.0 0, MeleeAttack 5.0 0'),
+                   [('Feuerfliege_03', 5, 'Ember Drone', dict(LE=25, LEmax=25, AT=14, ATW6plus=1, Immunity='burning;fire'))]),
+    'broodmother': (dict(AT=25, PA=6, ATW6=3, ATW6plus=8, RSBr=7, Behaviour='clever_fighter', SpecialAttackChances='SmaragdSpiderPoisonAttack 5.0 0, MeleeAttack 5.0 0'),
+                    [('Smaragdspinne_klein_loc10', 4, 'Brood Spiderling', {})]),
+}
+# Ground spots (offsets from the BEASTS anchor) snapped to fully linked navmesh nodes of the level; the woods west of
+# Berndrich's camp are tight, so a ring would put bears in trees or the slope.
+SPOTS = {'ashpelt': {'kin1': (-25.04, 0.01, 3.72), 'kin2': (-29.20, 0.41, 7.94),
+                     'call1': (-23.04, 0.35, 7.72), 'call2': (-27.60, 0.35, 9.57), 'call3': (-25.04, -0.37, -0.28),
+                     'call4': (-23.04, -0.12, 1.72), 'call5': (-29.20, 0.41, 7.94)}}
+import math
 for key, disp, base, lvl, anchor, off, over, (tk, tname, tdesc), drops, (rk, rbase, rname, rdesc, rmods, rimm, tier), hint, xp in BEASTS:
     trophy(tk, tname, tdesc, 'arm_q_ulfried_legends')
     lt = st.loot_table(f'arm_lt_{key}', [('Item', f'arm_{tk}', 100, 1, 1)] + drops)
-    # unique beasts resist wounds and carry a third more life (review 1 Nov, tools/beasts_data.py)
+    fierce, escorts = FIERCE.get(key, ({}, []))
+    # unique beasts resist wounds and carry double life (review 1 Nov: a third more; 2 Nov: the boss of their area)
     _imm = (m.s.execute('select Immunity from _Template_Monster where Id=?', (base,)).fetchone()[0] or '').split(';')
-    over = dict(over, LE=int(over['LE'] * 1.3), LEmax=int(over['LEmax'] * 1.3),
-                Immunity=';'.join(dict.fromkeys(x for x in _imm + (over.get('Immunity') or '').split(';') + ['wound'] if x)))
-    st.monster(f'arm_mo_{key}', disp, base, lvl, anchor, off, info=hint, LootTable=lt, **over)
+    over = dict(over, **{k: v for k, v in fierce.items() if k != 'Immunity'})
+    over = dict(over, LE=int(over['LE'] * 2), LEmax=int(over['LEmax'] * 2),   # each the final fight of its area (player, 2 Nov)
+                Immunity=';'.join(dict.fromkeys(x for x in _imm + (over.get('Immunity') or '').split(';') + (fierce.get('Immunity') or '').split(';') + ['wound'] if x)))
+    st.monster(f'arm_mo_{key}', disp, base, lvl, anchor, off, info=hint, LootTable=lt, **dict(over, IsVictoryWorthy=1))   # victory pose (player, 2 Nov)
+    # the escort stands in a ring 3-4 m around the legend (or on the ground spots in SPOTS where the terrain is tight)
+    for e_base, n, e_name, e_over in escorts:
+        for i in range(n):
+            a = 2 * math.pi * i / n; r = 3.0 + (i % 2)
+            e_off = SPOTS[key][f'kin{i + 1}'] if key in SPOTS else (off[0] + r * math.cos(a), off[1], off[2] + r * math.sin(a))
+            st.monster(f'arm_mo_{key}_esc{i + 1}', e_name, e_base, lvl, anchor, e_off, info=f'{e_name}: it follows {disp}.', **e_over)
     reward(rk, rbase, rname, rdesc, rmods, rimm, tier)
-HEART = 'LEmax +10 AUmax +10 MU +1 TaTierkunde +3 TaPflanzenkunde +3 TaWildnisleben +3'
+HEART = 'LEmax +10 AUmax +10 MU +1 AW +1 MR +1'   # review 2 Nov: a found reward makes nobody a better gatherer
 reward('tl_heart_wild', 'Goldkette', 'Heart of the Wild', "Ulfried's masterpiece: a fang, a tusk, a claw, a pearl, an ember and an emerald heart, "
        "bound into one. The wild knows you now.", HEART, '', 'legendary')
 
@@ -151,12 +194,24 @@ COLLECTION = [  # key, trophy (key, name, desc), source, reward (key, base, name
      ('MonsterLarge', 'Japhgur', [('Item', 'arm_tr_wyrm_horn', 100, 1, 1)]),
      ('c_japhgur', 'Goldkette', 'Wyrmeye Amulet', 'The dragon\'s eye in gold. Fire, magic and blades all seem slower now.', 'IN +2 MR +3 AW +1', 'fire', 'legendary'),
      'Japhgur, the Purplewyrm, in his lair near Tallon.', 80),
+    ('madpack', ('tr_greymaw_fang', "Greymaw's Fang", "The great fang of Greymaw, alpha of the moon-mad pack of the Dark Forest. Silver light still clings to it."),
+     ('none', '', []),   # dropped by Greymaw (build_secret_quests.py, the mad pack's loot)
+     ('c_madpack', 'Silberkette', 'Moon-Mad Totem', "Greymaw's fang on a thong of moon sinew. The pack's madness is gone; its courage stayed.", 'MU +1 AUmax +5 TaSinnenschaerfe +2', '', 'superrare'),
+     'Greymaw, alpha of the moon-mad pack in the western woods of the Dark Forest.', 35),
+    ('spiritbear', ('tr_spirit_claw', 'Claw of the Elder Spirit', 'A claw of pale, living wood from the Elder Spirit-Bear of the Deeps of Gruldur. Lightning crawls along its grain.'),
+     ('none', '', []),   # the bear and its own loot are placed below (late game, player, 2 Nov)
+     ('c_spiritbear', 'Goldkette', 'Totem of the Elder Bear', 'The spirit of the oldest bear walks beside you. Lightning knows your name.', 'KO +2 MR +2 LEmax +15 AUmax +10', '', 'legendary'),
+     'The Elder Spirit-Bear in the Deeps of Gruldur.', 90),
+    ('harpyqueen', ('tr_harpy_plume', "Harpy Queen's Crown-Plume", 'The long storm-grey crown feather of the Harpy Queen of Tallon. It still smells of rain and blood.'),
+     ('none', '', []),   # the queen and her own loot are placed below (player, 2 Nov)
+     ('c_harpyqueen', 'Goldring', 'Featherfall Ring', 'A gold ring wrapped in one grey plume. You move like wind across a cliff.', 'GE +2 AW +1 FK +1', '', 'superrare'),
+     'The Harpy Queen and her flock on the harpy grounds outside Tallon.', 55),
     ('golem', ('tr_golem_heart', 'Golem Heartstone', 'The rune-stone heart of a stone golem from Aldessia\'s chambers in Murolosh.'),
      ('NPC', 'Steingolem_loc09_aldessia', []),
      ('c_golem', 'Goldring', 'Heartstone Ring', 'A ring of golem stone. You are a little more stone yourself.', 'KO +2 MR +1', '', 'superrare'),
      'The stone golems in Aldessia\'s chambers in Murolosh.', 45),
     ('cyclops', ('tr_cyclops_gem', 'Cyclops Eye-Gem', 'The gem that sat in the single eye socket of the cyclops skeleton in the Deeps of Gruldur.'),
-     ('loot', 'loot_unique_Zyklopenskelett_loc10', []),
+     ('loot', 'loot_unique_Zyklopenskelett_loc10', [('Item', 'arm_x_cyclops_bone', 100, 1, 1)]),   # the Wyrmward's last stage (remastered, 3 Nov)
      ('c_cyclops', 'Goldring', "Cyclops'-Eye Ring", 'One eye sees further than two. Your shots fly true.', 'FF +2 IN +1 TaBogen +2', '', 'legendary'),
      'The cyclops skeleton in the Deeps of Gruldur.', 60),
     ('grolm', ('tr_grolm_shard', "Grolm King's Crown-Shard", 'A shard of the Grolm King\'s crown, hidden in his treasure chests behind the Fire Falls.'),
@@ -170,12 +225,84 @@ reward('j_rat_crown', 'Silberkette', 'Crown of the Rat Mother', "Mother Ratzinsk
 for key, (tk, tname, tdesc), (styp, sid, extra), (rk, rbase, rname, rdesc, rmods, rimm, tier), hint, xp in COLLECTION:
     trophy(tk, tname, tdesc, 'arm_q_ulfried_collection')
     ours = [('Item', f'arm_{tk}', 100, 1, 1)] + extra
-    if styp == 'loot':
+    if styp == 'none': pass   # the source drops it itself
+    elif styp == 'loot':
         for t, i, c, n, v in ours: m.loot(sid, t, i, mode='all', chance=c, amount=n)
     else:
         override_loot(styp, sid, key, ours, lootable=(styp == 'MonsterLarge'))
     reward(rk, rbase, rname, rdesc, rmods, rimm, tier)
-MANTLE = 'LEmax +10 AUmax +10 MU +1 TaTierkunde +3'
+# the Elder Spirit-Bear (Deeps of Gruldur, pure late game: player, 2 Nov "go crazy"): a nature-spirit bear grown huge, its lightning aura,
+# sweeping blows, and three spirit bears around it
+_sb_lt = st.loot_table('arm_lt_spiritbear', [('Item', 'arm_tr_spirit_claw', 100, 1, 1), ('Item', 'arm_tr_bear_claw', 100, 4, 1), ('Item', 'zutat_s_edelsteine', 100, 3, 1)])
+_sb_at = ('MarkerPoint', 'loc10_marker_zyklopentuer3')
+st.monster('arm_mo_spiritbear', 'The Elder Spirit-Bear', 'Baer_naturgeist', 'location10', _sb_at, (0.0, 1.5, 6.0),
+           info='A bear of pale, living wood, older than the dwarves. Lightning crawls over it, and the dark answers when it roars.',
+           LootTable=_sb_lt, Faction='FaFeind', LE=1400, LEmax=1400, AT=26, PA=8, AW=6, MR=20, ATW6=4, ATW6plus=8, BasisXP=60, Stufe=20,
+           Behaviour='clever_fighter', AuraStatuseffect='blitzDichFind', SpecialAttackChances='BearSweepAttack 6.0 0, MeleeAttack 4.0 0', IsVictoryWorthy=1,
+           Immunity='wound;overthrown;stun;unconscious;poison', **{z: 8 for z in ('RSKo', 'RSBr', 'RSRu', 'RSBa', 'RSLA', 'RSRA', 'RSLB', 'RSRB')})
+for _i in range(3):
+    _a = 2 * math.pi * _i / 3
+    st.monster(f'arm_mo_spiritbear_esc{_i + 1}', 'Spirit Bear', 'Baer_naturgeist', 'location10', _sb_at, (4.0 * math.cos(_a), 1.5, 6.0 + 4.0 * math.sin(_a)),
+               info='A bear of pale wood and lightning. It follows the Elder Spirit.', Faction='FaFeind', LE=320, LEmax=320, AT=22, ATW6=3, ATW6plus=5,
+               Immunity='wound;overthrown;stun', **{z: 5 for z in ('RSKo', 'RSBr', 'RSRu', 'RSBa', 'RSLA', 'RSRA', 'RSLB', 'RSRB')})
+# the Harpy Queen (Tallon, player, 2 Nov: very hard, a big flock, wounds): on the harpy grounds by the mandrake, raised 1.5 m above
+# the spawn points so nobody starts inside the slope. She drops only her plume, a plan and 20 feathers.
+_hq_lt = st.loot_table('arm_lt_harpyqueen', [('Item', 'arm_tr_harpy_plume', 100, 1, 1), ('Recipe', 'arm_rezept_hq_crest', 100, 1, 0),
+                                             ('Item', 'zutat_b_harpyienfedern', 100, 20, 1)])
+_hq_at = ('SpawnPoint', 'loc08_enc_tallon_harpyen_alraune', 'EncounterName')
+st.monster('arm_mo_harpyqueen', 'The Harpy Queen', 'Harpyie_loc08', 'location08', _hq_at, (0.0, 1.5, 0.0),
+           info='A harpy twice the size of the others, crowned with long storm-grey plumes. Her flock answers when she sings.',
+           LootTable=_hq_lt, LE=700, LEmax=700, AT=22, PA=4, AW=8, MR=16, AEmax=60, AE=60, ATW6=3, ATW6plus=5, BasisXP=45, Stufe=16, Behaviour='clever_fighter',
+           SpecialAttackChances='HarpyPoisonAttack 3.0 0, HarpyAttack 4.0 0, MeleeAttack 3.0 0', IsVictoryWorthy=1, Immunity='wound;overthrown;stun;unconscious;poison',
+           **{z: 5 for z in ('RSKo', 'RSBr', 'RSRu', 'RSBa', 'RSLA', 'RSRA', 'RSLB', 'RSRB')})
+for _i in range(8):
+    _a = 2 * math.pi * _i / 8; _r = 4.0 + (_i % 2) * 2.0
+    st.monster(f'arm_mo_harpyqueen_esc{_i + 1}', 'Harpy of the Flock', 'Harpyie_loc08', 'location08', _hq_at, (_r * math.cos(_a), 1.5, _r * math.sin(_a)),
+               info="A harpy of the queen's flock.", LE=100, LEmax=100, AT=15)
+# Her fight has phases (player, 2 Nov: "make it interesting, not just big numbers"): a journal entry opens when she is first hurt; at 60 %
+# life she sings (shake, three more harpies, Armatrutz on herself), at 30 % she shrieks (Blinding Flash on the party leader, Quickstep
+# and Battle Trance on herself, two last harpies). The vanilla verbs HealthCritical / CastSpell / SetStatusEffect / CreateEntity.
+_HQ = 'arm_mo_harpyqueen'; _QH = 'arm_q_harpy_song'
+_HQ_HURT = lambda pct: ['IsInLocation who="Hero" location="location08"; ', f'HealthCritical who="{_HQ}" percent="{pct}"; ']   # only where she is
+_HQ_CALL = lambda n: f'CreateEntity category="Monster" templateId="Harpyie_loc08" how="spawnAtEntity" entity="{_HQ}" number="{n}" executeAfter="true" {A}'
+_HQ_SHAKE = f'PlayShakeEffect target="{_HQ}" range="60" intensity="0.6" duration="1.5" {A}'
+st.task(_QH, "The Harpy Queen's Song", 'The Harpy Queen sings, and her flock answers. Every verse of her song brings more of them.',
+        'The Harpy Queen is silent for good.', state='unlocked', open_cond=_HQ_HURT('0.98'), close_cond=[f'IsDead who="{_HQ}"; '], target=_HQ)
+st.task(f'{_QH}_1', 'The First Verse', 'She is singing to her flock.', 'More harpies answered her song, and her feathers hardened like armour.', parent=_QH,
+        state='unlocked', close_cond=_HQ_HURT('0.6'),
+        close_act=_HQ_SHAKE + _HQ_CALL(3) + f'CastSpell who="{_HQ}" spellId="Armatrutz" target="{_HQ}" zfpUnused="12" {A}')
+st.task(f'{_QH}_2', 'The Storm Shriek', 'Wounded, she is drawing breath for something worse.', 'She shrieked a flash of storm-light and flew into a frenzy.', parent=_QH,
+        state='unlocked', close_cond=_HQ_HURT('0.3'),
+        close_act=_HQ_SHAKE + f'CastSpell who="{_HQ}" spellId="BlitzDichFind" target="SelectionLeader" zfpUnused="10" {A}'
+                  + f'SetStatusEffect who="{_HQ}" id="ArmQuickstep" {A}SetStatusEffect who="{_HQ}" id="ArmTrance" {A}' + _HQ_CALL(2))
+# The Queen of the Marsh fights in phases too (player, 3 Nov: "more frogs and more interesting stuff"): at 60 % she croaks (shake, three
+# more toads from the mud, Plumbumbarum on the party leader), at 30 % she gorges on the marsh (heals, Iron Skin, two last toads).
+_MQ = 'arm_mo_marshqueen'; _QM2 = 'arm_q_marsh_croak'
+_MQ_HURT = lambda pct: ['IsInLocation who="Hero" location="location04"; ', f'HealthCritical who="{_MQ}" percent="{pct}"; ']   # only where she is
+_MQ_CALL = lambda n: f'CreateEntity category="Monster" templateId="Trollkroete_02_loc03" how="spawnAtEntity" entity="{_MQ}" number="{n}" executeAfter="true" {A}'
+_MQ_SHAKE = f'PlayShakeEffect target="{_MQ}" range="60" intensity="0.8" duration="1.5" {A}'
+st.task(_QM2, "The Queen's Court", 'The Queen of the Marsh croaks, and the marsh answers. The whole court is coming.',
+        'The Queen of the Marsh is dead, and her court with her.', state='unlocked', open_cond=_MQ_HURT('0.98'), close_cond=[f'IsDead who="{_MQ}"; '], target=_MQ)
+st.task(f'{_QM2}_1', 'The Croak', 'She swells up, ready to call.', 'Three more toads crawled out of the mud, and her croak made my arm heavy as lead.', parent=_QM2,
+        state='unlocked', close_cond=_MQ_HURT('0.6'),
+        close_act=_MQ_SHAKE + _MQ_CALL(3) + f'CastSpell who="{_MQ}" spellId="PlumBarumSchwererArm" target="SelectionLeader" zfpUnused="10" {A}')
+st.task(f'{_QM2}_2', 'The Gorge', 'Wounded, she sinks half into the mud.', 'She gorged on the marsh, closed her wounds and hardened her hide.', parent=_QM2,
+        state='unlocked', close_cond=_MQ_HURT('0.3'),
+        close_act=_MQ_SHAKE + f'Heal who="{_MQ}" fixedLE="80" dice="6" diceAmount="0" {A}SetStatusEffect who="{_MQ}" id="ArmIronskin" {A}' + _MQ_CALL(2))
+# Ashpelt calls the forest (player review 3 Nov): at 50 % life two nature spirits (the hostile spirit bear, lightning aura) and
+# three bears come out of the trees, each on its own ground spot 5-6 m out (not on his head). '!IsDead' keeps a save where he is
+# already dead from firing it (HealthCritical on a corpse would pass).
+_AP = 'arm_mo_ashpelt'; _QA = 'arm_q_ashpelt_call'
+_AP_HURT = lambda pct: ['IsInLocation who="Hero" location="location03"; ', f'!IsDead who="{_AP}"; ', f'HealthCritical who="{_AP}" percent="{pct}"; ']
+_AP_PT = {k: st.point(f'arm_mo_ashpelt_{k}', 'location03', ('NPC', 'Berndrich'), v) for k, v in SPOTS['ashpelt'].items() if k.startswith('call')}
+_AP_CALL = ''.join(f'CreateEntity category="Monster" templateId="{t}" how="spawnAtEntity" entity="{_AP_PT[k]}" number="1" executeAfter="true" {A}'
+                   for k, t in (('call1', 'Baer_naturgeist'), ('call3', 'Baer_naturgeist'), ('call2', 'Baer_loc03'), ('call4', 'Baer_loc03'), ('call5', 'Baer_loc03')))
+st.task(_QA, "The Elder's Roar", 'Ashpelt the Elder is hurt, and the forest is listening.', 'Ashpelt the Elder is dead.',
+        state='unlocked', open_cond=_AP_HURT('0.98'), close_cond=[f'IsDead who="{_AP}"; '], target=_AP)
+st.task(f'{_QA}_1', 'The Call of the Forest', 'He rears up and roars at the trees.', 'Two spirits of the forest and three bears answered his roar.',
+        parent=_QA, state='unlocked', close_cond=_AP_HURT('0.5'),
+        close_act=f'PlayShakeEffect target="{_AP}" range="60" intensity="0.6" duration="1.5" {A}' + _AP_CALL)
+MANTLE = 'LEmax +10 AUmax +10 MU +1 MR +1'   # review 2 Nov: no gathering bonus on found gear
 # audit N8: the end of the collection gives a book of lore, one entry per legend (the player reads lore; gold was dead weight)
 LORE = {'ratzinsky': "Mother Ratzinsky ruled the cellars of Ferdok for nine winters. Her iron tooth hangs over my door; no rat has come near since.",
         'cockroach': "The cockroach of the Gentle Sow ate three hams, a barrel of pickles and a tax collector's ledger. Only the ledger was missed.",
@@ -187,6 +314,9 @@ LORE = {'ratzinsky': "Mother Ratzinsky ruled the cellars of Ferdok for nine wint
         'linnorm': "The Linnorm of the Stinking Caves was old when Tallon was a village. It is the only beast in this book I am sorry we killed.",
         'ogre': "The Ogre Chief of Tallon wore his tusks as a crown and his enemies as a cloak. You have neither now. Good.",
         'japhgur': "Japhgur the Purplewyrm. Its eye watched Tallon burn twice. It will not watch again. I have it, in a jar, and it still watches me.",
+        'madpack': "A storm came down on the western woods and the witches' wolves went mad, all fifteen. The grey alpha's fang still shines at night, as if the moon were inside it.",
+        'spiritbear': "Below the mountains a bear older than the dwarves turned into a spirit and forgot to die. It was not angry. It was only very, very old.",
+        'harpyqueen': "The Harpy Queen of Tallon sang to her flock before every hunt. The hunters of Tallon learned the song, and learned to run when they heard it.",
         'golem': "Aldessia's golems were built to guard and nothing else. The heartstone is warm, as if it still remembers its orders.",
         'cyclops': "The cyclops of Gruldur fell before the dwarves had a name. Its eye-gem shows a forge that no longer exists.",
         'grolm': "The Grolm King hoarded crowns he never wore. This shard is from the only one he loved. I will not tell you how I know."}
@@ -207,7 +337,7 @@ reward('c_mantle', 'schultern_nasreddin', 'Mantle of a Thousand Trophies', "Ulfr
 VAGUE = {  # key -> (journal title, riddle)
     'grimtusk': ('The Great Boar', 'A boar the size of a cart, scarred by a dozen hunters who did not come home, roams the hills where farmers fence their fields twice.'),
     'ashpelt': ('The Grey Bear', 'The oldest bear alive sleeps somewhere dark and green, where even hunters walk quietly.'),
-    'marshqueen': ('The Croaking Queen', 'Somewhere wet and grey, a queen croaks louder than the bells, close to an old building nobody uses.'),
+    'marshqueen': ('The Croaking Queen', 'Somewhere wet and grey, a queen croaks louder than the bells, deep where the dead are buried last.'),
     'emberqueen': ('The Glowing Mother', 'Where the small lights dance thickest at night, far from here, their mother nests in the warm dark.'),
     'broodmother': ('The Patient Mother', 'Far beyond anywhere you have been, a mother guards her treasures in the dark. Only if you are mad.'),
     'ratzinsky': ('The Mother Below', 'Something under the city breeds faster than the city can count. Find the one that started it.'),
@@ -220,6 +350,9 @@ VAGUE = {  # key -> (journal title, riddle)
     'linnorm': ('The Old One', 'In caves you smell long before you see them, something very old is waiting.'),
     'ogre': ('The Tusked Chief', 'Big, hungry folk have a chief who wears his tusks like a crown. Find their camp.'),
     'japhgur': ('The Eye That Watches', 'Every land has one creature nobody dares to name. If you ever meet it, bring me its eye.'),
+    'madpack': ('The Moon-Mad Pack', 'Somewhere green and old, a whole pack of wolves lost its mind in a storm. Bring me the fang of the one that leads them.'),
+    'spiritbear': ('The Spirit Below', 'Deeper than any bear should go, a spirit of the forest still walks in the dark. Bring me its claw, if you can.'),
+    'harpyqueen': ('The Singing Queen', 'Where the winged women hunt in flocks, one of them is bigger than the rest, and sings before she strikes. Bring me her crown.'),
     'golem': ('The Heart of Stone', 'Somewhere under the mountains, guardians still follow orders nobody gives any more. Bring me a heart of stone.'),
     'cyclops': ('The Old Bones', 'In the oldest halls under the mountains lie bones nobody can name. Something precious was left among them.'),
     'grolm': ('The Hoarder\'s Crown', 'Small, greedy folk who haggle over everything have a king, and his chests hold a broken crown.'),
@@ -232,7 +365,7 @@ SPOTS = {  # dialog id -> npc id, level, anchor, offset, greeting
     'arm_dlg_ulfried': ('arm_npc_ulfried', 'location01', ('MarkerPoint', 'loc01_marker_kautzenstein_2'), (2.5, 0, 1.5),
                         "Ah, a traveller with sharp eyes and, I hope, a sharp knife! Ulfried Pelzfeld, collector of trophies, curiosities and anything with teeth. "
                         "Avestrue's woods are full of wolves, and wolves are full of fangs."),
-    'arm_dlg_ulfried_f': ('arm_npc_ulfried_f', 'location02_praios', ('NPC', 'loc02_trainer_praios_bogen'), (2.5, 0, 1.0),
+    'arm_dlg_ulfried_f': ('arm_npc_ulfried_f', 'location02_praios', ('NPC', 'loc02_haendler_praios_holz'), (4.0, 0, -3.8),   # by the log pile next to the timber stall (player, 2 Nov)
                           "Ulfried Pelzfeld, collector of trophies! I follow the hunters, and the hunters follow the money, so here I am in Ferdok. "
                           "Bring me anything with teeth, wherever you found it."),
     'arm_dlg_ulfried_t': ('arm_npc_ulfried_t', 'location08', ('NPC', 'loc08_jaeger'), (2.5, 0, 1.0),
@@ -245,7 +378,13 @@ ANY = lambda take: [TA(d, take) for d in DIALOGS]             # Or-group: said i
 NONE = lambda take: ['!' + TA(d, take) for d in DIALOGS]      # said in none of them
 for did, (nid, lvl, anchor, off, hello) in SPOTS.items():
     st.npc(nid, 'Ulfried Pelzfeld, Trophy Collector', 'Jaeger_Kauzenstein_loc08_jaeger', lvl, anchor, off, merchant=True, ScriptPreset='')
-    for typ, iid, n in (('Item', 'special_kuerschnermesser', 1), ('Item', 'Wolfsfell', 3), ('Item', 'zutat_b_sehnen', 10), ('Item', 'zutat_s_lederbaender', 10)):
+    # a few trophies for sale, only late (player, 2 Nov): none in Avestrue or Ferdok; a handful in Tallon (after the Dark Forest) and in
+    # Murolosh (after Tallon), only of beasts already met. Hunting stays the main source; legendary trophies and the wyrm horn are hunt-only.
+    _trophies = {'arm_npc_ulfried': {}, 'arm_npc_ulfried_f': {},
+                 'arm_npc_ulfried_t': {'wolf_fang': 3, 'boar_tusk': 2, 'bear_claw': 2, 'crab_plate': 2, 'toad_wart': 2, 'spider_eye': 1},
+                 'arm_npc_ulfried_m': {'bear_claw': 2, 'firefly_sac': 2, 'louse_carapace': 2, 'toad_wart': 2, 'spider_eye': 1, 'scorpion_sting': 1,
+                                       'tatzel_fang': 1}}[nid]
+    for typ, iid, n in (('Item', 'special_kuerschnermesser', 1), ('Item', 'Wolfsfell', 3), ('Item', 'zutat_b_sehnen', 10), ('Item', 'zutat_s_lederbaender', 10)) +             tuple(('Item', f'arm_tr_{k}', v) for k, v in _trophies.items()):
         st.stock(nid, typ, iid, n)
     HUB = (['r_job', 'r_turnin', 'r_legend', 'r_coll'] + [f'r_{b[0]}' for b in BEASTS] + [f'r_c_{c[0]}' for c in COLLECTION]
            + ['r_heart', 'r_mantle', 'r_where', 'r_trade', 'r_bye'])
@@ -342,4 +481,5 @@ open(os.path.join(out, 'README.md'), 'w', encoding='utf-8').write(
     '| Monster | Where | Reward |\n|---|---|---|\n' + ''.join(f'| {c[1][1]} | {c[4]} | {rw(c[3])} |\n' for c in COLLECTION)
     + f'\nMother Ratzinsky also drops the **Crown of the Rat Mother** (LE +5, Self-control +2, immune to poison).\n'
     f'All thirteen: **Mantle of a Thousand Trophies** ({mods_text(MANTLE)}) and 100 ducats.\n')
+for _l in getattr(m, 'ground_log', []): print('  ground:', _l)
 print('ok static', len(m.static), 'game', len(m.game), 'texts', len(m.locale), 'icons', len(icon_files))

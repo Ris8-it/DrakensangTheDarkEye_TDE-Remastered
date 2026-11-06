@@ -30,6 +30,12 @@ arm_tr_ogre_tusk.dds
 arm_c_ogre.dds
 arm_tr_dragon_eye.dds
 arm_c_japhgur.dds
+arm_tr_greymaw_fang.dds
+arm_c_madpack.dds
+arm_tr_spirit_claw.dds
+arm_c_spiritbear.dds
+arm_tr_harpy_plume.dds
+arm_c_harpyqueen.dds
 arm_tr_golem_heart.dds
 arm_c_golem.dds
 arm_tr_cyclops_gem.dds

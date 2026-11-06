@@ -126,13 +126,47 @@ for frag, entries in SKIN.items():
             for k, c, n in entries: m.loot(tname, 'Item', f'arm_{k}', mode='plus1', chance=c, amount=n)
         else:   # empty "big beast" table the game references but never defined
             m.static += [f"DELETE FROM _DSA_LootTables WHERE LootTableName={lit(tname)};",
-                         insert('_DSA_LootTables', dict(LootTableName=tname, LootTableValue='0', LootTableContent=content))]
+                         insert('_DSA_LootTables', dict(LootTableName=tname, LootTableValue=str(len(entries)), LootTableContent=content))]
             m.undo_static.append(f"DELETE FROM _DSA_LootTables WHERE LootTableName={lit(tname)};")
         skin_rows.append((tname, ', '.join(NAMES[f'arm_{k}'] for k, _, _ in entries), 'new table' if not exists else 'added'))
 
+
+# ======================= item stories (review 2 Nov): every craftable is a small piece of the world =======================
+DESC_R = {
+    'tl_wolf': "Three wolf fangs on a leather thong, the way Avestrue boys wear them after their first hunt. The old hunters say wolves can smell it and keep their distance, out of respect or embarrassment.",
+    'tl_boar': "A pair of boar tusks bound in silver wire. Farmhands wear these at harvest: a boar never gives up, and neither do they.",
+    'tl_rat': "A ring cut from the tail of a rat that grew far too big. Ferdok's thieves swear by them: rats always find a way in, and always a way out.",
+    'tl_bear': "Two bear claws set in gold, the talisman of the old forest hunters. Bears do not fight for long. They do not need to.",
+    'tl_spider': "A glittering green eye from something with far too many legs, set in gold. It sees venom coming and tells the blood to ignore it.",
+    'tl_scorpion': "A ring of scorpion stinger from the dwarves' mushroom gardens, where the scorpions grow fat on the warmth. Quick as a sting, and just as sudden.",
+    'tl_firefly': "A still-warm ember sac from a giant firefly, sealed in a gold locket. Fire does not bite the one who carries a piece of it.",
+    'tl_tatzel': "A tatzelwurm fang bound in gold leaf. The beasts never back down from a fight, and neither does whoever wears this.",
+    'tl_wyrm': "A horn from the brow of the great purple wyrm, bound in gold. Its strength hums in the chest like a second heartbeat.",
+    'tl_ward1': "A disc of giant-crab shell on a leather thong, carried by Ferdok's harbour men against bad luck. Blows and curses alike glance off it.",
+    'tl_ward2': "A crab-shell disc rubbed with bitter troll-toad sap by a Moorbridge druid. Spells slide off it like rain off a thatched roof.",
+    'tl_ward3': "Crypt-louse chitin layered over shell and sap. It drinks dead magic and never seems to get full.",
+    'oil_frost': "A pale blue oil pressed from crab shell. The blade frosts over as it is applied, and so does whatever it cuts.",
+    'oil_ember': "Firefly sap stirred into fat: the blade smoulders for ten blows and leaves burns that will not close.",
+    'oil_venom': "Spider venom thickened with fat by Tallon's herb-woman, who will not say who taught her.",
+    'oil_frailty': "Troll-toad sap that seeps into wounds and steals the strength from them. It smells worse than it works, which is saying something.",
+    'oil_holy': "Spring water blessed at a Praios shrine. The dead burn where it touches them, and the living feel strangely accused.",
+    'oil_thunder': "Crushed gemstone and charcoal: an alchemist's joke that stopped being funny. Every blow cracks like lightning.",
+    'trap_frost': "A snare of crab shell and sinew that freezes what it catches, invented by a harbour trapper tired of losing eels.",
+    'trap_web': "Sticky spider silk stretched between two pegs. It drops a foe and saps their strength, the way the spider likes it.",
+    'trap_venom': "Spikes smeared with scorpion venom: a dwarven gardener's answer to scorpions in the mushroom beds.",
+    'trap_thunder': "A gemstone primed with a spark inside an iron cup. It goes off with a crack of thunder and a lot of swearing.",
+    'trap_hex': "A rune drawn in gold leaf to a witch's recipe. Whoever steps on it is cursed and terrified, in that order.",
+    'trap_wyrmfire': "Dragon blood and tinder in an iron shell. The dwarves who invented it lost two workshops proving it works.",
+    'wand_ember': "A charred wand tipped with a firefly sac, made by a Tallon apprentice who could not light a candle any other way.",
+    'wand_frost': "A wand of white wood capped with crab shell. Moorbridge fishermen used one to keep their catch cold, until a mage noticed.",
+    'wand_thunder': "An iron rod wrapped in copper wire by a dwarven tinkerer who wanted to see what a storm looks like up close. It crackles.",
+    'wand_wither': "Black bone tipped with crypt-louse chitin, taken from a necromancer's desk. It drains strength and will, as its owner intended.",
+    'g_grand_furrier': "A master furrier's knife reforged with dwarven steel and a tatzelwurm fang. No hide is too tough, no claw too stubborn.",
+    'g_harvest_sickle': "A druid's golden sickle blessed with gold leaf and a living ember. Every herb it cuts yields a little more, as Peraine intended.",
+}
 # ======================= talismans (trophies -> jewelry, Bowcraft) =======================
 TALISMANS = [  # key, base, name, desc, mods, imm, recipe ingredients, diff, sellers, price
-    ('tl_wolf', 'Silberkette', 'Wolf-fang Necklace', 'Three fangs on a thong. The wild feels a little less strange.', 'TaWildnisleben +2 AUmax +5', '', [('tr_wolf_fang', 3)], 5, [OTTO], 4),
+    ('tl_wolf', 'Silberkette', 'Wolf-fang Necklace', 'Three fangs on a thong. The wild feels a little less strange.', 'AUmax +5 TaSchleichen +1', '', [('tr_wolf_fang', 3)], 5, [OTTO], 4),
     ('tl_boar', 'Silberkette', 'Boar-tusk Charm', 'Stubborn as a boar.', 'LEmax +5 TaSelbstbeherrschung +2', '', [('tr_boar_tusk', 2)], 6, HUNTERS[:2], 5),
     ('tl_rat', 'Silberring', "Rat-king's Ring", "Made from a giant rat's tail. Thieves' luck.", 'TaTaschendiebstahl +2 TaSchloesser +2', '', [('tr_rat_tail', 1)], 6, HUNTERS[1:2], 6),
     ('tl_bear', 'Goldkette', 'Bear-claw Talisman', 'The strength of the bear, carried at the throat.', 'AUmax +10 TaEinschuechtern +2', '', [('tr_bear_claw', 2)], 8, HUNTERS[2:], 8),   # audit B6: no early Strength, Tallon only
@@ -143,6 +177,7 @@ TALISMANS = [  # key, base, name, desc, mods, imm, recipe ingredients, diff, sel
     ('tl_wyrm', 'Goldkette', 'Purplewyrm-horn Talisman', "Japhgur's horn, bound in gold. Its power is now yours.", 'KK +1 KO +1 MU +1 LEmax +10', 'fire', [('tr_wyrm_horn', 1), ('zutat_s_edelsteine', 2)], 14, MUROLOSH, 20),
 ]
 for key, base, nm, desc, mods, imm, ingr, diff, sellers, price in TALISMANS:
+    desc = DESC_R.get(key, desc)
     iid = f'arm_{key}'; NAMES[iid] = nm
     lines = ([mods_text(mods)] if mods else []) + ([{'fire': 'Immune to burning', 'poison': 'Immune to poison', 'overthrown': 'Immune to knockdown'}[imm]] if imm else [])
     pe = m.status('PeArm' + key.replace('_', '').capitalize(), nm, '; '.join(lines), start=mods, immunity=imm)
@@ -160,14 +195,14 @@ m.static += [f"DELETE FROM _DSA_LootTables WHERE LootTableName='arm_lt_whitefur'
              insert('_DSA_LootTables', dict(LootTableName='arm_lt_whitefur', LootTableValue='1',
                     LootTableContent='Item/arm_tr_wolf_fang/100/2/1/;'))]
 # the Wolfpack line (armory_data_v25): dark pelts from skinning the big wolves after the tutorial
-for _t, _c in (('skin_wolf_mittel', 35), ('skin_wolf_groß', 50)): m.loot(_t, 'Item', 'arm_tr_darkwolf_pelt', mode='all', chance=_c, amount=1, value=6)
+for _t, _c in (('skin_wolf_mittel', 35), ('skin_wolf_groß', 100)): m.loot(_t, 'Item', 'arm_tr_darkwolf_pelt', mode='all', chance=_c, amount=1, value=6)   # big wolves always (player, 2 Nov)
 m.undo_static.append("DELETE FROM _DSA_LootTables WHERE LootTableName='arm_lt_whitefur';")
 m.edit_vanilla('Monster', 'loc01_wolf_weissfell', LootTable='arm_lt_whitefur')
 # upgrade path: Wolf-fang Necklace -> Alpha's Fang Necklace (Crooked Otto, Count's Town, like every wolf plan)
-ALPHA = 'GE +1 TaSchleichen +2 TaWildnisleben +2 AUmax +5'
+ALPHA = 'AW +1 TaSchleichen +2 AUmax +5'   # review 2 Nov: Dodge instead of Survival, no early attribute
 NAMES['arm_tl_wolf_alpha'] = "Alpha's Fang Necklace"
 m.template('Jewelry', 'Silberkette', 'arm_tl_wolf_alpha', "Alpha's Fang Necklace",
-           "The Wolf-fang Necklace, rebuilt around the great fang of White Fur. You move like the pack leader.\n\n" + mods_text(ALPHA),
+           "A wolf-fang necklace rebuilt around the great fang of White Fur. You move like the pack leader now: low, quick, and never where the blow lands.\\n\\n" + mods_text(ALPHA),
            PermanentEffect=m.status('PeArmTlwolfalpha', "Alpha's Fang Necklace", mods_text(ALPHA), start=ALPHA), Value=D(10),
            IconBrush=icon('tl_wolf_alpha', 'icons/magic_amulett_01', 'superrare'))
 recipe('tl_wolf_alpha', 'Jewelry', 'arm_tl_wolf_alpha', "Alpha's Fang Necklace", 'TaBogenbau', 8,
@@ -184,11 +219,21 @@ WARDING = [  # key, base, name, desc, mods, consumes (type, id, n), diff, seller
      [('Jewelry', 'arm_tl_ward2', 1), ('Item', 'arm_tr_louse_carapace', 2)], 11, HUNTERS[2:], 12),
 ]
 for key, base, nm, desc, mods, ingr, diff, sellers, price in WARDING:
+    desc = DESC_R.get(key, desc)
     iid = f'arm_{key}'; NAMES[iid] = nm
     m.template('Jewelry', base, iid, nm, desc + '\n\n' + mods_text(mods), PermanentEffect=m.status('PeArm' + key.replace('_', '').capitalize(), nm, mods_text(mods), start=mods),
                Value=D(4 + 3 * int(key[-1])), IconBrush=icon(key, 'icons/magic_amulett_01', ('amazing', 'superrare', 'legendary')[int(key[-1]) - 1]))
     recipe(key, 'Jewelry', iid, nm, 'TaBogenbau', diff, ingr, sellers, price, preview=mods_text(mods))
     catalogue.append(('Talisman', nm, mods_text(mods), f"Bowcraft {diff}: " + ', '.join(f'{n} {NAMES.get(i, i)}' for _, i, n in ingr)))
+# Wolf-fang Necklace II (player, 2 Nov): the mad pack's moon sinew rebinds the fangs; the plan comes with Hagen's trapper notes
+_k, _nm, _mods = 'tl_wolf2', 'Moonhowl Pendant', 'AUmax +8 TaSchleichen +2 MU +1'
+_desc = "The wolf-fang necklace restrung on moon-mad sinew, with a fourth fang from Alvina's wolves. Wolves hear it before they see you, and think twice."
+NAMES['arm_tl_wolf2'] = _nm
+m.template('Jewelry', 'Silberkette', 'arm_tl_wolf2', _nm, _desc + '\n\n' + mods_text(_mods), PermanentEffect=m.status('PeArmTlwolf2', _nm, mods_text(_mods), start=_mods),
+           Value=D(10), IconBrush=icon('tl_wolf2', 'icons/magic_amulett_01', 'superrare'))
+recipe('tl_wolf2', 'Jewelry', 'arm_tl_wolf2', _nm, 'TaBogenbau', 9,
+       [('Jewelry', 'arm_tl_wolf', 1), ('Item', 'arm_tr_moon_sinew', 1), ('Item', 'arm_tr_wolf_fang', 2)], [], 10, preview=mods_text(_mods))
+catalogue.append(('Talisman', _nm, mods_text(_mods), 'Bowcraft 9: Wolf-fang Necklace, 1 moon sinew, 2 wolf fangs (plan from Hagen)'))
 # Rhulana (review 2): Animal Lore 9 base = 5 after her Tulamide/Amazon rules (-4), so she can skin early with a knife
 _rt = m.g.execute("select TaTierkunde from _Instance_PC where Name='Rhulana'").fetchone()[0]
 m.game.append("UPDATE _Instance_PC SET TaTierkunde=9 WHERE Name='Rhulana';")
@@ -206,6 +251,7 @@ OILS = [  # key, name, desc, hit procs, ingredients, diff
 # no spoilers (review 1 Nov): oils whose ingredients come from later monsters are sold only where those monsters are already behind you
 OIL_SELLERS = {'oil_venom': ALCH[2:], 'oil_frailty': ALCH[2:]}
 for key, nm, desc, hit, ingr, diff in OILS:
+    desc = DESC_R.get(key, desc)
     iid = f'arm_{key}'; NAMES[iid] = nm
     hit_name = m.hit_script(f'arm_{key}', hit)[len('on:Hit:'):]
     lim_hit, lim_add = f'Weapon_arm{key.replace("_", "")}', f'Weapon_add_arm{key.replace("_", "")}'
@@ -238,6 +284,7 @@ TRAPS = [  # key, name, desc, actions, ingredients, skill, diff, sellers
 ]
 tcols = [c[1] for c in m.s.execute('pragma table_info(_Template_Trap)')]
 for key, nm, desc, acts, ingr, skill, diff, sellers in TRAPS:
+    desc = DESC_R.get(key, desc)
     iid, tid = f'arm_{key}', f'arm_{key}_placed'; NAMES[iid] = nm
     sname = action_script(f'arm_{key}.xml', lambda b, a=acts: [b.action(''.join(a))])
     trow = dict(m.s.execute("select * from _Template_Trap where Id='trap_baerenfalle_crafted'").fetchone())
@@ -264,6 +311,7 @@ WANDS = [  # key, name, desc, procs on target, ingredients, diff, place
      [('arm_tr_louse_carapace', 2), ('zutat_s_edelsteine', 1)], 12, ('chest', 'skelett_tot_sitzend_dun08_haendler', 'dungeon08_haendler')),
 ]
 for key, nm, desc, procs, ingr, diff, place in WANDS:
+    desc = DESC_R.get(key, desc)
     iid = f'arm_{key}'; NAMES[iid] = nm; lid = f'Item_arm{key.replace("_", "")}'
     sname = action_script(f'arm_{key}.xml', lambda b, p=procs: [b.if_('IsInRange entity="ActingEntity" target="AimedEntity" range="49"; ', lambda: build_procs(b, p))])
     lines = ', '.join(procs_text([('p', 100, procs)], m.se_names)).replace('On hit: ', '')
@@ -287,6 +335,81 @@ for key, nm, sid in SCROLLS:
     recipe(key, 'Item', iid, nm, 'TaAlchimie', 8, [('Item', 'zutat_s_blattgold', 1), ('Item', 'zutat_a_alkohol', 1)], MAGE, 8, batch=2, preview=desc)
     for o, l in MAGE: m.place('Item', iid, 'npc', o, l, stack=3)
     catalogue.append(('Scroll', nm, desc, 'Arcane lore 8, makes 2; 3 sold by the Tallon magic trainer'))
+
+# ======================= Attributo, made dependable (player, 3 Nov) =======================
+# The complaint: even at the end of the game Attributo rolls a different bonus every cast, so you recast for a good roll every 5 minutes.
+# The Attributo lab (3 Nov, player-tested, docs/ENGINE_REFERENCE.md) found the fix: the spell rolls against Life max (ZaP1-3 = 'LEmax')
+# instead of KL/CH/attribute, so the dice never eat spell points. Every cast lands at its best for the spell value (+value/3 +1), and
+# raising the value raises it. Lasts an hour. ZaVal3 (base) is ignored by the engine; the slider, Area targets and status hooks failed.
+for _id, _d in m.s.execute("select Id, Description from _Template_Zauber where Id like 'Attributo%'").fetchall():
+    m.edit_vanilla('Zauber', _id, ZaP1='LEmax', ZaP2='LEmax', ZaP3='LEmax', ZaDuration=3600.0)
+    _t = (m.l.execute('select LocaText from _Locale where LocaId=?', (_d,)).fetchone() or [None])[0]
+    if _t:
+        _n = (_t.replace('+SP*/3+1, min. 1', '+SP/3+1, always at full strength for the spell value (no bad rolls)')
+                .replace('Spell Duration: 300 secs', 'Spell Duration: 1 hour'))
+        if _n != _t: m.vanilla_text(_d, _n)
+
+# ======================= Focus Talismans: the Circle (player, 3 Nov: a party-wide Attributo) =======================
+# One quick-slot charm per Attributo. The bearer casts the real spell on every party member, at the bearer's own spell
+# value (so the learning points count), paying the astral points of each cast. Proven (lab): CastSpell from an item works only for a
+# bearer who knows the spell; several CastSpells in one script replace each other, so a short status casts them one by one (below).
+# Potion-base items with CanDestroy 0 are not used up, so there is no give-it-back line any more (it duplicated them).
+FOCUS = [('MU', 'Courage'), ('KL', 'Cleverness'), ('IN', 'Intuition'), ('CH', 'Charisma'), ('FF', 'Dexterity'), ('GE', 'Agility'),
+         ('KO', 'Constitution'), ('KK', 'Strength')]
+# RunActionScriptInRadius + CastSpell did nothing (player, 3 Nov): the bearer is not ActingEntity inside the radius script. The engine
+# has no "every companion" token, so the charm names them: the Hero, then each companion who is in the party (vanilla IsPartyMember names).
+COMPANIONS = ['Rhulana', 'Dranor_PC', 'Kladdis_Schladromir', 'Forgrimm_Sohn_des_Ferolax', 'pc_gwendala', 'pc_jost', 'pc_nasreddin',
+              'pc_traldar', 'pc_ancoron', 'pc_auralia']
+# Several CastSpells in one script replace each other (player, 3 Nov: only Rhulana, the last, got it; like a click without Ctrl). So the
+# charm puts a short "Circle" status on the bearer whose trigger casts on one companion, waits for the cast, then the next one.
+# Status scripts: every If needs an Else (T9 crash). who="StatusEffectEntity" CRASHED (token not set, tokenmanager.cc 222);
+# vanilla status scripts name nobody and act on the bearer, so the cast has no who. PROVEN (player, 3 Nov): one use buffs the party.
+CIRCLE_GAP = 4   # seconds per cast (Attributo's animation is about 2-3 s)
+def circle_status(at, an):
+    sid = f'ArmCircle{at}'
+    A = 'actionSelection="script"; '
+    tr = Block(f'remastered/se/{sid}/trigger')
+    cast = lambda who: [tr.action(f'CastSpell spellId="Attributo{at}" target="{who}" {A}'
+                                  f'WaitAction duration="{CIRCLE_GAP}" permanent="false" {A}')]
+    skip = lambda: [tr.action(f'WaitAction duration="0.1" permanent="false" {A}')]
+    kids = cast('Hero') + [tr.if_(f'IsPartyMember who="{c}"; ', lambda c=c: cast(c), build_else=skip) for c in COMPANIONS]
+    kids.append(tr.action(f'WaitAction duration="0.1" permanent="false" {A}'))
+    tr.begin(kids)
+    m.static.append(f'-- status effect {sid}'); m.emit_block(tr)
+    Z = bytes(16); sg = U(m.ns, 'se', sid)
+    m.static.append(insert('_Scripts_StatusEffectScripts', dict(Guid=sg, Id=sid, Name='', StatusEffectOnStartRef=Z, StatusEffectOnStartBlock=Z,
+        StatusEffectOnTriggerRef=tr.ref, StatusEffectOnStopRef=Z, StatusEffectOnTriggerBlock=tr.guid, StatusEffectOnStopBlock=Z,
+        StatusEffectCategories='', StatusEffectTexture='', StatusEffectStackable=0, StatusEffectPower=1)))
+    m.static.append(insert('_Template_Statuseffects', dict(Id=sid, State_Effect='', State_Hardpoint='', State_Sound='',
+        State_Texture='textures:icons/status_fx_good_plus.dds', State_Categories='buff;good', Name=f'{sid}_name',
+        ShortDescription=f'{sid}_short', LongDescription=f'{sid}_long', State_Immunity='')))
+    m.undo_static += [f"DELETE FROM _Scripts_StatusEffectScripts WHERE Guid={lit(sg)};", f"DELETE FROM _Template_Statuseffects WHERE Id={lit(sid)};"]
+    m.locale[f'{sid}_name'] = m.locale[f'{sid}_short'] = f'Circle of {an}'
+    m.locale[f'{sid}_long'] = f'Casting Attributo ({an}) on each companion in turn.'
+    m.se_names[sid] = f'Circle of {an}'; m.new_guids.append(sg)
+    return sid
+for _at, _an in FOCUS:
+    _cs = circle_status(_at, _an)
+    _sname = action_script(f'item_on_scripts.xml_armfocus{_at.lower()}',
+                           lambda b, cs=_cs: [b.action(f'SetStatusEffect who="ActingEntity" id="{cs}" {ACT}')])
+    _iid = f'arm_focus_{_at.lower()}'; _nm = f'Focus Talisman: {_an}'; NAMES[_iid] = _nm
+    m.template('Item', 'crafted_a_zielwasser', _iid, _nm,   # a potion base can be used from a quick slot
+               f"A charm carved with the Attributo rune for {_an.lower()}, worn by the circle's caster. Through it one spell reaches the whole company.\\n\\n"
+               f"Use it from a quick slot: the bearer casts Attributo ({_an}) on every companion in the party, at the bearer's "
+               f"own spell value, paying the astral points of each cast. Only for a bearer who knows the spell. Never used up.",
+               ScriptOverride=f'on:Use:{_sname}', CanDestroy=0, MaxStackCount=1, QuestId='NONE', Robable=0, Value=D(12),
+               IconBrush=icon(f'focus_{_at.lower()}', 'icons/magic_amulett_01', 'superrare'))
+    for _o, _l in [('npc_gen_magierin_typ1_loc02_trainer_praios_magie', 'location02_praios')] + MAGE:
+        m.place('Item', _iid, 'npc', _o, _l, tag='focus')
+    catalogue.append(('Talisman', _nm, f'the bearer casts Attributo ({_an}) on the whole party nearby', 'sold by the magic trainers in Ferdok and Tallon'))
+
+# archetype_EL_KA_M/W carry 'SpellQuickSlot=FlimFlamFunkel=1' without the 'Game::' class prefix: the game asserts
+# (Factory::ClassExists(quickSlotTokens[0]), quickslotproperty.cc 250) when the character is made. Any such token gets its prefix back.
+for _t in ('PC_CharWizard', 'PC'):
+    for _r in m.s.execute(f"select Id, QuickSlotSetting from _Template_{_t}").fetchall():
+        _toks = (_r['QuickSlotSetting'] or '').split(';')
+        _fixed = [x if (not x or x == 'empty' or x.startswith('Game::')) else 'Game::' + x for x in _toks]
+        if _fixed != _toks: m.edit_vanilla(_t, _r['Id'], QuickSlotSetting=';'.join(_fixed))
 
 # ======================= skill-check weapons (talent roll on hit) =======================
 def probe(attr, diff, kids): return ('raw_if', f'Probe who="ActingEntity" difficulty="{diff}" attribute="{attr}" showProbe="true"; ', kids)
@@ -315,7 +438,7 @@ for key, base, nm, desc, talent, label, kids, stats, (o, l, kind) in SKILLW:
     catalogue.append(('Skill weapon', nm, f'{label} check on hit: {eff}', f'sold by `{o}`'))
 
 # ======================= living-weapon chains (each stage consumes the previous one) =======================
-m.template('Weapon', 'Amazonensaebel', 'arm_ch_pridefang', 'Pridefang', "The Lioncub saber, re-forged for an Amazon who has led a charge.\\n\\n"
+m.template('Weapon', 'Amazonensaebel', 'arm_ch_pridefang', 'Pridefang', "A Kurkum lioncub saber reforged with Kosh steel for an Amazon who has led her first charge. The lion on the guard has grown teeth.\\n\\n"
            "15% on hit: Sundered Guard\\n8% on hit: wielder gains Lion's Roar", ScriptOverride=m.hit_script('arm_ch_pridefang', [('p', 15, [('st', 'ArmSundered')]),
            ('p', 8, [('buff', 'ArmLionroar')])]), WpW6plus=7, WpATmod=1, IsMagical=1, Value=D(12), PermanentEffect='', IconBrush=icon('ch_pridefang', 'icons/weapon_amazonensaebel', 'superrare', (255, 225, 120)))
 NAMES.update({'arm_ch_pridefang': 'Pridefang', 'arm_a_lioncub': 'Lioncub Saber', 'arm_s_rondra_reprimand': "Rondra's Reprimand", 'arm_a_felling_maul': 'Felling Maul',
@@ -328,8 +451,6 @@ CHAINS = [  # key, consumes, result, materials, skill, diff, sellers, price, who
     ('chain_nightsong', 'arm_w_whisperwind', 'arm_s_nightsong', [('zutat_b_elfenholz', 1), ('zutat_b_verbesserte_sehne', 1)], 'TaBogenbau', 12, [HUNTERS[2]], 15, 'Gwendala (Sala Mandra is found)'),
     ('chain_widow', 'arm_d_twinfang', 'arm_d_black_widow', [('arm_tr_spider_eye', 2)], 'TaSchmieden', 11, [SMITHS[1]], 12, 'Arcane Thief'),
 ]
-# audit A8: the chain's first step sits where its end used to be (Grimmzahn dragon-room chest)
-m.loot('loot_loc05_truhe_drachenraum_04', 'Weapon', 'arm_ch_pridefang', mode='all')
 for key, cons, res, mats, skill, diff, sellers, price, who in CHAINS:
     recipe(key, 'Weapon', res, NAMES[res], skill, diff, [('Weapon', cons, 1)] + [('Item', i, n) for i, n in mats], sellers, price,
            preview=f'Upgrades {NAMES[cons]} into {NAMES[res]}.')
@@ -371,9 +492,9 @@ HERBS = [('alchimistin_loc01', 'location01'), ('Dorfbewohnerin_loc02_haendler_pr
 GATHER = [  # type, key, base, name, desc, mods, sellers, value D
     ('Armor', 'g_gloves', 'handschuhe_horasischer_einbrecher', "Gatherer's Gloves", 'Thin leather gloves stained green and red: herbs and hides.', 'TaPflanzenkunde +2 TaTierkunde +2',
      [('Dorfbewohner04_loc02_haendler_praios_gemischt', 'location02_praios')], 5),
-    ('Jewelry', 'g_green_thumb', 'Silberring', 'Ring of the Green Thumb', 'A ring of twisted vine silver. Plants seem to lean towards it.', 'TaPflanzenkunde +3 TaWildnisleben +2',
+    ('Jewelry', 'g_green_thumb', 'Silberring', 'Ring of the Green Thumb', 'A ring of twisted vine silver. Plants seem to lean towards it.', 'TaPflanzenkunde +3',
      [('Peraine_Priesterin_01_loc02_haendler_graf_kraeuter', 'location02_grafenstadt')], 10),
-    ('Jewelry', 'g_hunter_totem', 'Silberkette', "Hunter's Totem", 'A carved bone totem: the hunter, the herb-woman and the wanderer.', 'TaTierkunde +3 TaPflanzenkunde +2 TaWildnisleben +2',
+    ('Jewelry', 'g_hunter_totem', 'Silberkette', "Hunter's Totem", 'A carved bone totem: the hunter, the herb-woman and the wanderer.', 'TaTierkunde +3 TaPflanzenkunde +2',
      [('Jaeger_Kauzenstein_loc08_jaeger', 'location08')], 15),
 ]
 for typ, key, base, nm, desc, mods, sellers, price in GATHER:
@@ -387,20 +508,21 @@ for typ, key, base, nm, desc, mods, sellers, price in GATHER:
 # Tools are NOT equipped (review 1 Nov): like the vanilla furrier's knife and herb sickle, they sit on the hotbar and are used on the
 # corpse or plant (UseTalent + TaBonus), so nobody has to swap weapons while exploring.
 TOOLS = [  # key, vanilla tool base, name, desc, talent, bonus, sellers, price, (upgrade of, materials, skill, diff, recipe sellers, recipe price)
-    ('r_skinner', 'special_kuerschnermesser', "Huntress' Skinning Knife", 'Owlstone keeps it sharp enough to split a hair.', 'TaTierkunde', 3,
+    ('r_skinner', 'special_kuerschnermesser', "Huntress' Skinning Knife", 'Owlstone keeps it sharp enough to split a hair.', 'TaTierkunde', 2,
      [('Jaeger_Kauzenstein', 'location01'), ('Jaeger_Kauzenstein_loc02_trainer_praios_bogen', 'location02_praios')], 9, None),
-    ('g_sickle', 'special_kraeutersichel', "Herbalist's Sickle", 'A small curved blade for cutting herbs at the root, the way Peraine teaches.', 'TaPflanzenkunde', 3, HERBS, 4, None),
-    ('g_master_furrier', 'special_kuerschnermesser', "Master Furrier's Knife", "A furrier's knife of fine Kosh steel. Every pelt, every claw comes off whole.", 'TaTierkunde', 4,
+    ('g_sickle', 'special_kraeutersichel', "Herbalist's Sickle", 'A small curved blade for cutting herbs at the root, the way Peraine teaches.', 'TaPflanzenkunde', 2, HERBS, 4, None),
+    ('g_master_furrier', 'special_kuerschnermesser', "Master Furrier's Knife", "A furrier's knife of fine Kosh steel. Every pelt, every claw comes off whole.", 'TaTierkunde', 3,
      [('Jaeger_Kauzenstein_loc08_jaeger', 'location08')], 12, None),
-    ('g_golden_sickle', 'special_kraeutersichel', "Druid's Golden Sickle", 'A golden sickle from the Moorbridge druids. It never wilts what it cuts.', 'TaPflanzenkunde', 4,
+    ('g_golden_sickle', 'special_kraeutersichel', "Druid's Golden Sickle", 'A golden sickle from the Moorbridge druids. It never wilts what it cuts.', 'TaPflanzenkunde', 3,
      [('Dorfbewohnerin01_loc04', 'location04')], 14, None),
-    ('g_grand_furrier', 'special_kuerschnermesser', "Grandmaster Furrier's Knife", 'Dwarven steel and a tatzelwurm fang. No beast is too tough to skin.', 'TaTierkunde', 6, [], 10,
+    ('g_grand_furrier', 'special_kuerschnermesser', "Grandmaster Furrier's Knife", 'Dwarven steel and a tatzelwurm fang. No beast is too tough to skin.', 'TaTierkunde', 4, [], 10,
      ('arm_g_master_furrier', [('arm_tr_tatzel_fang', 1), ('zutat_s_stahlzwergen', 1)], 'TaSchmieden', 12, MUROLOSH, 15)),
-    ('g_harvest_sickle', 'special_kraeutersichel', "Sickle of Peraine's Harvest", 'Blessed gold and a living ember: every herb yields more.', 'TaPflanzenkunde', 6, [], 10,
+    ('g_harvest_sickle', 'special_kraeutersichel', "Sickle of Peraine's Harvest", 'Blessed gold and a living ember: every herb yields more.', 'TaPflanzenkunde', 4, [], 10,
      ('arm_g_golden_sickle', [('zutat_s_blattgold', 2), ('zutat_s_edelsteine', 1), ('arm_tr_firefly_sac', 1)], 'TaAlchimie', 12, [HERBS[2]], 15)),
 ]
 TALENT_NAME = {'TaTierkunde': 'Animal Lore', 'TaPflanzenkunde': 'Plant Lore'}
 for key, base, nm, desc, ta, bonus, sellers, price, up in TOOLS:
+    desc = DESC_R.get(key, desc)
     iid = f'arm_{key}'; NAMES[iid] = nm
     use = f"Tool: put it in a quick slot and use it on a {'corpse' if ta == 'TaTierkunde' else 'plant'}: {TALENT_NAME[ta]} +{bonus} for that check. Never needs to be equipped."
     m.template('Item', base, iid, nm, desc + '\\n\\n' + use, UseTalent=ta, TaBonus=bonus, Value=D(price),
@@ -430,7 +552,6 @@ SURPRISE = [  # type, key, base, name, desc, mods, hit, stats, placement(s), val
     ('Armor', 'x_rk_unmagical_hat', 'hut_kampfmagier', "Rakorium's Unmagical Hat", "Not a speck of magic in it. Rakorium insists that is precisely its power. His second-best hat, he claims, is resting somewhere much further down the road, among the dead.", '', [], {}, [('loot', 'loot_loc01_truhe_baerenhoehle_verschlossen_wasser', 'all')], 0),
     ('Jewelry', 'x_wanted_poster', 'Silberkette', "Your Own Wanted Poster", "1000 ducats, dead or alive. The drawing looks nothing like you, which is exactly why you wear it, folded, over your heart.", 'TaGassenwissen +3 CH -1', [], {}, [('npc', 'Dorfbewohner04_loc02_haendler_praios_gemischt', 'location02_praios')], 2),
     ('Jewelry', 'x_warpaint', 'Silberkette', "Pot of Kurkum Warpaint", "Rhulana's spare warpaint, in a clay pot on a cord. Smells of iron and berries. Etiquette suffers; courage does not.", 'MU +1 TaEtikette -2', [], {}, [('npc', 'Handwerkerin_1_loc08_haendler_handwerk', 'location08')], 4),
-    ('Jewelry', 'x_moon_lily', 'Silberkette', "Gwendala's Pressed Moon-Lily", "Pressed between the pages of a human book she pretends not to like. She will want it back.", 'TaPflanzenkunde +3', [], {}, [('npc', 'Dorfbewohnerin01_loc04', 'location04')], 3),
     ('Jewelry', 'x_jar_newt', 'Silberkette', "Rakorium's Pet 'Dragon'", "A newt in a jar. Rakorium insists it breathed fire once. It has not breathed fire since. It is, however, very calm.", 'AEmax +3 TaTierkunde +2', [], {}, [('npc', 'Zwerg_Zivilist_02_loc09_gemischtwarenhaendler', 'location09')], 4),
     ('Jewelry', 'x_love_letters', 'Silberkette', "Kladdis's 37th Love Letter", "Unsent, unsigned and wildly misspelled. Addressed to 'you know who you are'. Several people in Ferdok think it is about them.", 'TaBetoeren +2 TaUeberreden +2', [], {}, [('npc', 'Haendler_1_loc02_haendler_hafen_selten_nach_loc05', 'location02_hafen')], 3),
     ('Jewelry', 'x_cyclops_monocle', 'Goldring', "Cyclops Monocle", "A lens the size of a plate, from a cyclops who needed reading glasses. Worn on a finger, you see everything, slightly enlarged.", 'TaSinnenschaerfe +4 GE -1', [], {}, [('chest', 'loc11_chest_feuerbruecke_04', 'location11')], 5),
@@ -450,7 +571,7 @@ SURPRISE = [  # type, key, base, name, desc, mods, hit, stats, placement(s), val
     ('Armor', 'x_rakorium_hat', 'hut_kampfmagier', "Rakorium's Second-Best Hat", "Smells of cave mould and dragon theories. Rakorium swears the best one was eaten by a dragon. Of course.",
      'KL +2 IN +1 MU -1 AEmax +5', [], {}, [('chest', 'loc08_gruft_sarg_tagebuch_05', 'dungeon08_gruft_01')], 1),   # Tallon at the earliest (review 31 Oct)
     ('Armor', 'x_retreat_boots', 'schuhe_horasischer_einbrecher', 'Boots of Strategic Retreat', "They have never lost a battle. They have also never stayed for the end of one.",
-     'GE +1 AW +2 MU -2', [], {}, [('chest', 'loc03_truhe_danor', 'location03')], 1),
+     'IN +1 AW +1', [], {}, [('chest', 'loc03_truhe_danor', 'location03')], 1),   # player, 2 Nov: plenty of dodge in the game already
     ('Jewelry', 'x_beard_comb', 'Silberring', "Forgrimm's Spare Beard Comb", "A tiny silver comb on a ring. Forgrimm will deny ever owning it. Loudly. With an axe.",
      'KK +1 CH +1', [], {}, [('npc', 'Zwerg_Zivilist_02_loc09_gemischtwarenhaendler', 'location09')], 3),
 ]
@@ -508,7 +629,7 @@ for key, base, nm, desc, val in (('x_dragon_egg', 'robable_apfel', 'Totally Real
     m.template('Item', base, f'arm_{key}', nm, desc, Value=val, Gew=10, IconBrush=icon(key, m.s.execute('select IconBrush from _Template_Item where Id=?', (base,)).fetchone()[0], 'regular'))
 CHICKEN_SKIN = 'arm_skin_huhn'
 m.static += [f"DELETE FROM _DSA_LootTables WHERE LootTableName={lit(CHICKEN_SKIN)};",
-             insert('_DSA_LootTables', dict(LootTableName=CHICKEN_SKIN, LootTableValue='0', LootTableContent='Item/arm_x_dragon_egg/30/1/0/;Item/arm_x_golden_feather/3/1/0/;'))]
+             insert('_DSA_LootTables', dict(LootTableName=CHICKEN_SKIN, LootTableValue='2', LootTableContent='Item/arm_x_dragon_egg/30/1/0/;Item/arm_x_golden_feather/3/1/0/;'))]
 m.undo_static.append(f"DELETE FROM _DSA_LootTables WHERE LootTableName={lit(CHICKEN_SKIN)};")
 for cid in [r[0] for r in m.s.execute("select Id from _Template_Monster where Id like 'Huhn%' and (FurriersLootTable is null or FurriersLootTable='')")]:
     m.edit_vanilla('Monster', cid, FurriersLootTable=CHICKEN_SKIN)
@@ -522,10 +643,123 @@ NAMES['arm_x_golden_hen'] = 'Amulet of the Golden Hen'
 pe = m.status('PeArmXGoldenHen', 'Dodge +1, Courage +1', 'Dodge +1, Courage +1', start='AW +1 MU +1', state_effect='AttributoGE_State', hardpoint='Skeleton_Root')
 m.template('Jewelry', 'Goldkette', 'arm_x_golden_hen', 'Amulet of the Golden Hen', 'The golden feather, set in gold. Enemies hesitate. Somewhere, a chicken clucks approvingly.\\n\\nDodge +1, Courage +1',
            PermanentEffect=pe, Value=D(5), IconBrush=icon('x_golden_hen', 'icons/magic_amulett_02', 'legendary'))
+
+# ======================= The Wyrmward (player, 3 Nov: ONE upgradable armour-enchantment ring, a dragon and cyclops reward) =======================
+# Proven (player, 3 Nov): a permanent effect raises the character's own armour zones (RSKo..RSRB), the sheet shows it, and it stacks on
+# Armatrutz (its own effect id). One ring that grows, never a set, so the bonus cannot pile up: each stage consumes the one before.
+#   I   Ring of Warding     - found in Japhgur's hoard (Tallon, Dragon's Lair)                      armour +1 every zone
+#   II  Wyrmward Signet     - Murolosh smith, Smithing 13: ring + dragon blood, dwarven steel, gems  armour +2, MR +1
+#   III Ward of the Old Bones - Murolosh smith, Smithing 15: signet + the Cyclops Rune-Bone (Deeps of Gruldur) + gold   armour +3, MR +2, no knockdown
+# The Wyrm Scales stay for the heirlooms and reforges (balance audit A3); the horn and the eye-gem stay for Ulfried and the horn talisman.
+WARD_ZONES = ('RSKo', 'RSBr', 'RSRu', 'RSBa', 'RSLA', 'RSRA', 'RSLB', 'RSRB')
+_ward = lambda n: ' '.join(f'{z} +{n}' for z in WARD_ZONES)
+WARD = [  # id, base, name, tier, armour, extra mods, immunity, flavour, effect line
+    ('arm_x_warding', 'Silberring', 'Ring of Warding', 'superrare', 1, '', '',
+     "A plain silver band, cold to the touch, with the Armatrutz glyph cut on the inside. Japhgur kept it with his gold: whoever wore it "
+     "before him was very hard to kill, and still did not survive.", 'Armour +1 on every zone. Stacks with Armatrutz.'),
+    ('arm_x_warding2', 'Goldring', 'Wyrmward Signet', 'legendary', 2, ' MR +1', '',
+     "Reforged in Murolosh around a drop of the Purplewyrm's blood. The glyph now runs all the way round the band, and spells slide off "
+     "the wearer like rain off scales.", 'Armour +2 on every zone, Magic resistance +1. Stacks with Armatrutz.'),
+    ('arm_x_warding3', 'Goldring', 'Ward of the Old Bones', 'mythic', 3, ' MR +2', 'overthrown',
+     "The cyclops of Gruldur was old when the dwarves were young, and the rune in its bones was older still. Set into the Wyrmward, it "
+     "holds the wearer the way the mountain holds its roots.", 'Armour +3 on every zone, Magic resistance +2, immune to knockdown. Stacks with Armatrutz.'),
+]
+for _iid, _base, _nm, _tier, _n, _extra, _imm, _fl, _line in WARD:
+    NAMES[_iid] = _nm
+    _sid = {'arm_x_warding': 'PeArmWarding'}.get(_iid) or 'PeArm' + _iid[4:].replace('_', '').capitalize()   # the tested ring keeps its effect id (saves carry it)
+    _pe = m.status(_sid, _line.split('. Stacks')[0], _line, start=_ward(_n) + _extra,
+                   state_effect='Armatrutz_State', hardpoint='Damage_Torso', immunity=_imm)
+    m.template('Jewelry', _base, _iid, _nm, f'{_fl}\\n\\n{_line}', PermanentEffect=_pe, Value=D({1: 30, 2: 60, 3: 120}[_n]),
+               IconBrush=icon(_iid[4:], 'icons/magic_ring_blau' if _n == 1 else 'icons/questitem_goldring', _tier))
+m.place('Jewelry', 'arm_x_warding', 'chest', 'loc08a_truhe_japhgur', 'location08_drachenhort')
+m.template('Item', 'zutat_s_edelsteine', 'arm_x_cyclops_bone', 'Cyclops Rune-Bone',
+           "A finger-bone of the cyclops of Gruldur, as long as a forearm, with one rune carved into it by no hand anyone remembers. "
+           "Murolosh smiths will not touch it without a reason.", Value=D(40), IconBrush=icon('x_cyclops_bone', 'icons/zutat_s_edelsteine', 'regular'))
+NAMES['arm_x_cyclops_bone'] = 'Cyclops Rune-Bone'
+recipe('x_warding2', 'Jewelry', 'arm_x_warding2', 'Wyrmward Signet', 'TaSchmieden', 13,
+       [('Jewelry', 'arm_x_warding', 1), ('Item', 'zutat_a_drachenblut', 2), ('Item', 'zutat_s_stahlzwergen', 1), ('Item', 'zutat_s_edelsteine', 1)],
+       MUROLOSH, 25, preview='Armour +2 on every zone, Magic resistance +1.')
+recipe('x_warding3', 'Jewelry', 'arm_x_warding3', 'Ward of the Old Bones', 'TaSchmieden', 15,
+       [('Jewelry', 'arm_x_warding2', 1), ('Item', 'arm_x_cyclops_bone', 1), ('Item', 'zutat_s_blattgold', 2)],
+       MUROLOSH, 40, preview='Armour +3 on every zone, Magic resistance +2, immune to knockdown.')
+catalogue += [('Ring', 'Ring of Warding', 'armour +1 every zone, stacks with Armatrutz', "Japhgur's hoard"),
+              ('Ring', 'Wyrmward Signet', 'armour +2 every zone, MR +1', 'upgrade, Murolosh smith, Smithing 13'),
+              ('Ring', 'Ward of the Old Bones', 'armour +3 every zone, MR +2, no knockdown', 'upgrade with the Cyclops Rune-Bone, Smithing 15')]
 recipe('x_golden_hen', 'Jewelry', 'arm_x_golden_hen', 'Amulet of the Golden Hen', 'TaBogenbau', 6, [('Item', 'arm_x_golden_feather', 1), ('Item', 'zutat_s_blattgold', 1)], HUNTERS[:1], 3,
        preview='Agility +1, Dodge +2, Courage +1')
 catalogue += [('Surprise', "Gwendala's Lucky Arrow", '+15 damage, 50% stun (3 arrows)', 'secret'), ('Surprise', 'Avestrue chickens', 'skinning: dragon egg 30%, golden feather 3%', 'Animal lore'),
               ('Surprise', "Rakorium's Omelette", 'Courage +3, Strength +1, Cleverness -1, 10 min', 'tavern recipe'), ('Surprise', 'Amulet of the Golden Hen', 'Agility +1, Dodge +2, Courage +1', 'Bowcraft 6')]
+
+# ======================= throwing weapons: every plan makes 25, same ingredients (player, 2 Nov) =======================
+for _rid, _res in m.s.execute("select r.Id, r.RecipeResult from _Template_Recipe r join _Template_Weapon w on r.RecipeResult like 'Weapon/' || w.Id || '/%' "
+                              "where w.TaAttr='TaWurfwaffen' and r.Id not like 'arm_%'").fetchall():
+    m.edit_vanilla('Recipe', _rid, RecipeResult=_res.rsplit('/', 1)[0] + '/25')
+
+# throwing weapons weigh a tenth (player, 2 Nov): they are small axes and knives, a stack of 100 must not crush a fighter
+for _wid, _gew in m.s.execute("select Id, Gew from _Template_Weapon where TaAttr='TaWurfwaffen' and MaxStackCount >= 100 and Id not like 'arm_%'").fetchall():
+    m.edit_vanilla('Weapon', _wid, Gew=max(1, _gew // 10))
+
+# ======================= firefly ember sacs (player, 2 Nov): fireflies cannot be skinned, yet 14 plans need the sac =======================
+# small fireflies drop one now and then, the big one always, and the
+# herbalists after Ferdok keep a few.
+m.loot('loot_feuerfliege_klein', 'Item', 'arm_tr_firefly_sac', mode='all', chance=30, amount=1)
+_BIG_FLY = next(n for n in m.loot_tables() if n.startswith('loot_feuerfliege_gro'))   # 'loot_feuerfliege_groß' (cp1252 name)
+m.loot(_BIG_FLY, 'Item', 'arm_tr_firefly_sac', mode='all', chance=100, amount=1)
+for _npc, _lvl, _n in (('Saphira_Trader', 'location03', 2), ('Dorfbewohnerin01_loc04', 'location04', 2),
+                       ('Haendlerin_1_loc08_haendler_kraeuter', 'location08', 3), ('Zwerg_Handwerker_loc09_zutatenhaendler', 'location09', 3)):
+    m.place('Item', 'arm_tr_firefly_sac', 'npc', _npc, _lvl, stack=_n, tag='firefly')
+
+# ======================= combat abilities (player, 2 Nov): the old class mod's attribute walls lowered =======================
+# Lunge and Deadly Thrust are the light fighter's line, so they ask for little Courage. Power Throw is a thrower's skill: no
+# Strength (the target still resists the knock-down with its own Strength). The parry line is cheaper, asks less and lasts.
+ABILITIES = {
+    'Klingensturm': dict(SkillRequirements='SF_Finte;MU/10;FF/12;IN/13;'),
+    'GezielterStich': dict(SkillRequirements='SF_Finte;MU/9;IN/12;GE/13;'),
+    'Todesstoss': dict(SkillRequirements='SF_GezielterStich;MU/10;IN/15;'),
+    'Kraftwurf': dict(SkillRequirements='SF_GezielterWurf;FF/11;'),
+    'MeisterParade': dict(SkillRequirements='PAbasis/8;', AU=8),
+    'Klingenwand': dict(SkillRequirements='SF_Meisterparade;GE/12;', AU=15, XP=250, CombatBuffBonus=5),
+    'Windmuehle': dict(SkillRequirements='SF_Klingenwand;GE/12;IN/12;', AU=20, CombatBuffBonus=3),
+}
+for _aid, _over in ABILITIES.items(): m.edit_vanilla('Attacks', _aid, **_over)
+_EFFECT_TEXT = {'Klingenwand': [('4 extra parries', '5 extra parries'), ('additional 4 parries', 'additional 5 parries')],
+                'Windmuehle': [('Two Parry and Dodge', 'Three Parry and Dodge')]}
+
+# Tooltips: the "Requires:" line of every ability is rewritten from its real requirements (the old texts were hand-written and
+# often wrong, e.g. Stormblade claimed ST 13). Attribute and ability names are the game's own English ones.
+_ATTR = {'MU': 'CO', 'KL': 'CL', 'IN': 'IN', 'CH': 'CH', 'FF': 'DE', 'GE': 'AG', 'KO': 'CN', 'KK': 'ST',
+         'ATbasis': 'Base AV', 'PAbasis': 'Base PA', 'FKbasis': 'Base RC'}
+_loc = lambda k: (m.l.execute('select LocaText from _Locale where LocaId=?', (k,)).fetchone() or [None])[0]
+_by_sf = {r['AtAttr']: r['Id'] for r in m.s.execute("select Id, AtAttr from _Template_Attacks where AtAttr like 'SF_%'")}
+def _req_text(req):
+    out = []
+    for part in [p for p in (req or '').split(';') if p]:
+        if part.startswith('SF_'):
+            name = _loc(_by_sf[part]) if part in _by_sf else _loc(part)
+            assert name, part
+            out.append(name if 'Kampfstil' in part else f'SA {name}')
+        else:
+            a, v = part.split('/'); assert a in _ATTR, part
+            out.append(f'{_ATTR[a]} {v}')
+    return ', '.join(out)
+for _r in m.s.execute("select Id, Description, SkillRequirements from _Template_Attacks where AtAttr like 'SF_%'").fetchall():   # enemy moves share texts
+    _t = _loc(_r['Description'])
+    if not _t or 'Requires:' not in _t: continue
+    _req = ABILITIES.get(_r['Id'], {}).get('SkillRequirements', _r['SkillRequirements'])
+    _new = re.sub(r'Requires:.*$', 'Requires: ' + (_req_text(_req) or 'nothing'), _t)
+    for _a, _b in _EFFECT_TEXT.get(_r['Id'], []): _new = _new.replace(_a, _b)
+    if _r['Id'] in ABILITIES and 'AU' in ABILITIES[_r['Id']]: _new = re.sub(r'ED Cost: \d+ EP', f"ED Cost: {ABILITIES[_r['Id']]['AU']} EP", _new)
+    if _new != _t: m.vanilla_text(_r['Description'], _new)
+
+# Sergeant Erland (Count's Town, both story versions) also teaches Lunge
+for _nid in ('loc02_feldwebel_erland', 'loc02_feldwebel_erland_var_nach_loc05'):
+    _ts = m.s.execute('select TeachableSkills from _Template_NPC where Id=?', (_nid,)).fetchone()['TeachableSkills']
+    if 'SF_GezielterStich;' not in _ts: m.edit_vanilla('NPC', _nid, TeachableSkills=_ts.replace('SF_Finte;', 'SF_Finte;SF_GezielterStich;'))
+
+# Gwendala knows Helpful Paw again: the old class mod set it to "not learned" on her (her template still says 3, vanilla 6)
+for _g, _v in m.g.execute("select Guid, ZaTatzeSchwinge from _Instance_PC where Id='pc_gwendala'").fetchall():   # her world records only
+    m.game.append(f"UPDATE _Instance_PC SET ZaTatzeSchwinge=3 WHERE Guid={lit(_g)};")
+    m.undo_game.append(f"UPDATE _Instance_PC SET ZaTatzeSchwinge={lit(_v)} WHERE Guid={lit(_g)};")
 
 # ======================= unique beasts and bosses: wound-immune, more willpower, life by story weight (tools/beasts_data.py) =======================
 from beasts_data import TOUGH, toughened

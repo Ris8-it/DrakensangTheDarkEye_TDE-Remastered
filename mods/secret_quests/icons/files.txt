@@ -1,3 +1,8 @@
 arm_q_sigil.dds
 arm_q_ledger.dds
 arm_q_page.dds
+arm_q_wolf_charm.dds
+arm_q_tg_strongbox.dds
+arm_q_tg_silver.dds
+arm_q_tg_ledger.dds
+arm_q_tg_crystal.dds

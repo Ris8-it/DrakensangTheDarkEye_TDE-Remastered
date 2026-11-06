@@ -24,6 +24,7 @@ arm_tl_wolf_alpha.dds
 arm_tl_ward1.dds
 arm_tl_ward2.dds
 arm_tl_ward3.dds
+arm_tl_wolf2.dds
 arm_oil_frost.dds
 arm_oil_ember.dds
 arm_oil_venom.dds
@@ -45,6 +46,14 @@ arm_scroll_shadow.dds
 arm_scroll_iron.dds
 arm_scroll_trance.dds
 arm_scroll_mend.dds
+arm_focus_mu.dds
+arm_focus_kl.dds
+arm_focus_in.dds
+arm_focus_ch.dds
+arm_focus_ff.dds
+arm_focus_ge.dds
+arm_focus_ko.dds
+arm_focus_kk.dds
 arm_sk_phex_gambit.dds
 arm_sk_scholar_edge.dds
 arm_sk_huntmaster.dds
@@ -69,7 +78,6 @@ arm_cg_rhulana.dds
 arm_x_rk_unmagical_hat.dds
 arm_x_wanted_poster.dds
 arm_x_warpaint.dds
-arm_x_moon_lily.dds
 arm_x_jar_newt.dds
 arm_x_love_letters.dds
 arm_x_cyclops_monocle.dds
@@ -89,3 +97,7 @@ arm_x_dragon_egg.dds
 arm_x_golden_feather.dds
 arm_x_omelette.dds
 arm_x_golden_hen.dds
+arm_x_warding.dds
+arm_x_warding2.dds
+arm_x_warding3.dds
+arm_x_cyclops_bone.dds

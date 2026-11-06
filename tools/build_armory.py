@@ -106,6 +106,18 @@ for key, base, name, desc, value, places in MATERIALS:
     m.template('Item', base, iid, name, desc, Value=value, IconBrush=br)
     for kind, oid, lvl, n in places: m.place('Item', iid, kind, oid, lvl, stack=n)
 for typ, iid, n in HOARD_EXTRA: m.place(typ, iid, 'chest', 'loc08a_truhe_japhgur', 'location08_drachenhort', stack=n, tag='extra')
+# v2.7: plans found instead of sold, boss relics, and bosses that get their own loot table (old loot + relic)
+from armory_data import LOOT_EXTRA, LOOT_OWN
+for _table, _typ, _iid in LOOT_EXTRA: m.loot(_table, _typ, _iid, mode='all')
+for (_typ, _oid), _extra in LOOT_OWN.items():
+    _cur = m.s.execute(f'select LootTable from _Template_{_typ} where Id=?', (_oid,)).fetchone()[0] or ''
+    _old = [e for e in m.loot_tables().get(_cur, ('0', ''))[1].split(';') if e]
+    _name = f'arm_lt_own_{_oid}'
+    _content = ''.join(e + ';' for e in _old) + ''.join(f'{t}/{i}/{c}/{n}/1/;' for t, i, c, n in _extra)
+    m.static += [f'DELETE FROM _DSA_LootTables WHERE LootTableName={lit(_name)};',
+                 f'INSERT INTO _DSA_LootTables (LootTableName, LootTableValue, LootTableContent) VALUES ({lit(_name)}, {lit(str(len(_old) + len(_extra)))}, {lit(_content)});']
+    m.undo_static.append(f'DELETE FROM _DSA_LootTables WHERE LootTableName={lit(_name)};')
+    m.edit_vanilla(_typ, _oid, LootTable=_name)
 for oid, lvl, n in FEATHER_STOCK: m.place('Item', 'zutat_b_harpyienfedern', 'npc', oid, lvl, stack=n, tag='feathers')
 _seen = {}
 for typ, iid, oid, lvl in BASE_STOCK:   # a second copy at the same shop needs its own tag (the first keeps the old GUID)
@@ -148,6 +160,27 @@ for hkey, (pieces, per, full, label) in SETS_V24.items():
     m.text(f'{pid}_name', text); m.new_guids.append(sg); m.se_names[pid] = text
     SETPE[hkey], SETLINE[hkey] = pid, text
 
+
+# Bows and crossbows never run on-hit scripts (the player tested it, 3 Nov: no 15 % procs, no bonus damage; the arrow carries the hit).
+# Their effects are folded into what does work: expected bonus damage becomes flat damage, any status effect becomes +1 ranged attack.
+RANGED = ('TaBogen', 'TaArmbrust')
+def ranged_fold(base, hit, over):
+    """For a bow/crossbow: returns [] and puts the value of `hit` into over (WpW6plus, WpATmod). Other weapons: hit unchanged."""
+    if base.get('TaAttr') not in RANGED or not hit: return hit
+    acc = {'dmg': 0.0, 'status': False}
+    def walk(entries, mult):
+        for e in entries:
+            if e[0] == 'p': walk(e[2], mult * e[1] / 100.0)
+            elif e[0] == 'if': walk(e[2], mult * 0.25)
+            elif e[0] == 'dmg': acc['dmg'] += mult * (e[1] + 3.5 * e[2])
+            else: acc['status'] = True
+    walk(hit, 1.0)
+    bonus = int(acc['dmg'] + 0.5) or (1 if acc['dmg'] >= 0.3 else 0)
+    if bonus: over['WpW6plus'] = over.get('WpW6plus', base['WpW6plus']) + bonus
+    if acc['status']: over['WpATmod'] = (over.get('WpATmod', base['WpATmod']) or 0) + 1
+    RANGED_LOG.append((base['Id'], round(acc['dmg'], 1), acc['status']))
+    return []
+RANGED_LOG = []
 # ---------- items ----------
 catalogue, recipes = [], []
 for it in ITEMS:
@@ -156,6 +189,7 @@ for it in ITEMS:
     check_ids(it['hit'])
     base = dict(m.s.execute(f"select * from _Template_{typ} where Id=?", (it['base'],)).fetchone())
     over = dict(it['stats'])
+    if typ == 'Weapon': it['hit'] = ranged_fold(base, it['hit'], over)
     if typ == 'Armor':
         _note = armour_rules(base, over, item_stage(it))
         if _note: ARMOUR_LOG.append((iid, it['tier'], item_stage(it), _note))
@@ -195,7 +229,7 @@ for it in ITEMS:
     if r:
         rid = f'arm_rezept_{key}'
         diff = max(3, r['diff'] - RECIPE_EASE)
-        batch = 10 if it['stack'] > 1 else 1
+        batch = it.get('batch') or (10 if it['stack'] > 1 else 1)
         ingr = ''.join(f'{ty}/{bid}/{n};' for ty, bid, n in r['consumes']) + ''.join(f'Item/{mid}/{n};' for mid, n in r['mats'])
         consumed = ', '.join([f'{n} {item_name(ty, bid)}' for ty, bid, n in r['consumes']] + [f'{n} {item_name("Item", mid)}' for mid, n in r['mats']])
         source = ('\\nUNIQUE: the original cannot be bought again.' if r['final'] else
@@ -217,9 +251,10 @@ def upgrade(rows, label):
         check_ids(hit)
         cur = dict(m.s.execute('select * from _Template_Weapon where Id=?', (wid,)).fetchone())
         new = {k: cur[k] + v for k, v in deltas.items()}
+        hit = ranged_fold(cur, hit, new)
         pe = ';'.join(x for x in (cur['PermanentEffect'] or '').split(';') + ['PeNotBurnable'] if x)
         pe = ';'.join(dict.fromkeys(pe.split(';')))
-        m.edit_vanilla('Weapon', wid, ScriptOverride=m.hit_script(f'arm_{label}_{wid}', hit), PermanentEffect=pe, **new)
+        m.edit_vanilla('Weapon', wid, ScriptOverride=m.hit_script(f'arm_{label}_{wid}', hit) if hit else '', PermanentEffect=pe, **new)
         old = m.l.execute('select LocaText from _Locale where LocaId=?', (cur['InfoIdentified'],)).fetchone()[0]
         nd = {**cur, **new}
         lines = [f"{nd['WpW6']}D6{nd['WpW6plus']:+d} HP", 'Immune to burning'] + procs_text(hit, m.se_names)
@@ -241,7 +276,8 @@ for wid, key, name, extra, skill in TEMPERED:
     over = {k: base[k] + v for k, v in cdel.items()}
     over['WpW6plus'] = over.get('WpW6plus', base['WpW6plus']) + 1
     over['WpATmod'] = (base['WpATmod'] or 0) + 1
-    over['ScriptOverride'] = m.hit_script(f'arm_{key}', hit)
+    hit = ranged_fold(base, hit, over)
+    over['ScriptOverride'] = m.hit_script(f'arm_{key}', hit) if hit else ''
     over['PermanentEffect'] = 'PeNotBurnable'
     over['IconBrush'], _art = icon(key, base['IconBrush'], 'mythic', (255, 120, 40))
     over['IsMagical'] = 1; over['Value'] = D(5)
@@ -280,7 +316,7 @@ for key, base, name, flavor, hit, batch, ingr, diff, (seller, lvl), price in AMM
     names = ', '.join(f"{part.split('/')[2]} {item_name('Item', part.split('/')[1])}" for part in ingr.strip(';').split(';'))
     m.template('Recipe', 'rezept_kriegspfeile', rid, f'Instructions for {name}', f"Bowcraft {diff}. Makes {batch} {name}.\\n{'; '.join(lines)}\\nNeeds: {names}.",
                RecipeIngredients=ingr, RecipeResult=f'Ammo/{aid}/{batch}', Difficulty=diff, Value=D(price))
-    m.place('Recipe', rid, 'npc', seller, lvl)
+    if seller: m.place('Recipe', rid, 'npc', seller, lvl)   # no seller: the plan is a unique drop
     if lvl == 'location01': m.place('Recipe', rid, 'npc', 'Jaeger_Kauzenstein_loc02_trainer_praios_bogen', 'location02_praios')
     ammo_rows.append((name, lines, batch, diff, seller, lvl, price))
 m.place('Ammo', 'arm_am_barbed_arrow', 'npc', 'Jaeger_Kauzenstein', 'location01', stack=20)
@@ -341,6 +377,7 @@ md += ['## Dragon hoard and supplies', '', "- Japhgur's hoard: +7 Heavy Wyrm Sca
 md += ['## Custom effects (weapon procs and jewelry)', '', '| Effect | What it does |', '|---|---|'] + [f'| {n} | {d} |' for _, n, d, *_ in STATUS] + ['']
 open(os.path.join(out, 'README.md'), 'w', encoding='utf-8').write('\n'.join(md))
 from collections import Counter
+print('ranged folded', len(RANGED_LOG), RANGED_LOG[:3])
 print('tiers', dict(Counter(it['tier'] for it in ITEMS)), 'recipes', len(recipes), 'templates', len(m.templates), 'placed', len(m.instances),
       'loot', len(m.loot_edits), 'status', len(m.se_names), 'icons', len(icon_files), 'vanilla edits', len(m.vanilla_edits))
 

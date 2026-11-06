@@ -36,10 +36,35 @@ TOUGH = {
 }
 ZONES = ('RSKo', 'RSBr', 'RSRu', 'RSBa', 'RSLA', 'RSRA', 'RSLB', 'RSRB')
 
+# Fury (player, 2 Nov: "go crazy with damage on unique monsters, make each one the final boss of its area"): on top of the
+# life above, every unique outside the tutorial gets half again its life, one more damage die and +3 damage, +2 attack, +2 parry
+# if it parries at all, and uses its own special moves three times as often. Tutorial bosses (level 1-3 party) only hit +1 harder.
+TUTORIAL = {'loc01_wolf_weissfell', 'Baer_Loc01', 'Wolfsratte_loc01_boss'}
+FURY_LIFE, FURY_DICE, FURY_PLUS, FURY_AT, FURY_PA, FURY_MOVES = 1.5, 1, 3, 2, 2, 3.0
+
+def _moves(spec):
+    """Special-attack weights x FURY_MOVES (plain melee stays): 'BearSweepAttack 1.0 0' -> 'BearSweepAttack 3.0 0'."""
+    out = []
+    for part in [p.strip() for p in (spec or '').split(',') if p.strip()]:
+        bits = part.split()
+        if len(bits) == 3 and bits[0] != 'MeleeAttack':
+            try: bits[1] = f'{float(bits[1]) * FURY_MOVES:.1f}'
+            except ValueError: pass
+        out.append(' '.join(bits))
+    return ', '.join(out)
+
 def toughened(row, entry):
     """New column values for a template row (dict) under a TOUGH entry."""
     le, rs, mr, at, imm = entry
-    new = {'LEmax': max(le, row['LEmax'] or 0), 'LE': max(le, row['LEmax'] or 0), 'MR': max(mr, row['MR'] or 0), 'AT': (row['AT'] or 0) + at}
+    tut = row.get('Id') in TUTORIAL
+    le = max(le, row['LEmax'] or 0) if tut else int(max(le, row['LEmax'] or 0) * FURY_LIFE)
+    new = {'LEmax': le, 'LE': le, 'MR': max(mr, row['MR'] or 0), 'AT': (row['AT'] or 0) + at + (0 if tut else FURY_AT)}
+    if 'ATW6plus' in row: new['ATW6plus'] = (row['ATW6plus'] or 0) + (1 if tut else FURY_PLUS)
+    if 'IsVictoryWorthy' in row: new['IsVictoryWorthy'] = 1   # every unique ends with the victory pose (player, 2 Nov)
+    if not tut:
+        if 'ATW6' in row: new['ATW6'] = (row['ATW6'] or 1) + FURY_DICE
+        if (row.get('PA') or 0) > 0: new['PA'] = row['PA'] + FURY_PA
+        if row.get('SpecialAttackChances'): new['SpecialAttackChances'] = _moves(row['SpecialAttackChances'])
     for z in ZONES:
         if z in row and (row[z] or 0) > 0: new[z] = row[z] + rs
     if imm:
