@@ -1,4 +1,4 @@
-SELECT 'new item templates (expect 21): ' || ((SELECT count(*) FROM _Template_Item WHERE Id IN ('lab_coin','lab_p01','lab_p02','lab_p03','lab_p04','lab_p05','lab_p06','lab_p07','lab_p08','lab_p09','lab_p10','lab_p11','lab_p12','lab_p13','lab_p14','lab_p15','lab_p16','lab_p17','lab_p18','lab_p19','lab_p20')));
+SELECT 'new item templates (expect 23): ' || ((SELECT count(*) FROM _Template_Item WHERE Id IN ('lab_coin','lab_p01','lab_p02','lab_p03','lab_p04','lab_p05','lab_p06','lab_p07','lab_p08','lab_p09','lab_p10','lab_p11','lab_p12','lab_p13','lab_p14','lab_p15','lab_p16','lab_p17','lab_p18','lab_p19','lab_p20','lab_p21','lab_p21b')));
 SELECT 'new status effects (expect 2): ' || (SELECT count(*) FROM _Scripts_StatusEffectScripts WHERE Id IN ('LayLabPulseMark','LayLabPulse'));
 SELECT 'loot entries (expect 0): ' || (0);
 SELECT 'static.db4 integrity check:'; PRAGMA integrity_check;
@@ -45,3 +45,4 @@ SELECT 'action script lab_p17.xml (expect 1): ' || (SELECT count(*) FROM _Script
 SELECT 'action script lab_p18.xml (expect 1): ' || (SELECT count(*) FROM _Scripts_ActionScripts WHERE ScriptName='lab_p18.xml');
 SELECT 'action script lab_p19.xml (expect 1): ' || (SELECT count(*) FROM _Scripts_ActionScripts WHERE ScriptName='lab_p19.xml');
 SELECT 'action script lab_p20.xml (expect 1): ' || (SELECT count(*) FROM _Scripts_ActionScripts WHERE ScriptName='lab_p20.xml');
+SELECT 'action script lab_p21.xml (expect 1): ' || (SELECT count(*) FROM _Scripts_ActionScripts WHERE ScriptName='lab_p21.xml');

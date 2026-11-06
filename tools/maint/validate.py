@@ -18,7 +18,7 @@ BASE_SRC = os.path.join(GAME, 'export', 'db', 'armory_backup')
 WORK = os.path.join(ROOT, '.work'); BASE = os.path.join(WORK, 'base'); TEST = os.path.join(WORK, 'test')
 SQ = os.path.join(ROOT, 'tools', 'bin', 'sqlite3.exe')
 MODS = ['armory_v2', 'arcane_thief', 'remastered_systems', 'quest_avestrue', 'secret_quests', 'hard_ending']   # install order
-EXTRA = ['world_systems', 'smarter_foes', 'engine_lab', 'engine_lab_stage2']   # optional modules (engine layers), tested after the pack
+EXTRA = ['unofficial_patch', 'world_systems', 'smarter_foes', 'engine_lab', 'engine_lab_stage2']   # optional modules (engine layers), tested after the pack
 MODS = MODS + EXTRA
 if '--mods' in sys.argv: MODS = sys.argv[sys.argv.index('--mods') + 1].split(',')     # e.g. --mods world_systems,engine_lab
 if '--base' in sys.argv: BASE_SRC = sys.argv[sys.argv.index('--base') + 1]            # another clean baseline folder

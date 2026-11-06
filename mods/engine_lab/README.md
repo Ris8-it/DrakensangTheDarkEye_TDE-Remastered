@@ -26,6 +26,7 @@ Afterwards: Uninstall.bat (and LooseFiles_Uninstall.bat). Stage 2 (`mods/engine_
 | P18 Trigger | layer 7 | Walk onto the Lab Altar and away again. | "trigger entered"/"trigger left" every time. | Do new trigger volumes fire (and re-fire)? |  |
 | P19 Blueprint patch | layer 17 | After LooseFiles_Install.bat: reach a large monster (Tallon). | Large monsters show a health bar. | Does a loose blueprints.xml load? |  |
 | P20 DamageTaken tokens | layer 1 | Use P10, hit the lab rat. | The rat says "AimedEntity", the attacker says "ActingEntity"; on death "on:Death ran". | Which token is the victim in an on:DamageTaken script? |  |
+| P21 Kräuter (cp1252) | text encoding | Look at this item and P21b in the inventory and in the tooltip. | Whichever of the two shows "Kräuter" correctly is the encoding to use for all mod text. | cp1252 or UTF-8 for non-ASCII mod text? |  |
 
 ## Stage 2: new category
 

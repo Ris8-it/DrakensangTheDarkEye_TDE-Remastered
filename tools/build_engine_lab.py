@@ -125,6 +125,15 @@ probe(19, 'Blueprint patch', 'layer 17', 'After LooseFiles_Install.bat: reach a 
       'Does a loose blueprints.xml load?', [SAY('Lab: P19 is checked at a large monster')])
 probe(20, 'DamageTaken tokens', 'layer 1', 'Use P10, hit the lab rat.', 'The rat says "AimedEntity", the attacker says "ActingEntity"; on death "on:Death ran".',
       'Which token is the victim in an on:DamageTaken script?', [SAY('Lab: hit the lab rat from P10')])
+# P21: text encoding. locale.sql is written in cp1252 and sqlite3.exe stores its bytes as-is, so 'ä' arrives as byte E4 (cp1252);
+# the UTF-8 twin is written as the cp1252 reading of the UTF-8 bytes ('Ã¤' -> C3 A4). Vanilla's non-ASCII texts are UTF-8.
+probe(21, 'Kräuter (cp1252)', 'text encoding', 'Look at this item and P21b in the inventory and in the tooltip.',
+      'Whichever of the two shows "Kräuter" correctly is the encoding to use for all mod text.', 'cp1252 or UTF-8 for non-ASCII mod text?',
+      [SAY('Lab: P21 compare the names of the two Kräuter items')])
+m.template('Item', BASE_ITEM, 'lab_p21b', 'Lab 21b: Kräuter (UTF-8)'.encode('utf-8').decode('cp1252'),
+           'Engine lab probe (text encoding): UTF-8 bytes for ä/ö/ü: Kräuter, Öl, Grün.'.encode('utf-8').decode('cp1252'),
+           ScriptOverride='', ScriptPreset='', CanDestroy=0, Value=0)
+m.place('Item', 'lab_p21b', 'pc', 'pc_rhulana')
 from quests import Story
 st = Story(m, 'enginelab')
 st.task('lab_quest', 'Engine Lab', 'Engine lab test quest.', 'closed', state='unlocked')

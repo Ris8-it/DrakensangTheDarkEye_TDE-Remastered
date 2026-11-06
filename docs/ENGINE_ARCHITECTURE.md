@@ -125,7 +125,7 @@ flowchart LR
 - **New columns need an `_Attributes` row** in both dbs (name, type `string|int|float|bool|vector3|vector4|matrix44|guid|blob`,
   `AttrReadWrite`). Without it the column has no attribute type. Only C++ code reads attributes by name, so a new column is
   inert unless an existing mechanism reads it (`ModifyAttribute` takes any attribute name: **needs in-game test** for a custom
-  one). `AttrDynamic` is not read by the N3 code; its meaning in Drakensang is unknown.
+  one). `AttrDynamic` is not read by the N3 code; in the vanilla data it is 0 for exactly the 102 Mangalore core attributes, so it most likely marks attributes declared by the DSA layer rather than compiled into the engine (**inferred**).
 
 ### Entity types at a glance (verified (data))
 

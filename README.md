@@ -18,7 +18,11 @@ with. Yes, people still play this game. Some of us also mod it.
 - Optional **World Systems** (beta): wayside shrines with party blessings, herb patches that regrow, hunting grounds that refill,
   elite enemies that rally and beasts that go into a frenzy when hurt, wolves that howl for the pack, ogres that slam the ground.
   Optional **Smarter Foes** (beta): enemies pick targets like the game's clever fighters, bandits flee once when badly hurt.
-  Both: `Install_WorldSystems.bat` / `Install_SmarterFoes.bat` in `mods/Drakensang_TDE_Remastered/`; they still need an in-game test.
+  Optional **Unofficial Patch**: fixes vanilla data bugs (big wolves, emerald spiders and troll toads that dropped nothing
+  because their loot tables were misspelled, skeleton archers without loot, two NPCs whose idle routine was misspelled,
+  a misspelled preset, 11 missing descriptions).
+  All three: `Install_UnofficialPatch.bat` / `Install_WorldSystems.bat` / `Install_SmarterFoes.bat` in
+  `mods/Drakensang_TDE_Remastered/`; they still need an in-game test.
 
 **Requirements**
 - Drakensang: The Dark Eye, Steam version 1.03.

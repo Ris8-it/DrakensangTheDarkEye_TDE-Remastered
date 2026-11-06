@@ -18,3 +18,5 @@ All scripts take the DB folder as first argument, e.g.
 - `engine/` — read-only decoders: `dsa_script.py` (scripts, condition scripts, status effects, AI machines, quests as pseudo-code), `vocab.py`
   (every verb/atom/event with counts), `engine_map.py` (property/attribute glossaries), `xltable.py` (Excel-XML tables), `save_diff.py` (what a save holds).
 - `maint/sqlrun.py <db folder> <mod> install|uninstall|verify` — run a module's SQL anywhere (Python fallback writes the same bytes as sqlite3.exe).
+- `build_unofficial_patch.py` — vanilla data fixes (misnamed loot tables, misspelled preset and idle routines, missing texts), all guarded.
+- `engine/dsa_script.py` treats a top condition row with several children as AND (vanilla does this in 339 scripts).

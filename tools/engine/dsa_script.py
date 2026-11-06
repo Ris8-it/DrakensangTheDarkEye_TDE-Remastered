@@ -68,8 +68,12 @@ class Decoder:
             return 'not (' + self.cond_expr(refs[0], depth + 1) + ')'
         if typ in ('And', 'Or'):
             return '(' + f' {typ.lower()} '.join(self.cond_expr(r, depth + 1) for r in refs) + ')'
-        if typ in ('Condition', 'OpenCondition', 'CloseCondition'):
-            return self.cond_expr(refs[0], depth + 1) if refs else 'true'
+        if typ in ('Condition', 'OpenCondition', 'CloseCondition'):   # several children = implicit AND (vanilla does this)
+            if not refs:
+                return 'true'
+            if len(refs) == 1:
+                return self.cond_expr(refs[0], depth + 1)
+            return '(' + ' and '.join(self.cond_expr(r, depth + 1) for r in refs) + ')'
         return f'<{typ}: {content}>'
 
     # ---- statements ----

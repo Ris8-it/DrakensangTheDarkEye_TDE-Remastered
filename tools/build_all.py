@@ -13,7 +13,7 @@ BASE = os.path.join(GAME, 'export', 'db', 'armory_backup')
 STEPS = [('build_armory.py', 'armory_v2'), ('build_arcane_thief.py', 'arcane_thief'), ('build_remastered.py', 'remastered_systems'),
          ('build_quest_avestrue.py', 'quest_avestrue'), ('build_secret_quests.py', 'secret_quests'), ('build_hard_ending.py', 'hard_ending'),
          # optional engine-layer modules (tools/layers.py): independent of the pack, built from the same baseline
-         ('build_world_systems.py', 'world_systems'), ('build_smarter_foes.py', 'smarter_foes'), ('build_engine_lab.py', 'engine_lab mods/engine_lab_stage2')]
+         ('build_unofficial_patch.py', 'unofficial_patch'), ('build_world_systems.py', 'world_systems'), ('build_smarter_foes.py', 'smarter_foes'), ('build_engine_lab.py', 'engine_lab mods/engine_lab_stage2')]
 for script, mod in STEPS:
     outs = [os.path.join('mods', mod.split()[0])] + mod.split()[1:]
     r = subprocess.run([sys.executable, '-I', os.path.join(HERE, script), BASE, *outs], cwd=ROOT, capture_output=True, text=True)

@@ -93,6 +93,10 @@ def collect(db_dir):
                 for txt, w in ((en, 'Enter'), (lv, 'Leave'), (ins, 'Inside')):
                     verbs.add(txt, f'{cat} {w}')
 
+    # map legend markers: EntityFilter atoms decide which entities get a minimap marker
+    for (flt,) in s.execute('select EntityFilter from _Template_maplegend'):
+        atoms.add(flt, 'map legend filter')
+
     # events
     events = collections.Counter()
     for db in (s, g):

@@ -50,6 +50,10 @@ INSERT INTO _Locale ("LocaId","LocaText") VALUES ('lookat_lab_p19','Lab 19: Blue
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_lab_p19','Engine lab probe (layer 17). After LooseFiles_Install.bat: reach a large monster (Tallon).');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('lookat_lab_p20','Lab 20: DamageTaken tokens');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_lab_p20','Engine lab probe (layer 1). Use P10, hit the lab rat.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('lookat_lab_p21','Lab 21: Kr�uter (cp1252)');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_lab_p21','Engine lab probe (text encoding). Look at this item and P21b in the inventory and in the tooltip.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('lookat_lab_p21b','Lab 21b: Kräuter (UTF-8)');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_lab_p21b','Engine lab probe (text encoding): UTF-8 bytes for ä/ö/ü: Kräuter, Öl, Grün.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('2327c1eb-7977-53e9-962d-39c5782355a1','Engine Lab');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('cced5492-2cd3-538d-bc96-d00a531661ff','Engine lab test quest.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('df55e919-f74f-5273-bb90-0389ae7bad8a','closed');
