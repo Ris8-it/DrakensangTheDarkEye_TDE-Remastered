@@ -1,0 +1,13 @@
+BEGIN;
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_loc02_spielerhaus_werkbank_kiste','A sturdy crate for tools and materials.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_loc02_spielerhaus_werkbank_truhe','A chest beside the workbench, for whatever is worth keeping.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_loc03_truhe_da_vanya','A well-made travelling chest, bound in iron.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_loc03_truhe_ronkwer','A battered chest that has seen a lot of hard use.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_loc03_truhe_humpert','A plain wooden chest.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_loc03_truhe_saphira','A small chest, carefully kept.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_loc03_truhe_guthof','A farmhouse chest of dark oak.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_loc03_truhe_koch','A greasy chest that smells of the kitchen.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_loc03_truhe_danor','A heavy chest with a solid lock.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_Kampfhund_loc05_orks_innen_pat1','This powerful dog has been trained for battle.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('infoid_Kampfhund_loc05_orks_innen_pat2','This powerful dog has been trained for battle.');
+COMMIT;

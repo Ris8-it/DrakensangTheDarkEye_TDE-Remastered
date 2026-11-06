@@ -1,0 +1,3 @@
+BEGIN;
+DELETE FROM _Locale WHERE LocaId IN ('LayBlessPhex_name','LayBlessPhex_short','LayBlessPhex_long','lookat_lay_shrine_phex','LayBlessFirun_name','LayBlessFirun_short','LayBlessFirun_long','lookat_lay_shrine_firun','LayBlessPeraine_name','LayBlessPeraine_short','LayBlessPeraine_long','lookat_lay_shrine_peraine','LayBlessRondra_name','LayBlessRondra_short','LayBlessRondra_long','lookat_lay_shrine_rondra','LayBlessIngerimm_name','LayBlessIngerimm_short','LayBlessIngerimm_long','lookat_lay_shrine_ingerimm','LayRally_name','LayRally_short','LayRally_long','LayFrenzy_name','LayFrenzy_short','LayFrenzy_long','LayOgreSlam_name','LayOgreSlam_desc');
+COMMIT;

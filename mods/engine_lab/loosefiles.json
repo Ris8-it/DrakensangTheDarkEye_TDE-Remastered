@@ -1,0 +1,36 @@
+{
+ "id": "engine_lab",
+ "patches": [
+  {
+   "file": "data/tables/effects.xml",
+   "sheet": "Tabelle1",
+   "rows": [
+    [
+     "LayLabGlow",
+     "effects/balsam",
+     15,
+     0,
+     "TDE-Remastered engine lab"
+    ]
+   ]
+  },
+  {
+   "file": "data/tables/blueprints.xml",
+   "properties": {
+    "MonsterLarge": [
+     "HealthBarGraphicsProperty"
+    ]
+   },
+   "entities": {
+    "LayLabShrine": [
+     "PhysicsProperty",
+     "GraphicsProperty",
+     "LookProperty",
+     "Useable",
+     "ScriptProperty",
+     "LevelSwitchableProperty"
+    ]
+   }
+  }
+ ]
+}

@@ -11,3 +11,12 @@ All scripts take the DB folder as first argument, e.g.
   - `script.py` decodes status-effect and on-hit scripts into readable statements
   - `research*.py` action verbs, visual effects, conditions, debuffs, prices, party, loot tables
   - `cano3.py` / `ergo.py` list what a merchant stocks and verify counts
+- `layers.py` — generators for the 18 engine layers (docs/ENGINE_ARCHITECTURE.md §11/§13): presets, can: gates, AI state machines (clone/edit/tune),
+  scripted attacks, level-enter scripts, triggers, zones, heartbeats, objects, service points, encounters, probes, factions, area hazards,
+  new categories, new columns. `loosefiles.py` builds loose data/tables/*.xml patches from the player's own archives.
+- `build_world_systems.py`, `build_smarter_foes.py`, `build_engine_lab.py` — the optional modules and the in-game test pack built with them.
+- `engine/` — read-only decoders: `dsa_script.py` (scripts, condition scripts, status effects, AI machines, quests as pseudo-code), `vocab.py`
+  (every verb/atom/event with counts), `engine_map.py` (property/attribute glossaries), `xltable.py` (Excel-XML tables), `save_diff.py` (what a save holds).
+- `maint/sqlrun.py <db folder> <mod> install|uninstall|verify` — run a module's SQL anywhere (Python fallback writes the same bytes as sqlite3.exe).
+- `build_unofficial_patch.py` — vanilla data fixes (misnamed loot tables, misspelled preset and idle routines, missing texts), all guarded.
+- `engine/dsa_script.py` treats a top condition row with several children as AND (vanilla does this in 339 scripts).
