@@ -2,7 +2,7 @@
 :: Drakensang TDE - Remastered: installs every module in order. Close the game first. Start a NEW game afterwards.
 :: Safe to run more than once. Each run starts from the clean databases saved before the pack was first installed
 :: (export\db\armory_backup), so nothing from an older version of the pack is left behind.
-:: Hard Ending is put back automatically if it was installed. Saves are never touched.
+:: Hard Ending, World Systems and Smarter Foes are put back automatically if they were installed. Saves are never touched.
 setlocal
 set "M=%~dp0..\"
 if not defined DRAKENSANG set "DRAKENSANG=D:\Steam\steamapps\common\Drakensang"
@@ -15,6 +15,8 @@ set "HARD="
 for /f "usebackq" %%v in (`call "%SQ%" "%DB%\static.db4" ^< "%~dp0hard_check.sql"`) do set "LIVE=%%v"
 for /f "usebackq" %%v in (`call "%SQ%" "%CLEAN%\static.db4" ^< "%~dp0hard_check.sql"`) do set "BASE=%%v"
 if defined LIVE if defined BASE if not "%LIVE%"=="%BASE%" set "HARD=1"
+:: optional engine-layer modules: reinstalled if their state machine is in the live database
+for %%o in (world_systems smarter_foes) do for /f "usebackq" %%v in (`call "%SQ%" "%DB%\static.db4" ^< "%~dp0%%o_check.sql"`) do if not "%%v"=="0" set "OPT_%%o=1"
 if exist "%CLEAN%\static.db4" if exist "%CLEAN%\locale.db4" if exist "%CLEAN%\game.db4" (
   echo ===== restoring the clean databases =====
   mkdir "%DB%\before_reinstall" 2>nul
@@ -33,6 +35,12 @@ for %%o in (armory_v2 arcane_thief remastered_systems quest_avestrue secret_ques
 if defined HARD (
   echo ===== hard_ending (was installed) =====
   call "%M%hard_ending\Install.bat" nopause || goto fail
+)
+for %%o in (world_systems smarter_foes) do (
+  if defined OPT_%%o (
+    echo ===== %%o (was installed) =====
+    call "%M%%%o\Install.bat" nopause || goto fail
+  )
 )
 echo.
 echo Drakensang TDE - Remastered installed. Optional: Install_HardEnding.bat for tougher late enemies.

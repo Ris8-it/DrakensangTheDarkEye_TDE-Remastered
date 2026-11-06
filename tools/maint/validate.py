@@ -18,13 +18,18 @@ BASE_SRC = os.path.join(GAME, 'export', 'db', 'armory_backup')
 WORK = os.path.join(ROOT, '.work'); BASE = os.path.join(WORK, 'base'); TEST = os.path.join(WORK, 'test')
 SQ = os.path.join(ROOT, 'tools', 'bin', 'sqlite3.exe')
 MODS = ['armory_v2', 'arcane_thief', 'remastered_systems', 'quest_avestrue', 'secret_quests', 'hard_ending']   # install order
+EXTRA = ['world_systems', 'smarter_foes', 'engine_lab', 'engine_lab_stage2']   # optional modules (engine layers), tested after the pack
+MODS = MODS + EXTRA
+if '--mods' in sys.argv: MODS = sys.argv[sys.argv.index('--mods') + 1].split(',')     # e.g. --mods world_systems,engine_lab
+if '--base' in sys.argv: BASE_SRC = sys.argv[sys.argv.index('--base') + 1]            # another clean baseline folder
 DBS = ('static', 'locale', 'game')
 fail = []
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import sqlrun
+
 def sql(db, script):
-    with open(script, 'rb') as f:
-        r = subprocess.run([SQ, db], stdin=f, capture_output=True)
-    return r.stdout.decode('cp1252', 'replace') + r.stderr.decode('cp1252', 'replace')
+    return sqlrun.run_sql(db, script, SQ)
 
 def run(prefix):
     for mod in (MODS if prefix == '' else reversed(MODS)):
@@ -84,6 +89,70 @@ for (c,) in s.execute('select ConditionContent from _Story_TaskCloseConditions u
     for m in re.finditer(r'IsDead who="(arm_[^"]+)"', c or ''):
         if m.group(1) not in placed: fail.append(f'IsDead target not placed: {m.group(1)}'); refs += 1
 print(f'4. references checked ({refs} broken)')
+
+def script_problems(d):
+    """Dangling script wiring (only problems NOT already in the baseline are reported): GUID refs in statements/conditions,
+    script roots, state machines, presets, ScriptOverride/ScriptPreset/Behaviour/LevelEnterScript/CombatScriptName names."""
+    import uuid as _u
+    S = sqlite3.connect(os.path.join(d, 'static.db4')); S.text_factory = lambda b: b.decode('cp1252', 'replace')
+    G = sqlite3.connect(os.path.join(d, 'game.db4')); G.text_factory = S.text_factory
+    st = {r[0] for r in S.execute('select StatementGUID from _Scripts_Statements')}
+    co = set()
+    for tb in ('_Scripts_Conditions', '_Story_DialogConditions', '_Story_TaskOpenConditions', '_Story_TaskCloseConditions'):
+        co |= {r[0] for r in S.execute(f'select ConditionGUID from {tb}')}
+    blk = lambda s: _u.UUID(s).bytes_le
+    out = set()
+    for g, typ, c in S.execute('select StatementGUID, StatementType, StatementContent from _Scripts_Statements'):
+        refs = re.findall(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', c or '')
+        if typ == 'Condition':
+            if refs and blk(refs[0]) not in co: out.add(f'statement condition ref missing {refs[0]}')
+        elif typ in ('Begin', 'Then', 'Else', 'If'):
+            for r in refs:
+                if blk(r) not in st: out.add(f'{typ} child missing {r}')
+    for g, typ, c in S.execute('select ConditionGUID, ConditionType, ConditionContent from _Scripts_Conditions where ConditionType != \'Atom\''):
+        for r in re.findall(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', c or ''):
+            if blk(r) not in co: out.add(f'condition child missing {r}')
+    acts = {r[0] for r in S.execute('select ScriptName from _Scripts_ActionScripts')}
+    for n, ref in S.execute('select ScriptName, StatementRef from _Scripts_ActionScripts'):
+        if ref not in st: out.add(f'action script {n}: root missing')
+    conds = {r[0] for r in S.execute('select ScriptName from _Scripts_ConditionScripts')}
+    machines = {r[0]: r[1] for r in S.execute('select Id, StartState from _Script_StateMachines')}
+    states = {(r[0], r[1]) for r in S.execute('select MachineName, StateName from _Script_StateMachineStates')}
+    for mid, start in machines.items():
+        if (mid, start) not in states: out.add(f'machine {mid}: start state {start} missing')
+    for mid, frm, to, cref in S.execute('select MachineName, StateName, ToState, ConditionRef from _Script_StateTransitions'):
+        if (mid, to) not in states or (mid, frm) not in states: out.add(f'machine {mid}: transition {frm}->{to} to/from a missing state')
+        if cref not in co: out.add(f'machine {mid}: transition {frm}->{to} condition missing')
+    for col in ('OnEntry', 'OnFrame', 'OnExit'):
+        for mid, sn, ref in S.execute(f'select MachineName, StateName, {col}StatementRef from _Script_StateMachineStates'):
+            if ref and ref != bytes(16) and ref not in st: out.add(f'machine {mid}.{sn}: {col} block missing')
+    presets = {r[0] for r in S.execute('select PresetName from _DSA_Preset')}
+    for n, typ, sc in S.execute('select PresetName, PresetType, PresetScriptName from _DSA_Preset'):
+        if sc not in (conds if typ == 'CanAction' else acts): out.add(f'preset {n}: {typ} script {sc} missing')
+    for C, pre in ((S, '_Template_'), (G, '_Instance_')):
+        for (tb,) in C.execute(f"select name from sqlite_master where type='table' and name like '{pre}%'"):
+            cols = [x[1] for x in C.execute(f'pragma table_info("{tb}")')]
+            if 'ScriptOverride' in cols:
+                for (v,) in C.execute(f'select ScriptOverride from "{tb}" where ScriptOverride != \'\''):
+                    for k, ev, sc in re.findall(r'(on|can):(\w+):([^;]+)', v):
+                        if sc not in (acts if k == 'on' else conds): out.add(f'{tb}: {k}:{ev}:{sc} missing')
+            if 'ScriptPreset' in cols:
+                for (v,) in C.execute(f'select distinct ScriptPreset from "{tb}" where ScriptPreset != \'\''):
+                    if v not in presets: out.add(f'{tb}: preset {v} missing')
+            if 'Behaviour' in cols:
+                for (v,) in C.execute(f'select distinct Behaviour from "{tb}" where Behaviour != \'\''):
+                    if v not in machines: out.add(f'{tb}: behaviour {v} missing')
+    for C, tb in ((G, '_Instance_Levels'), (S, '_Template_Levels')):
+        for lvl, v in C.execute(f'select Id, LevelEnterScript from {tb} where LevelEnterScript != \'\''):
+            for sc in v.split(','):
+                if sc and sc not in acts: out.add(f'{tb} {lvl}: enter script {sc} missing')
+    for aid, sc in S.execute("select Id, CombatScriptName from _Template_Attacks where CombatScriptName != ''"):
+        if sc not in acts: out.add(f'attack {aid}: script {sc} missing')
+    return out
+
+new_probs = script_problems(TEST) - script_problems(BASE)
+for p_ in sorted(new_probs): fail.append('script wiring: ' + p_)
+print(f'4b. script wiring checked ({len(new_probs)} new problems)')
 
 if '--spoilers' in sys.argv:
     subprocess.run([sys.executable, '-I', os.path.join(os.path.dirname(__file__), 'spoiler_scan.py'), TEST, BASE])

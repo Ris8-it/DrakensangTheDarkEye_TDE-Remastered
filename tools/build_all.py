@@ -11,9 +11,12 @@ HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 GAME = os.environ.get('DRAKENSANG', r'D:/Steam/steamapps/common/Drakensang')
 BASE = os.path.join(GAME, 'export', 'db', 'armory_backup')
 STEPS = [('build_armory.py', 'armory_v2'), ('build_arcane_thief.py', 'arcane_thief'), ('build_remastered.py', 'remastered_systems'),
-         ('build_quest_avestrue.py', 'quest_avestrue'), ('build_secret_quests.py', 'secret_quests'), ('build_hard_ending.py', 'hard_ending')]
+         ('build_quest_avestrue.py', 'quest_avestrue'), ('build_secret_quests.py', 'secret_quests'), ('build_hard_ending.py', 'hard_ending'),
+         # optional engine-layer modules (tools/layers.py): independent of the pack, built from the same baseline
+         ('build_world_systems.py', 'world_systems'), ('build_smarter_foes.py', 'smarter_foes'), ('build_engine_lab.py', 'engine_lab mods/engine_lab_stage2')]
 for script, mod in STEPS:
-    r = subprocess.run([sys.executable, '-I', os.path.join(HERE, script), BASE, os.path.join('mods', mod)], cwd=ROOT, capture_output=True, text=True)
+    outs = [os.path.join('mods', mod.split()[0])] + mod.split()[1:]
+    r = subprocess.run([sys.executable, '-I', os.path.join(HERE, script), BASE, *outs], cwd=ROOT, capture_output=True, text=True)
     last = [l for l in r.stdout.splitlines() if l.strip()][-1:] or ['']
     print(f'{mod:20} {"OK " if r.returncode == 0 else "FAILED"} {last[0][:110]}')
     if r.returncode:

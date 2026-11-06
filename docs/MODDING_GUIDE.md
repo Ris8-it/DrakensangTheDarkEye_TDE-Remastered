@@ -59,3 +59,29 @@ Never patch `drakensang.exe`: the Steam DRM refuses to start.
 - Level names and story order: `DESIGN_RULES.md` §1. Item, effect and condition vocabulary: `ENGINE_REFERENCE.md` §3-5.
 - NPCs, dialogue and quest tables: `ENGINE_REFERENCE.md` §11. Save and loot lessons: §12.
 - A worked example of everything at once: `tools/build_secret_quests.py` (NPCs, dialogue, quests, placed fights, parked characters).
+
+## 6. Engine layers: new systems from data
+
+`docs/ENGINE_ARCHITECTURE.md` maps how the engine works (entities, properties, levels, scripts, AI, saves) and ranks 18 "layers"
+where new systems can be hooked in through data alone. `tools/layers.py` has a generator for each:
+
+```python
+from dsa import Mod
+from layers import Layers, A, C, Not, And
+m = Mod(db, 'mymod'); L = Layers(m)
+L.action_script('my_rally.xml', [('if', And(C('HealthCritical', who='AimedEntity', percent=0.3), Not(C('HasStatusEffect', id='MyRage', who='AimedEntity'))),
+                                  [A('SetStatusEffect', who='AimedEntity', id='MyRage')])])
+L.attach_preset('NPC', 'some_boss', on={'DamageTaken': 'my_rally.xml'})        # keeps the boss's vanilla events
+wolf = L.clone_machine('monster_wolf', 'my_wolf'); wolf.emit()                  # an AI machine of your own
+L.set_behaviour('Monster', 'Wolf', 'my_wolf')
+m.write(out); L.write_checks(out)
+```
+
+- Read scripts and machines first: `python -I tools/engine/dsa_script.py "<game>/export/db" fsm clever_fighter` (also `action`, `cond`,
+  `status`, `task`). Copy what vanilla does; the engine is strict about shapes.
+- Every edit of a vanilla row is guarded (only applied if the row still holds the value the build read; undo only if it still holds
+  ours), so modules built on different baselines do not clobber each other.
+- Test offline without Windows: `python -I tools/maint/validate.py --mods mymod` (Python fallback for `sqlite3.exe`, plus a
+  script-wiring check), or install on any copy: `python -I tools/maint/sqlrun.py <db folder> mods/mymod install`.
+- Placed content needs a new game, or `SyncSave.bat` (applies the module's idempotent `game.sql` to the newest save).
+- Unproven engine behaviour goes into a probe item first (`L.probe_item`, see `mods/engine_lab`), like the Phase 0 tests.

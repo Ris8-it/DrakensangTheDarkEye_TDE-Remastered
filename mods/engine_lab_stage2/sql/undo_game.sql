@@ -1,0 +1,3 @@
+BEGIN;
+DROP TABLE IF EXISTS "_Instance_LayLabShrine";
+COMMIT;
