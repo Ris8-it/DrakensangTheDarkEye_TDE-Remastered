@@ -43,6 +43,24 @@ After he forges your Fire weapon, ask him "Can you temper what I carry?". He giv
 - The Blood Mountains woodcutter gives you Holdwin's Splitting Maul (a two-hander for Forgrimm) once Holdwin is home.
 - The skeleton in the Moorbridge tree hollow (the elven ghost's lair) holds 5 Elf wood for Gwendala's bows and heirloom.
 
+## The Mad Pack and The Moon-Thread (Dark Forest to Tallon)
+**The Mad Pack:** fifteen moon-mad wolves led by Greymaw and the white storm-wolf Stormhowl roam the western woods of the Dark Forest.
+Greymaw wears a witch's charm. Bring it to Knowall, the witches' talking toad: he finds a silver thread in it that no witch spun,
+knots it for you (**Moon-Thread Knot**) and gives you 20 Moon-sinew Arrows. That starts **The Moon-Thread**:
+
+| Step | Where | What happens | Reward |
+|---|---|---|---|
+| Not Witch-Work | Ferdok, Count's Town | Show the knot to the alchemist Auralia: moon-silver, spun from moonlight by the little folk | 2 healing potions |
+| Empty Cages (optional) | Silver Falls, on the road to the castle | An abandoned trappers' camp, three escaped wolves led by Cage-Breaker, a torn bill of sale | pelts, sinew, 6 ducats |
+| One Who Answers Straight | Tallon (after his riddle) or Ferdok (at Auralia's stall) | The leprechaun spun the thread and sold it to **Baltram Seyfried**, a collector of pelts | |
+| The Moon Road | the leprechaun | He opens a moon road to the witches' dancing place in the Dark Forest | |
+| The Collector | the dancing place | Baltram, two trappers and five chained wolves (storm, ember, frost, rot, shadow), one by each skull pillar; each dead wolf puts its skull out | 30 ducats, gems |
+| The Moon-Mother | the dancing place | When all are down she rises from the fire: she howls in wolves (75 %), the moon goes dark (50 %), she tears at the last chain (25 %); she cannot die | |
+| Thread or Pelt | the leprechaun, by the fire | **Cut the thread:** she runs free, **Moon-Mother's Tear** (MR +2, LE +8, AU +8, IN +1, Wilderness Lore +2). **Take her pelt:** **Moonmother Mantle** (Moonhowl Mantle +1 armour on chest and back; Sneak +3, MR +2, AT +1, ST +1, AU +10). Either way: the six Moonhowl plans Baltram stole from the witches | |
+
+Afterwards the leprechaun takes you back to Tallon (next to his meadow), down into the forest, or leaves you with the skulls.
+Ulfried in Tallon knows Baltram, and Knowall has something to say about your choice.
+
 ## The Codex of Hidden Fire (Rakorium, Ferdok house, whole game)
 Ask Rakorium in your Ferdok house "Is there anything I could do for your research?". The question appears in every one of his greetings, whichever chapter you are in. He wants the four pages of the Codex Pyrdaconis:
 

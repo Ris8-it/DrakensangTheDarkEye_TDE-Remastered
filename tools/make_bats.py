@@ -30,6 +30,7 @@ echo Installing...
 "%SQ%" -bail "%DB%\game.db4"   < "%S%\game.sql"   || goto fail
 if exist "%S%\clear_rhulana_tests.sql" "%SQ%" -bail "%DB%\game.db4" < "%S%\clear_rhulana_tests.sql" || goto fail
 if exist "%~dp0icons\*.dds" copy /Y "%~dp0icons\*.dds" "%ICO%\" >nul || goto fail
+if exist "%~dp0loose\" "%SYS%\xcopy.exe" /Y /E /I /Q "%~dp0loose" "%GAME%\export" >nul || goto fail
 echo.
 echo Verification:
 "%SQ%" "%DB%\static.db4" < "%S%\verify_static.sql"
@@ -46,7 +47,8 @@ if /i not "%~1"=="nopause" pause
 UNINSTALL = HEAD + rf'''"%SQ%" -bail "%DB%\static.db4" < "%S%\undo_static.sql" || goto fail
 "%SQ%" -bail "%DB%\locale.db4" < "%S%\undo_locale.sql" || goto fail
 "%SQ%" -bail "%DB%\game.db4"   < "%S%\undo_game.sql"   || goto fail
-for /f "usebackq delims=" %%f in ("%~dp0icons\files.txt") do if exist "%ICO%\%%f" del "%ICO%\%%f"
+if exist "%~dp0icons\files.txt" for /f "usebackq delims=" %%f in ("%~dp0icons\files.txt") do if exist "%ICO%\%%f" del "%ICO%\%%f"
+if exist "%~dp0loose_files.txt" for /f "usebackq delims=" %%f in ("%~dp0loose_files.txt") do if exist "%GAME%\export\%%f" del "%GAME%\export\%%f"
 echo.
 echo Verification (expect 0 for the mod's rows):
 "%SQ%" "%DB%\static.db4" < "%S%\verify_static.sql"

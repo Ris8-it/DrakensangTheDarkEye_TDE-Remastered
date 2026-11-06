@@ -397,7 +397,9 @@ for did, (nid, lvl, anchor, off, hello) in SPOTS.items():
     for typ, iid, n in (('Item', 'special_kuerschnermesser', 1), ('Item', 'Wolfsfell', 3), ('Item', 'zutat_b_sehnen', 10), ('Item', 'zutat_s_lederbaender', 10)) +             tuple(('Item', f'arm_tr_{k}', v) for k, v in _trophies.items()):
         st.stock(nid, typ, iid, n)
     HUB = (['r_job', 'r_turnin', 'r_legend', 'r_coll'] + [f'r_{b[0]}' for b in BEASTS] + [f'r_c_{c[0]}' for c in COLLECTION]
-           + ['r_heart', 'r_mantle', 'r_where', 'r_trade', 'r_bye'])
+           + ['r_heart', 'r_mantle', 'r_where', 'r_baltram', 'r_trade', 'r_bye'])
+    # The Moon-Thread (build_secret_quests.py / secret_moon.py): once the leprechaun names Baltram Seyfried, Ulfried knows him
+    _LEP_SAID = [[TA(d, 'arm_mt_t_lep') for d in ('loc08_kobold_dialog', 'd_loc02_kobold_auralia')]]
     takes = [
         dict(id='StartState', type='StartState', kids=['t_return', 't_first']),
         dict(id='t_first', type='Take', kids=HUB, text=hello),
@@ -456,6 +458,13 @@ for did, (nid, lvl, anchor, off, hello) in SPOTS.items():
                   "Wear it, and every hunter from here to the deepest dwarf hall will know who you are."),
         dict(id='r_trade', type='Response', act=f'ShowTradeUI trader="{nid}" executeAfter="true" {A}', text='Show me your wares.'),
         dict(id='r_bye', type='Response', text='Farewell, Ulfried.'),
+    ]
+    takes += [
+        dict(id='r_baltram', type='Response', kids=['t_baltram'], cond=_LEP_SAID + NONE('t_baltram'), text='Do you know a collector called Baltram Seyfried?'),
+        dict(id='t_baltram', type='Take', kids=HUB,
+             text="Baltram? That butcher! We started together, he and I, skinning rabbits for a copper a dozen. I collect stories, friend: every "
+                  "trophy on my wall has a hunt behind it and a hunter who came home. Baltram collects endings. He would chain the moon itself if "
+                  "it had a pelt. If he is out there, be careful. And if you find his ledger, burn it for me."),
     ]
     st.dialog(did, nid, takes)
 

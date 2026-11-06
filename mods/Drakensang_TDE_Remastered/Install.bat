@@ -2,6 +2,7 @@
 :: Drakensang TDE - Remastered: installs every module in order. Close the game first. Start a NEW game afterwards.
 :: Safe to run more than once. Each run starts from the clean databases saved before the pack was first installed
 :: (export\db\armory_backup), so nothing from an older version of the pack is left behind.
+:: Includes mg979's Gameplay Additions v2.1b (first module): no need to install it separately; harmless if you already did.
 :: Hard Ending, Unofficial Patch, World Systems and Smarter Foes are put back automatically if they were installed. Saves are never touched.
 setlocal
 set "M=%~dp0..\"
@@ -27,8 +28,11 @@ if exist "%CLEAN%\static.db4" if exist "%CLEAN%\locale.db4" if exist "%CLEAN%\ga
 ) else (
   echo ===== removing Armory v1 (if present) =====
   if exist "%M%armory\Uninstall.bat" call "%M%armory\Uninstall.bat" nopause
+  echo ===== saving your clean databases in %CLEAN% =====
+  mkdir "%CLEAN%" 2>nul
+  copy /Y "%DB%\*.db4" "%CLEAN%\" >nul || ( echo Backup failed. Nothing was changed. & goto end )
 )
-for %%o in (armory_v2 arcane_thief remastered_systems quest_avestrue secret_quests) do (
+for %%o in (gameplay_additions armory_v2 arcane_thief remastered_systems quest_avestrue secret_quests) do (
   echo ===== %%o =====
   call "%M%%%o\Install.bat" nopause || goto fail
 )

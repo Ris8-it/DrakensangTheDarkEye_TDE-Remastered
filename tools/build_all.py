@@ -4,13 +4,15 @@
     python -I tools/build_all.py --no-test  build only
 
 Order matters: secret_quests reads the SQL of armory_v2 and remastered_systems; quest_avestrue uses both item sets.
-The baseline is <game>/export/db/armory_backup (vanilla + the user's own earlier mods, before this pack).
+The baseline is <game>/export/db/armory_backup (vanilla + mg979's Gameplay Additions + the user's own earlier mods, before
+this pack); gameplay_additions is generated as the difference between true vanilla (<game>/export/db_backup_original) and it.
 """
 import os, sys, subprocess
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
 GAME = os.environ.get('DRAKENSANG', r'D:/Steam/steamapps/common/Drakensang')
 BASE = os.path.join(GAME, 'export', 'db', 'armory_backup')
-STEPS = [('build_armory.py', 'armory_v2'), ('build_arcane_thief.py', 'arcane_thief'), ('build_remastered.py', 'remastered_systems'),
+STEPS = [('build_gameplay_additions.py', 'gameplay_additions'),   # mg979's mod: vanilla -> the baseline below
+         ('build_armory.py', 'armory_v2'), ('build_arcane_thief.py', 'arcane_thief'), ('build_remastered.py', 'remastered_systems'),
          ('build_quest_avestrue.py', 'quest_avestrue'), ('build_secret_quests.py', 'secret_quests'), ('build_hard_ending.py', 'hard_ending'),
          # optional engine-layer modules (tools/layers.py): independent of the pack, built from the same baseline
          ('build_unofficial_patch.py', 'unofficial_patch'), ('build_world_systems.py', 'world_systems'), ('build_smarter_foes.py', 'smarter_foes'), ('build_engine_lab.py', 'engine_lab mods/engine_lab_stage2')]

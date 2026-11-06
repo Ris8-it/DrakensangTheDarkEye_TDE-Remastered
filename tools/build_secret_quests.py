@@ -443,6 +443,8 @@ MPELT, MSINEW = 'arm_tr_moonmad_pelt', 'arm_tr_moon_sinew'
 lt_pack = st.loot_table('arm_lt_madwolf', [('Item', MPELT, 70, 1, 1), ('Item', MSINEW, 50, 1, 1), ('Item', 'arm_tr_wolf_fang', 50, 1, 1)], picks=3)
 qitem('arm_q_wolf_charm', 'robable_glueksbringer', "Witch's Wolf-Charm", "Owl feathers and red thread, braided into the alpha's fur. The witches "
       "of the Dark Forest tie these on the wolves they keep. Knowall, their talking toad, will know what it means.", quest=QM)
+qitem('arm_q_moon_knot', 'zutat_s_lederbaender', 'Moon-Thread Knot', "A thread of cold silver, pulled out of the witch's wolf-charm and knotted "
+      "by Knowall. It is not witch-work. It twitches when madness is near, and it is never warm.", quest='arm_q_moon')
 lt_alpha = st.loot_table('arm_lt_greymaw', [('Item', 'arm_q_wolf_charm', 100, 1, 1), ('Item', 'arm_tr_greymaw_fang', 100, 1, 1), ('Item', 'arm_tr_greymaw_mane', 100, 1, 1), ('Item', MPELT, 100, 2, 1), ('Item', MSINEW, 100, 3, 1),
                                             ('Item', 'arm_tr_wolf_fang', 100, 2, 1)])   # every entry drops
 lt_storm = st.loot_table('arm_lt_stormhowl', [('Item', 'arm_tr_storm_heart', 100, 1, 1), ('Item', MPELT, 100, 1, 1), ('Item', MSINEW, 100, 1, 1)], picks=3)
@@ -475,20 +477,27 @@ st.extend_dialog(KD, {h: ['arm_mp_r_charm', 'arm_mp_r_early'] for h in KNOWALL_H
               "Bring Knowall the charm when both are quiet. Croak."),
     dict(id='arm_mp_r_charm', type='Response', kids=['arm_mp_t_charm'], cond=PACK_DEAD + [HAS('arm_q_wolf_charm', 1), '!' + KN('arm_mp_t_charm')],
          text='I found this charm in the fur of a mad wolf. The pack is dead.'),
+    # review 6 Nov, part 2: the Moonhowl plans only pay off after Tallon, so they now wait at the end of "The Moon-Thread"
+    # (tools/secret_moon.py). Knowall finds the thread that drove the wolves mad and starts that story instead.
     dict(id='arm_mp_t_charm', type='Take',
-         act=TAKE('Loc03_Allwiss', 'arm_q_wolf_charm', 1) + ''.join(PLAN(f'arm_rezept_{k}') for k in ('mh_mantle', 'mh_jerkin', 'mh_breeches', 'mh_grips', 'mh_bow', 'tl_wolf2')) + XP(60),
-         text="Croak... Mother Alwene's charm. Storm came down on the western woods and the wolves went bad, bad, eyes like coals. Knowall could not "
-              "help. You helped. Mother left skins-and-sinew notes with Knowall for whoever ends it. Moon-mad pelt makes leather no blade bites, "
-              "sinew makes a string that sings. Take, take. Knowall is thankful, croak, croak."),
+         act=TAKE('Loc03_Allwiss', 'arm_q_wolf_charm', 1) + GIVE('arm_q_moon_knot') + GIVE('arm_am_moon_arrow', 20) + XP(60),
+         text="Croak... Mother Alwene's charm. Storm came down on the western woods and the wolves went bad, bad, eyes like coals. But look, "
+              "look, under the owl feathers: a thread. Silver and cold, like the moon on water. Not witch-work. No, no. Someone else tied it "
+              "into Mother's charm, and then the wolves went bad. Knowall keeps the charm for Mother. You keep the thread: Knowall knotted it, "
+              "and it twitches when madness is near. The potion-folk of the big city buy moon-things. Ask them what it is. And take arrows, "
+              "with the mad sinew in them. Croak, croak."),
 ])
 st.task(QM, 'The Mad Pack', "The witches of the Dark Forest keep wolves, and something has driven them mad: they hunt as one pack in the western "
         "woods, led by the grey alpha Greymaw and the white wolf Stormhowl. The grey one wore a witch's charm. Knowall, the witches' talking toad, "
-        "will know what it means.", "The mad pack is dead. Knowall gave me the witches' notes on moon-mad pelt and sinew.",
+        "will know what it means.", "The mad pack is dead. Knowall found a silver thread in the witch's charm that no witch had spun.",
         open_cond=['IsDead who="arm_mo_greymaw"; '], close_cond=[TDONE(f'{QM}_return', QM)])   # opens with the alpha's death
 st.task(f'{QM}_hunt', 'Greymaw and Stormhowl', 'Kill the two leaders of the mad pack in the western woods. The rest of the pack will not stand aside.',
         'Greymaw and Stormhowl are dead.', parent=QM, state='unlocked', close_cond=PACK_DEAD, close_act=XP(40), target='arm_mo_greymaw')
 st.task(f'{QM}_return', "The Witch's Charm", "Bring the witch's charm to Knowall, the witches' talking toad.", 'I gave Knowall the charm.', parent=QM,
         open_cond=[TDONE(f'{QM}_hunt', QM)], close_cond=[KN('arm_mp_t_charm')], close_act=XP(40), target='Loc03_Allwiss')
+
+# 8. The Moon-Thread (review 6 Nov, part 2): Knowall's thread, Grimtooth, Auralia, the leprechaun, the witches' dancing place
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'secret_moon.py'), encoding='utf-8').read())
 
 # 7. the Thieves' Guild lives in its own file (shares this namespace)
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'secret_guild.py'), encoding='utf-8').read())

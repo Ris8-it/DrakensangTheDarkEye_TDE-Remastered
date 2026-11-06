@@ -18,12 +18,14 @@ S = sqlite3.connect(save); O = sqlite3.connect(oldp); N = sqlite3.connect(newp)
 for c in (S, O, N): c.text_factory = bytes
 cols = lambda c, t: [r[1].decode() if isinstance(r[1], bytes) else r[1] for r in c.execute(f'pragma table_info("{t}")')]
 OWNERS = ('_Instance_NPC', '_Instance_PC', '_Instance_Chest')
+NEW_OWNERS = set()   # owners copied in by this run already carry the new build's count (6 Nov: Baltram showed 2 items for 1)
 def bump(guid, d):
+    if guid in NEW_OWNERS: return
     for t in OWNERS:
         S.execute(f'update "{t}" set StorageContentCount=coalesce(StorageContentCount,0)+? where Guid=?', (d, guid))
 log = []
 SCOPE = {'_Instance_Monster': "Id like 'arm_mo_%'", '_Instance_NPC': "Id like 'arm_npc_%'", '_Instance_Recipe': "Id like 'arm_rezept_%'",
-         '_Instance_Jewelry': "Id='arm_j_gambler'", '_Instance_Entry': "Name like 'arm_npc_cc_%_entry' or Name like 'arm_npc_tg_%_entry'",
+         '_Instance_Jewelry': "Id='arm_j_gambler'", '_Instance_Entry': "Name like 'arm_npc_cc_%_entry' or Name like 'arm_npc_tg_%_entry' or Name like 'arm_npc_mt_%_entry' or Name like 'arm_mo_mt_%_entry' or Name like 'arm_mt_%'",   # + the Moon-Thread cast and rim points (6 Nov)
          '_Instance_Item': "Id like 'arm_q_tg_%' or (Id like 'arm_tr_%' and StorageGUID in (select Guid from _Instance_NPC))", '_Instance_Shield': "Id like 'arm_tg_%'",   # the guild's prizes and shop shields (2 Nov)
          # shop stock the pack adds or moves (plan bases, moved items): every armour/weapon row that differs between the two builds
          '_Instance_Weapon': "Id <> 'ravenwing_saber'", '_Instance_Armor': "1"}   # the Ravenwing test copy is removed by armory_v2's installer
@@ -39,8 +41,12 @@ for t, where in SCOPE.items():
               if r[1] != o[r[2]][1]} if o and si is not None else set())   # only items the player took out of their old spot
     for g, row in n.items():
         if g in o or g in have: continue
-        if t in ('_Instance_Weapon', '_Instance_Jewelry') and row[common.index('Id')] in owned: continue   # moved item already looted
+        # a moved pack item the player already looted is not put back; vanilla ids (a trapper's Haumesser) and the stock of a
+        # character added by this run always come in (6 Nov: Baltram's trappers arrived unarmed)
+        if t in ('_Instance_Weapon', '_Instance_Jewelry') and row[common.index('Id')] in owned and row[common.index('Id')].startswith(b'arm_') \
+                and not (si is not None and row[si] in NEW_OWNERS): continue
         S.execute(f'insert into "{t}" ({",".join(chr(34) + c + chr(34) for c in common)}) values ({",".join("?" * len(common))})', row)
+        if t in OWNERS: NEW_OWNERS.add(g)
         if si is not None and row[si]: bump(row[si], 1)
         log.append(('+', t, row[common.index('Id')].decode()))
     for g, orow in o.items():
@@ -164,7 +170,7 @@ for t, iid, cs in (('_Instance_Recipe', 'arm_rezept_am_kosh_arrow', ('RecipeIngr
         log.append(('~', t, f'{iid} x{k}'))
 # quest state: the new dialog, its takes and the three journal tasks
 for t, key, where in (('_Story_Dialogs', 'DialogId', "DialogId like 'arm_dlg_%'"),
-                      ('_Story_DialogTakeStatus', 'TakeId', "TakeId like 'arm_dlg_%' or TakeId like 'Cuanoarm_tg_%' or TakeId like 'loc02_rakoriumarm_%' or TakeId like 'Loc03AllwissDialogarm_%'"),
+                      ('_Story_DialogTakeStatus', 'TakeId', "TakeId like 'arm_dlg_%' or TakeId like 'Cuanoarm_tg_%' or TakeId like 'loc02_rakoriumarm_%' or TakeId like 'Loc03AllwissDialogarm_%' or TakeId like 'loc08_kobold_dialogarm_%' or TakeId like 'd_loc02_kobold_auraliaarm_%' or TakeId like 'd_loc02_auraliaarm_%'"),
                       ('_Story_Tasks', 'TaskId', "TaskId like 'arm_q_%'")):
     c = cols(N, t)
     for row in N.execute(f'select {",".join(c)} from "{t}" where {where}'):

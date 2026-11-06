@@ -378,6 +378,8 @@ INSERT INTO _Locale ("LocaId","LocaText") VALUES ('80865ac7-aced-51e1-962e-f3057
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('22ba9c4e-2009-5dad-9e5a-9c3dca0aad10','Complete. The Grand Collection of Ulfried Pelzfeld, and every piece in it brought by one hunter. I sewed a scrap of each into this mantle. Wear it, and every hunter from here to the deepest dwarf hall will know who you are.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('1c420536-2344-581c-9c67-ff3dd439f8fb','Show me your wares.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('fcea587f-2ac9-51b9-a545-53dbdfbe3beb','Farewell, Ulfried.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('6598257c-a491-54e3-b083-c0e9f1ed240e','Do you know a collector called Baltram Seyfried?');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('039b85ef-0d97-5ca2-ac13-35f856c49921','Baltram? That butcher! We started together, he and I, skinning rabbits for a copper a dozen. I collect stories, friend: every trophy on my wall has a hunt behind it and a hunter who came home. Baltram collects endings. He would chain the moon itself if it had a pelt. If he is out there, be careful. And if you find his ledger, burn it for me.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('lookat_arm_npc_ulfried_f','Ulfried Pelzfeld, Trophy Collector');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('9544721d-0192-591f-bcda-81097dacc2c7','Ulfried Pelzfeld, collector of trophies! I follow the hunters, and the hunters follow the money, so here I am in Ferdok. Bring me anything with teeth, wherever you found it.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('f1c4ed48-8f6a-5fbf-bf59-ea8af2fe660e','Back again, <FirstName>! Did you bring me something with teeth?');
@@ -445,6 +447,8 @@ INSERT INTO _Locale ("LocaId","LocaText") VALUES ('9fd3bd1f-0163-5d95-bb82-7ed49
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('959f7fec-a327-51ae-9cb9-b15d568e7174','Complete. The Grand Collection of Ulfried Pelzfeld, and every piece in it brought by one hunter. I sewed a scrap of each into this mantle. Wear it, and every hunter from here to the deepest dwarf hall will know who you are.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('79793578-2cd6-560a-b7a4-611c1f0763ae','Show me your wares.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('46e8d191-4321-51df-9292-0d2ee9b3f985','Farewell, Ulfried.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('66a838ea-e45c-54cc-812b-6c91172533bc','Do you know a collector called Baltram Seyfried?');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('08300892-023c-5567-9652-c2b0aaed6ba1','Baltram? That butcher! We started together, he and I, skinning rabbits for a copper a dozen. I collect stories, friend: every trophy on my wall has a hunt behind it and a hunter who came home. Baltram collects endings. He would chain the moon itself if it had a pelt. If he is out there, be careful. And if you find his ledger, burn it for me.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('lookat_arm_npc_ulfried_t','Ulfried Pelzfeld, Trophy Collector');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('5f407e5e-d0f6-5d10-8623-91a0f05feac1','What a place! Everything within a day''s walk has bigger teeth than the last. I have not been this happy since my first wolf. What did you bring me?');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('d599d3e7-6aa3-5648-95ef-1d7eb2cc25e6','Back again, <FirstName>! Did you bring me something with teeth?');
@@ -512,6 +516,8 @@ INSERT INTO _Locale ("LocaId","LocaText") VALUES ('a8bb1ec5-cade-52af-9478-5c56a
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('8c2c5f35-4409-5598-9cb0-fe935204abb3','Complete. The Grand Collection of Ulfried Pelzfeld, and every piece in it brought by one hunter. I sewed a scrap of each into this mantle. Wear it, and every hunter from here to the deepest dwarf hall will know who you are.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('855313c2-cea7-57c5-862b-20aa9744de11','Show me your wares.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('29933e1f-6ce2-5c1f-88cf-d56d3a012883','Farewell, Ulfried.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('d626ff40-c09f-5f00-9d9d-75aba4441d9f','Do you know a collector called Baltram Seyfried?');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('b1d48037-7c76-5afb-9597-00775aecf109','Baltram? That butcher! We started together, he and I, skinning rabbits for a copper a dozen. I collect stories, friend: every trophy on my wall has a hunt behind it and a hunter who came home. Baltram collects endings. He would chain the moon itself if it had a pelt. If he is out there, be careful. And if you find his ledger, burn it for me.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('lookat_arm_npc_ulfried_m','Ulfried Pelzfeld, Trophy Collector');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('822ec1c1-1380-5995-b6e4-5db747364f3d','The dwarves keep asking what I collect. ''Everything,'' I say, and they nod as if that were sensible. Show me your trophies, friend.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('0c3b825d-2e96-51f8-9a37-966a0032d679','Back again, <FirstName>! Did you bring me something with teeth?');
@@ -579,6 +585,8 @@ INSERT INTO _Locale ("LocaId","LocaText") VALUES ('b58aacdf-71e8-509e-9168-69261
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('4e863568-4d4f-5d3f-85e4-80a463309604','Complete. The Grand Collection of Ulfried Pelzfeld, and every piece in it brought by one hunter. I sewed a scrap of each into this mantle. Wear it, and every hunter from here to the deepest dwarf hall will know who you are.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('525dd6a4-885c-52ff-8c29-c2cfdc0cda93','Show me your wares.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('7cb02c36-529c-5973-a22a-e0defed7ce02','Farewell, Ulfried.');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('3c07aa29-3e96-567b-8f43-3bdae30c79a5','Do you know a collector called Baltram Seyfried?');
+INSERT INTO _Locale ("LocaId","LocaText") VALUES ('e604b3c0-b485-51ec-9cae-83402a3d2bb9','Baltram? That butcher! We started together, he and I, skinning rabbits for a copper a dozen. I collect stories, friend: every trophy on my wall has a hunt behind it and a hunter who came home. Baltram collects endings. He would chain the moon itself if it had a pelt. If he is out there, be careful. And if you find his ledger, burn it for me.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('35a4291a-f097-5cc8-97f9-acb46ad61822','Teeth for the Collector');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('3a467b18-f0f2-556b-bac0-f68e5af75ae7','Ulfried Pelzfeld, a travelling trophy collector who follows the hunters, wants trophies from the local wolves.');
 INSERT INTO _Locale ("LocaId","LocaText") VALUES ('5b4efc7f-b5ff-50d8-b30d-e1d300cb0b7a','Ulfried paid me well for the wolf fangs and hinted at bigger game.');

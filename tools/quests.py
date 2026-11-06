@@ -217,8 +217,10 @@ class Story:
         assert a, (anchor, level)
         return a[0]
 
-    def monster(self, mid, display, base, level, anchor, offset=(0.0, 0.0, 0.0), info='', **over):
-        """A one-off placed monster (no respawn): template clone of `base` with `over` (stats, LootTable, ...) and an instance at `anchor`."""
+    def monster(self, mid, display, base, level, anchor, offset=(0.0, 0.0, 0.0), info='', park=False, **over):
+        """A one-off placed monster (no respawn): template clone of `base` with `over` (stats, LootTable, ...) and an instance at `anchor`.
+        park=True: it waits in '_graveyard_' and an entry point '<mid>_entry' marks its spot; arrive(mid) brings it in (vanilla moves
+        monsters this way too: Avestrue's white wolf)."""
         m = self.m
         tmpl = dict(m.s.execute('select * from _Template_Monster where Id=?', (base,)).fetchone())
         for k in over: assert k in tmpl, (mid, k)
@@ -235,6 +237,15 @@ class Story:
         row.update(Guid=U(self.ns, 'monster', mid).bytes, _ID=donor['_ID'].rsplit('|', 1)[0] + '|' + mid, _Level=level, _Layers=donor['_Layers'],
                    Transform=struct.pack('<16f', *mat))
         if 'Groups' in row: row['Groups'] = ''
+        if park:
+            donor_e = m.g.execute("select * from _Instance_Entry where _Level=? and Id='EntryPortalObject' order by rowid", (level,)).fetchone() \
+                or m.g.execute("select * from _Instance_Entry where Id='EntryPortalObject' order by rowid").fetchone()
+            ent = dict(donor_e); ename = f'{mid}_entry'
+            ent.update(Guid=U(self.ns, 'entry', mid).bytes, _ID=f'|Level|Objects|Entry|{ename}', _Level=level, Name=ename, Transform=row['Transform'])
+            m.game += [f"DELETE FROM _Instance_Entry WHERE Guid={lit(ent['Guid'])};", insert('_Instance_Entry', ent)]
+            m.undo_game.insert(0, f"DELETE FROM _Instance_Entry WHERE Guid={lit(ent['Guid'])};")
+            m._arrivals = getattr(m, '_arrivals', {}); m._arrivals[mid] = (level, ename)
+            row['_Level'] = '_graveyard_'
         m.game += [f"DELETE FROM _Instance_Monster WHERE Guid={lit(row['Guid'])};", insert('_Instance_Monster', row)]
         m.undo_game.insert(0, f"DELETE FROM _Instance_Monster WHERE Guid={lit(row['Guid'])};")
         m.text(f'lookat_{mid}', display)

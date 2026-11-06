@@ -1,42 +1,65 @@
 # Drakensang TDE - Remastered
 
-An item, crafting and quest expansion for **Drakensang: The Dark Eye** (2008, Steam v1.03), and the open toolkit it is built
-with. Yes, people still play this game. Some of us also mod it.
+An item, crafting and quest mod for *Drakensang: The Dark Eye* (2008, Steam v1.03), based on the mg979 files.
+Yes, people still play this game. Some of us also mod it.
 
-## For players
+It started as a few items on top of mg979's *Gameplay Additions* and kept growing. mg979 was the one who suggested building
+on their SQL files, so their mod is included here as the first module (`mods/gameplay_additions`). If you already have it
+installed, nothing changes.
 
-**What it adds**
-- About 380 new items in five tiers, from small early finds to a handful of mythic artifacts, placed by story chapter so nothing
-  overpowered turns up early. Weapons with on-hit effects, armour sets, cursed rings, joke items.
-- **Five crafting lines**, one step per chapter, each fed by what you hunt there: hunter's leather (Wolfpack, Moonhowl,
-  Skyhunter), tusk-and-claw medium armour, witch-cloth for casters, an arrow ladder, and talismans from beast trophies.
-  Skinning gives trophies; tools (knives, sickles, lockpicks) are reusable quick-slot items.
-- **Quests:** a travelling trophy collector with legendary hunts, a duelist circle to break, a mad-scientist's codex, a pack of
-  moon-mad wolves, a rumour-monger, and some silly secrets. Written to never spoil the main game.
-- An **Arcane Thief** hero archetype, armour rebalanced by class (light / medium / heavy) and stage, and an optional
-  **Hard Ending** with tougher late bosses.
-- Optional **World Systems** (beta): wayside shrines with party blessings, herb patches that regrow, hunting grounds that refill,
-  elite enemies that rally and beasts that go into a frenzy when hurt, wolves that howl for the pack, ogres that slam the ground.
-  Optional **Smarter Foes** (beta): enemies pick targets like the game's clever fighters, bandits flee once when badly hurt.
-  Optional **Unofficial Patch**: fixes vanilla data bugs (big wolves, emerald spiders and troll toads that dropped nothing
-  because their loot tables were misspelled, skeleton archers without loot, two NPCs whose idle routine was misspelled,
-  a misspelled preset, 11 missing descriptions).
-  All three: `Install_UnofficialPatch.bat` / `Install_WorldSystems.bat` / `Install_SmarterFoes.bat` in
-  `mods/Drakensang_TDE_Remastered/`; they still need an in-game test.
+The main story is left alone. New items and quests are placed by chapter, and none of the texts spoil what comes later.
 
-**Requirements**
-- Drakensang: The Dark Eye, Steam version 1.03.
-- mg979's *Gameplay Additions* v2.1b installed first (the pack is built on top of it).
-- Windows. The installers are plain `.bat` files using the bundled `sqlite3.exe`.
+## What's in it
 
-**Install**
+From mg979's Gameplay Additions v2.1b:
+- class rules for talents and weapons, two reworked professions
+- reworked loot tables, rebalanced NPCs, monsters, spells and attacks
+- about 450 extra lights and 190 ambience zones
+- Ergo's items (Witch Hat and Robe, Shadow Armour, Druid Staff, Elven Spear, Silver Scimitar and a few more)
+
+Items and crafting:
+- around 380 new items in five tiers (regular, amazing, super rare, legendary, mythic): weapons with on-hit effects,
+  armour sets (dwarven, Kurkum, Nightfox, dragon-scale), 50+ rings and amulets, some cursed, some just jokes
+- upgraded Wyrm and Pal'Na'Thar weapons, a bigger dragon hoard, heirloom weapons for Rhulana, Gwendala and Forgrimm
+- five crafting lines, one step per chapter: hunter's leather (Wolfpack, Moonhowl, Skyhunter), tusk-and-claw medium
+  armour, witch-cloth for casters, an arrow ladder, and talismans
+- skinning gives trophies (fangs, claws, tusks) for the talismans
+- weapon oils, traps, wands, scrolls, and four weapons that roll a skill check on hit
+- easier crafting; knives, sickles and lockpicks are reusable quick-slot tools
+
+Quests (none of them announced, Wendelin the rumour-monger in Ferdok hints at all of them):
+- Teeth for the Collector: Ulfried Pelzfeld, a trophy hunter you meet in Avestrue and again later, wants legendary beasts
+- The Crimson Circle: seven duelists hidden from Ferdok harbour to the Fire Falls, with rivals for Rhulana, Gwendala
+  and Forgrimm
+- The Codex of Hidden Fire: Rakorium's missing pages
+- The Mad Pack and The Moon-Thread: moon-mad wolves in the Dark Forest lead to a silver thread, Auralia, the leprechaun
+  and a pelt collector, and end with a fight at the witches' dancing place and a choice between two rewards
+- the Thieves' Guild and a few small things along the way
+
+Other:
+- Arcane Thief: the Thief can learn battle-mage spells
+- armour rebalanced by class (light, medium, heavy) and chapter
+- Hard Ending (optional): tougher late enemies and bosses
+- World Systems (optional, beta): shrines with party blessings, herb patches that regrow, hunting grounds that refill,
+  elites that rally, wolves that howl for the pack, ogres that slam the ground
+- Smarter Foes (optional, beta): better target choice, bandits run when badly hurt
+- Unofficial Patch (optional): vanilla data fixes (big wolves, emerald spiders and troll toads that dropped nothing because
+  of misspelled loot tables, skeleton archers without loot, missing descriptions)
+
+The optional ones each have an `Install_*.bat` in `mods/Drakensang_TDE_Remastered/`. The full lists (every item, effect and
+location) are in each module's README under `mods/`.
+
+## Install
+
+Needs Drakensang: The Dark Eye, Steam version 1.03, on Windows. That's it, mg979's files are included.
+
 1. Close the game. If it isn't in `D:\Steam\steamapps\common\Drakensang`, set its folder once:
    `setx DRAKENSANG "C:\Your\Path\Drakensang"` (then open a new window).
 2. Run `mods\Drakensang_TDE_Remastered\Install.bat`. The first run backs up your databases to `export\db\armory_backup`.
-3. Start a **new game**. (Existing saves keep their own copy of the world; new monsters, NPCs and shop stock only appear in a new game.)
+3. Start a **new game**. Existing saves keep their own copy of the world, so new monsters, NPCs and shop stock only
+   appear in a new game.
 
-`Uninstall.bat` restores the backed-up databases. Your saves are never touched by either.
-Everything the pack contains, item by item, is in each module's README under `mods/`.
+`Uninstall.bat` restores the backed-up databases. Neither script touches your saves.
 
 ## For modders
 
@@ -80,6 +103,8 @@ docs/                      MODDING_GUIDE, ENGINE_REFERENCE, ENGINE_ARCHITECTURE,
 
 ## Credits and notes
 
-Made by Ris8 over many evenings in autumn 2026. Built on top of mg979's *Gameplay Additions*.
+Made by Ris8 over many evenings in autumn 2026. Based on the mg979 files: *Gameplay Additions* v2.1b by mg979, included with
+thanks.
 *Drakensang: The Dark Eye* and its assets belong to their owners. Code and new artwork are MIT-licensed (see `LICENSE`). The
-repository contains no game files except a few tinted copies of the game's own icons, used as fallbacks for items without new art.
+repository contains no game files except a few tinted copies of the game's own icons (fallbacks for items without new art) and
+mg979's files in `mods/gameplay_additions/loose` (their icons and textures, and the two character models edited for the witch hat).

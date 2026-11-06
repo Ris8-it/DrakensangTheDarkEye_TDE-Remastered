@@ -14,13 +14,15 @@ Exit code 0 = all good. Results are printed; nothing is written outside .work/.
 import os, sys, re, shutil, sqlite3, subprocess, hashlib
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 GAME = os.environ.get('DRAKENSANG', r'D:/Steam/steamapps/common/Drakensang')
-BASE_SRC = os.path.join(GAME, 'export', 'db', 'armory_backup')
+PREPACK = os.path.join(GAME, 'export', 'db', 'armory_backup')       # vanilla + Gameplay Additions + the player's pre-pack fixes
+BASE_SRC = os.path.join(GAME, 'export', 'db_backup_original')      # true vanilla: the pack (with gameplay_additions) starts here
 WORK = os.path.join(ROOT, '.work'); BASE = os.path.join(WORK, 'base'); TEST = os.path.join(WORK, 'test')
 SQ = os.path.join(ROOT, 'tools', 'bin', 'sqlite3.exe')
-MODS = ['armory_v2', 'arcane_thief', 'remastered_systems', 'quest_avestrue', 'secret_quests', 'hard_ending']   # install order
+MODS = ['gameplay_additions', 'armory_v2', 'arcane_thief', 'remastered_systems', 'quest_avestrue', 'secret_quests', 'hard_ending']   # install order
 EXTRA = ['unofficial_patch', 'world_systems', 'smarter_foes', 'engine_lab', 'engine_lab_stage2']   # optional modules (engine layers), tested after the pack
 MODS = MODS + EXTRA
 if '--mods' in sys.argv: MODS = sys.argv[sys.argv.index('--mods') + 1].split(',')     # e.g. --mods world_systems,engine_lab
+if 'gameplay_additions' not in MODS: BASE_SRC = PREPACK                              # modules alone: start from the old baseline
 if '--base' in sys.argv: BASE_SRC = sys.argv[sys.argv.index('--base') + 1]            # another clean baseline folder
 DBS = ('static', 'locale', 'game')
 fail = []
@@ -50,6 +52,14 @@ for d in (BASE, TEST):
     os.makedirs(d, exist_ok=True)
     for n in DBS: shutil.copy2(os.path.join(BASE_SRC, f'{n}.db4'), d)
 print('1. baseline copied from', BASE_SRC)
+if MODS[0] == 'gameplay_additions':   # vanilla + Gameplay Additions must be exactly the old baseline every other module is built from
+    _all = MODS; MODS = ['gameplay_additions']; run(''); MODS = _all
+    _d = 0
+    for d in DBS:
+        a, b = tables(os.path.join(TEST, f'{d}.db4')), tables(os.path.join(PREPACK, f'{d}.db4'))
+        for n in set(a) | set(b):
+            if a.get(n) != b.get(n): fail.append(f'vanilla + gameplay_additions: {d}.{n} differs from armory_backup'); _d += 1
+    print(f'1b. vanilla + Gameplay Additions vs armory_backup ({_d} tables differ)')
 
 run(''); run('')
 print('2. installed twice')
@@ -155,12 +165,12 @@ def script_problems(d):
         if sc not in acts: out.add(f'attack {aid}: script {sc} missing')
     return out
 
-new_probs = script_problems(TEST) - script_problems(BASE)
+new_probs = script_problems(TEST) - script_problems(PREPACK)   # problems mg979 or vanilla already had are not ours
 for p_ in sorted(new_probs): fail.append('script wiring: ' + p_)
 print(f'4b. script wiring checked ({len(new_probs)} new problems)')
 
 if '--spoilers' in sys.argv:
-    subprocess.run([sys.executable, '-I', os.path.join(os.path.dirname(__file__), 'spoiler_scan.py'), TEST, BASE])
+    subprocess.run([sys.executable, '-I', os.path.join(os.path.dirname(__file__), 'spoiler_scan.py'), TEST, PREPACK])
 
 run('undo_'); run('undo_')
 diff = 0

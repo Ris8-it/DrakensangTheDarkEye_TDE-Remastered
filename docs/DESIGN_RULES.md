@@ -65,7 +65,7 @@ something the player has not met. Beast parts drop more easily in later areas.
 
 | Line | Skill | Avestrue/Ferdok | Ch 2 (Dark Forest, Moorbridge) | Tallon | Murolosh and later |
 |---|---|---|---|---|---|
-| Hunter's leather | Bowcraft | Wolfpack (Crooked Otto) | Moonhowl (Hagen, after the mad pack) | Skyhunter (Tallon hunter) | Wyrmhide |
+| Hunter's leather | Bowcraft | Wolfpack (Crooked Otto) | Moonhowl material (the mad pack; plans at the end of The Moon-Thread, Tallon) | Skyhunter (Tallon hunter) | Wyrmhide |
 | Tusk and claw | Smithing / Bowcraft | Tuskhide (Count's Town smith, Otto) | Ironshell (Moorbridge smith) | Warlord (Tallon crafts) | dwarven steel, wyrm scale |
 | Smith metals | Smithing | steel | Kosh steel | Kosh steel | dwarven steel, wyrm scale |
 | Witch-cloth | Alchemy | - | Witchweave (Saphira) | Emberweave (Tallon magic trainer) | Dragonblood Robe |
@@ -81,6 +81,12 @@ All wolf plans are sold only by Crooked Otto (Count's Town). Older plans swap on
 - The Crimson Circle starts only after Moorbridge: Klingenhand waits outside the Golden Lance (the tavern itself opens only with
   Rhulana's quest) and the duelists are parked until he gives the job.
 - Hard fights are welcome where the story allows (the mad pack: 15 wolves, chapter 2).
+- The player's story order (6 Nov): Avestrue!, Ferdok 1, Moorbridge!, Ferdok 2, Dark Forest, Grimtooth!, Ferdok 3, Tallon, Murolosh
+  (! = one-way: never come back after leaving). A quest step in a one-way place is optional, or the quest dead-ends.
+- Rewards belong where they are useful: a reward that only pays off later comes at the end of a questline that leads there
+  (the Moonhowl plans: The Moon-Thread, Dark Forest to Tallon). Steps on the way give something useful at that stage.
+- A finale far from the questgiver may use a vanilla-style move (dialogue LoadLocation, like Aydan's), and a character there offers
+  the way back.
 - Unique beasts and bosses are wound-immune, have high magic resistance (willpower), +1-2 armour and a life pool matching their
   story weight (`tools/beasts_data.py`; the pack's own legends +30 % life). Hard Ending scales on top of these values.
 
